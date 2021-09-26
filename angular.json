@@ -79,13 +79,13 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "5mb",
+                                    "maximumWarning": "8mb",
                                     "maximumError": "10mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "50kb",
-                                    "maximumError": "100kb"
+                                    "maximumWarning": "6kb",
+                                    "maximumError": "10kb"
                                 }
                             ]
                         },
@@ -102,13 +102,13 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "5mb",
-                                    "maximumError": "10mb"
+                                    "maximumWarning": "10mb",
+                                    "maximumError": "15mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",
-                                    "maximumWarning": "100kb",
-                                    "maximumError": "500kb"
+                                    "maximumWarning": "50kb",
+                                    "maximumError": "100kb"
                                 }
                             ]
                         }
@@ -118,7 +118,10 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "GrillBotClient:build"
+                        "browserTarget": "GrillBotClient:build",
+                        "ssl": true,
+                        "sslKey": "localhost.key",
+                        "sslCert": "localhost.crt"
                     },
                     "configurations": {
                         "production": {

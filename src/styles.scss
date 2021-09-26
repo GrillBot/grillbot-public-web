@@ -1,1 +1,21 @@
-/* You can add global styles to this file, and also import other style files */
+// Import Custom Variables
+@import "./app/styles/variables.scss";
+
+// Import Bootstrap
+@import "bootstrap/scss/bootstrap.scss";
+
+// Import Custom SCSS
+@import "./app/styles/globals.scss";
+
+// Layout
+@import "./app/styles/layout/authentication.scss";
+@import "./app/styles/layout/dashboard-default.scss";
+@import "./app/styles/layout/dashboard-fixed.scss";
+@import "./app/styles/layout/error.scss";
+
+// Navigation
+@import "./app/styles/navigation/nav.scss";
+@import "./app/styles/navigation/topnav.scss";
+@import "./app/styles/navigation/sidenav/sidenav.scss";
+@import "./app/styles/navigation/sidenav/sidenav-dark.scss";
+@import "./app/styles/navigation/sidenav/sidenav-light.scss";
