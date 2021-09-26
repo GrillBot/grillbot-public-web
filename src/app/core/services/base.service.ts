@@ -42,10 +42,10 @@ export class BaseService {
     }
 
     getHttpHeaders(): HTTPHeaders {
-        const auth = AuthToken.recreate(this.storage.read<AuthToken>('AuthData'));
+        const auth = AuthToken.create(this.storage.read<any>('AuthData'));
 
         return {
-            Authorization: `Bearer ${auth.accessToken}`;
+            Authorization: `Bearer ${auth.accessToken}`
         };
     }
 }

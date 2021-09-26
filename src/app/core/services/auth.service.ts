@@ -7,7 +7,7 @@ import { BaseService } from './base.service';
 import { AuthToken, OAuth2Link } from '../models/auth';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
@@ -21,11 +21,13 @@ export class AuthService {
     ) { }
 
     get currentToken(): AuthToken {
-        return AuthToken.recreate(this.storage.read<AuthToken>('AuthData'));
+        return AuthToken.create(this.storage.read<any>('AuthData'));
     }
 
     get isLogged(): boolean {
-        return !this.currentToken.isExpired;
+        const token = this.currentToken;
+        if (!token) { return false; }
+        return !token.isExpired;
     }
 
     logout(): void {
@@ -43,7 +45,7 @@ export class AuthService {
 
     processLogin(sessionId: string): Observable<AuthToken> {
         const query = new QueryParam('sessionId', sessionId);
-        const url = `${environment.apiUrl}/api/auth/token?${query.toString()}`;
+        const url = `${environment.apiUrl}/auth/token?${query.toString()}`;
 
         return this.base.http.get<any>(url).pipe(
             map(data => AuthToken.create(data)),

@@ -1,5 +1,5 @@
-import * as JwtDecode from "jwt-decode";
-import { DateTime } from "./datetime";
+import * as JwtDecode from 'jwt-decode';
+import { DateTime } from './datetime';
 
 export class OAuth2Link {
     public url: string;
@@ -60,14 +60,11 @@ export class AuthToken {
         return token;
     }
 
-    static recreate(data: AuthToken | null): AuthToken | null {
-        if (!data) { return null; }
-
-        const token = new AuthToken();
-        token.accessToken = data.accessToken;
-        token.errorMessage = data.errorMessage;
-        token.expiresAt = data.expiresAt;
-
-        return token;
+    serialize(): object {
+        return {
+            errorMessage: this.errorMessage,
+            accessToken: this.accessToken,
+            expiresAt: this.expiresAt.toISOString()
+        };
     }
 }

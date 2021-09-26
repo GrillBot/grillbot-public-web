@@ -8,3 +8,15 @@ body {
     padding-left: $grid-gutter-width;
     padding-right: $grid-gutter-width;
 }
+
+.btn-blurple {
+    background-color: $discord-blurple;
+    border-color: darken($discord-blurple, 1%);
+    color: white;
+
+    &:hover {
+        color: white;
+        background-color: darken($discord-blurple, 10%);
+        border-color: darken($discord-blurple, 10%);
+    }
+}
