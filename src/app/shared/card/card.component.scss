@@ -1,0 +1,13 @@
+h4.card-header {
+    font-weight: 400;
+}
+
+.card {
+    &.sm {
+        max-width: 576px;
+    }
+
+    &.md {
+        max-width: 992px;
+    }
+}

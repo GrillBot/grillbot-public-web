@@ -16,7 +16,7 @@ export class BaseService {
         public http: HttpClient
     ) { }
 
-    catchErr(err: HttpErrorResponse): Observable<unknown> {
+    catchErr(err: HttpErrorResponse): Observable<any> {
         // TODO: Modal
 
         if (!this.isAuthError(err)) {
