@@ -1,11 +1,16 @@
-import { NgModule } from "@angular/core";
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PageNotFoundComponent } from '../components/page-not-found/page-not-found.component';
 import { AdministrationComponent } from './administration/administration.component';
 
 const routes: Routes = [
     {
         path: '',
         component: AdministrationComponent
+    },
+    {
+        path: '**',
+        component: PageNotFoundComponent
     }
 ];
 
