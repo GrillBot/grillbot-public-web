@@ -5,6 +5,10 @@ export class User {
     public isBot: boolean;
     public avatarUrl: string;
 
+    get fullUsername(): string {
+        return this.discriminator ? `${this.username}#${this.discriminator}` : this.username;
+    }
+
     static create(data: any): User | null {
         if (!data) { return null; }
 

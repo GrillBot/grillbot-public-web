@@ -5,6 +5,8 @@ import { HttpClient, HttpErrorResponse, HttpStatusCode } from '@angular/common/h
 import { EMPTY, Observable, throwError } from 'rxjs';
 import { HTTPHeaders } from '../models/http';
 import { AuthToken } from '../models/auth';
+import { ModalService, ValidationErrorsModalComponent } from 'src/app/shared/modal';
+import { Support } from '../lib/support';
 
 @Injectable({
     providedIn: 'root'
@@ -13,22 +15,38 @@ export class BaseService {
     constructor(
         public router: Router,
         public storage: StorageService,
-        public http: HttpClient
+        public http: HttpClient,
+        private modal: ModalService
     ) { }
 
-    catchErr(err: HttpErrorResponse): Observable<any> {
-        // TODO: Modal
+    catchError(err: HttpErrorResponse, suppressModal: boolean = false): Observable<never> {
+        if (err.status === HttpStatusCode.BadRequest && err.error?.errors) {
+            const modal = this.modal.showCustomModal<ValidationErrorsModalComponent>(ValidationErrorsModalComponent, 'lg');
+            modal.componentInstance.errors = Support.flattern(Object.values(err.error.errors));
+            return EMPTY;
+        } else if (err.status === HttpStatusCode.Unauthorized) {
+            this.storage.remove('auth');
+            this.router.navigate(['/', 'login']);
+            return EMPTY;
+        } else if (err.status !== HttpStatusCode.Ok) {
+            let message = 'Při vykonání požadavku došlo k neočekávané chybě.<br>';
 
-        if (!this.isAuthError(err)) {
-            return throwError(err);
+            if (err.status > 0) {
+                if (err.error.message) {
+                    message += `<p>${err.error.message}</p>`;
+                } else if (err.error.errors) {
+                    message += `<ul class="mt-3">${err.error.errors.map(o => '<li>' + o + '</li>').join('')}</ul>`;
+                }
+            } else {
+                message += `<p>${err.message}</p>`;
+            }
+
+            if (!suppressModal) {
+                this.modal.showNotification('Chyba požadavku', message, 'lg');
+            }
         }
 
-        if (err.error instanceof ErrorEvent) {
-            console.error(`Došlo k chybě na straně klienta`, err.error);
-            return throwError(err);
-        }
-
-        return EMPTY;
+        return throwError(err);
     }
 
     isAuthError(err: HttpErrorResponse): boolean {

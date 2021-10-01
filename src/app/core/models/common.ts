@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs';
 import { QueryParam } from './http';
 
 export class PaginatedParams {
@@ -41,3 +42,11 @@ export class PaginatedResponse<TData> {
         return response;
     }
 }
+
+export interface KeyValuePair<TKey, TValue> {
+    key: TKey;
+    value: TValue;
+}
+
+export type Dictionary<TKey, TValue> = KeyValuePair<TKey, TValue>[];
+export type ObservableDict<TKey, TValue> = Observable<Dictionary<TKey, TValue>>;

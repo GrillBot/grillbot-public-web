@@ -14,10 +14,14 @@
             <tbody>
                 <tr *ngFor="let item of list.items">
                     <td>{{item.id}}</td>
-                    <td>{{item.name}}</td>
+                    <td>
+                        {{item.name}}
+                        <small class="badge bg-danger" title="Bot není připojen na server" *ngIf="!item.isConnected">Nepřipojen</small>
+                    </td>
                     <td>{{item.memberCount}}</td>
                     <td>
-                        <list-button link="/admin/servers/{{item.id}}" title="Detail serveru {{item.name}}" icon="info"></list-button>
+                        <list-button link="/admin/servers/{{item.id}}" title="Detail serveru {{item.name}}" icon="info" *ngIf="item.isConnected">
+                        </list-button>
                     </td>
                 </tr>
             </tbody>

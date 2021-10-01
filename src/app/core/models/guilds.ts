@@ -29,6 +29,7 @@ export class Guild {
     public id: string;
     public name: string;
     public memberCount: number;
+    public isConnected: boolean;
 
     static create(data: any): Guild {
         const item = new Guild();
@@ -36,6 +37,7 @@ export class Guild {
         item.id = data.id;
         item.name = data.name;
         item.memberCount = data.memberCount;
+        item.isConnected = data.isConnected ?? false;
 
         return item;
     }
@@ -44,7 +46,6 @@ export class Guild {
 export class GuildDetail extends Guild {
     public createdAt?: DateTime;
     public iconUrl?: string;
-    public isConnected: boolean;
     public owner?: User;
     public premiumTier: PremiumTier;
     public vanityUrl?: string;
@@ -61,7 +62,7 @@ export class GuildDetail extends Guild {
         guild.name = base.name;
         guild.memberCount = base.memberCount;
         guild.iconUrl = data.iconUrl;
-        guild.isConnected = data.isConnected ?? false;
+        guild.isConnected = base.isConnected;
         guild.premiumTier = data.premiumTier;
         guild.vanityUrl = data.vanityUrl;
 

@@ -51,3 +51,16 @@ body {
 .font-weight-light {
     font-weight: lighter;
 }
+
+app-data-list table td .badge {
+    font-size: 0.6em;
+}
+
+select.form-control {
+    appearance: auto !important;
+    -webkit-appearance: auto !important;
+}
+
+.modal {
+    z-index: 10000;
+}
