@@ -16,6 +16,12 @@
                 </ng-container>
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/unverify', icon:'fa-skull-crossbones', title:'Unverify'}">
                 </ng-container>
+                <a class="nav-link cursor-ptr" (click)="authService.logout()">
+                    <div class="sb-nav-link-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    Odhlásit se
+                </a>
             </div>
         </div>
     </nav>

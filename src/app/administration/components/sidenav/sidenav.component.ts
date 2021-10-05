@@ -1,6 +1,7 @@
 import { filter } from 'rxjs/operators';
 import { NavigationEnd, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/core/services/auth.service';
 
 @Component({
     selector: 'app-sidenav',
@@ -11,7 +12,8 @@ export class SidenavComponent implements OnInit {
     activeRoute: string;
 
     constructor(
-        public router: Router
+        public router: Router,
+        public authService: AuthService
     ) { }
 
     ngOnInit(): void {
