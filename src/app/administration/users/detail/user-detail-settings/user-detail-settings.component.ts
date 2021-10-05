@@ -9,7 +9,8 @@ import { ModalService } from 'src/app/shared/modal';
 
 @Component({
     selector: 'app-user-detail-settings',
-    templateUrl: './user-detail-settings.component.html'
+    templateUrl: './user-detail-settings.component.html',
+    styleUrls: ['./user-detail-settings.component.scss']
 })
 export class UserDetailSettingsComponent implements OnInit {
     @Input() user: UserDetail;
@@ -30,11 +31,13 @@ export class UserDetailSettingsComponent implements OnInit {
         this.form = this.fb.group({
             apiToken: [this.user.apiToken, ValidationHelper.isGuid()],
             botAdmin: [this.user.isBotAdmin],
-            note: [this.user.note]
+            note: [this.user.note],
+            webAdmin: [this.user.haveWebAdmin]
         });
 
         if (this.isCurrentUser || this.user.isBot) {
             this.form.get('botAdmin').disable();
+            this.form.get('webAdmin').disable();
         }
     }
 
@@ -46,8 +49,9 @@ export class UserDetailSettingsComponent implements OnInit {
     submitForm(): void {
         const params = new UpdateUserParams(
             this.form.value.apiToken.length === 0 ? null : this.form.value.apiToken,
-            this.isCurrentUser ? this.user.isBotAdmin : this.form.value.botAdmin,
-            this.form.value.note
+            this.isCurrentUser || this.user.isBot ? this.user.isBotAdmin : this.form.value.botAdmin,
+            this.form.value.note,
+            this.isCurrentUser || this.user.isBot ? this.user.haveWebAdmin : this.form.value.webAdmin
         );
 
         this.userService.updateUser(this.user.id, params).subscribe(detail => {

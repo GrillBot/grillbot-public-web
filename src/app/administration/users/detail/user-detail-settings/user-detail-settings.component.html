@@ -7,8 +7,12 @@
                     <input type="text" class="form-control" formControlName="apiToken" />
                     <button class="btn btn-outline-primary" type="button" (click)="createNewGuid()">Vygenerovat</button>
                 </div>
-                <app-checkbox title="Administrátor obdrží plná práva nad GrillBot." [id]="'bot-admin'" [label]="'Administrátor'"
-                    formControlName="botAdmin"></app-checkbox>
+                <div class="checkboxes-group">
+                    <app-checkbox title="Administrátor obdrží plná práva nad GrillBot." [id]="'bot-admin'" [label]="'Administrátor'"
+                        formControlName="botAdmin"></app-checkbox>
+                    <app-checkbox title="Přístup do webové administrace" [id]="'web-admin'" [label]="'Webová administrace'"
+                        formControlName="webAdmin"></app-checkbox>
+                </div>
             </div>
 
             <div class="col">

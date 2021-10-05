@@ -204,6 +204,7 @@ export class UpdateUserParams {
     constructor(
         public apiToken: string | null,
         public botAdmin: boolean,
-        public note: string
+        public note: string,
+        public webAdminAllowed: boolean
     ) { }
 }
