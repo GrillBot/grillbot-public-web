@@ -11,6 +11,7 @@ export class CardComponent {
     @Input() size: 'sm' | 'md' | 'lg' = 'lg';
     @Input() header = true;
     @Input() allowHideButton = false;
+    @Input() classes: string[];
 
     visible = true;
 

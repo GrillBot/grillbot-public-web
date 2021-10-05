@@ -34,6 +34,32 @@ export class User {
     }
 }
 
+export class GuildUser extends User {
+    public usedInvite: Invite | null;
+    public points: number;
+    public givenReactions: number;
+    public obtainedReactions: number;
+    public nickname: string | null;
+
+    static create(data: any): GuildUser | null {
+        if (!data) { return null; }
+        const base = super.create(data);
+        const user = new GuildUser();
+
+        user.avatarUrl = base.avatarUrl;
+        user.discriminator = base.discriminator;
+        user.givenReactions = data.givenReactions;
+        user.id = base.id;
+        user.nickname = data.nickname;
+        user.obtainedReactions = data.obtainedReactions;
+        user.points = data.points;
+        user.usedInvite = data.usedInvite ? Invite.create(data.usedInvite) : null;
+        user.username = base.username;
+
+        return user;
+    }
+}
+
 export class UserListItem {
     public id: string;
     public haveApi: boolean;

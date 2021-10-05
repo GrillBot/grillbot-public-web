@@ -1,0 +1,65 @@
+<app-card [title]="'Audit log'" [icon]="'fas fa-clipboard-list'">
+    <app-data-list #list (readData)="readData($event)">
+        <app-loading *ngIf="!list.isDataLoaded"></app-loading>
+
+        <ng-container *ngIf="list.isDataLoaded">
+            <table class="table table-bordered table-sm">
+                <thead>
+                    <tr>
+                        <td style="width: 150px">Seřadit podle: </td>
+                        <th style="width: 200px" (click)="setSort('guild')" class="sortable" [class.sort-desc]="sortBy == 'guild' && sortDesc"
+                            [class.sort-asc]="sortBy == 'guild' && !sortDesc">Serveru</th>
+                        <th style="width: 200px" (click)="setSort('processed')" class="sortable" [class.sort-desc]="sortBy == 'processed' && sortDesc"
+                            [class.sort-asc]=" sortBy == 'processed' && !sortDesc">Uživatele</th>
+                        <th style="width: 200px" (click)="setSort('type')" class="sortable" [class.sort-desc]="sortBy == 'type' && sortDesc"
+                            [class.sort-asc]=" sortBy == 'type' && !sortDesc">Typu</th>
+                        <th style="width: 200px" (click)="setSort('channel')" class="sortable" [class.sort-desc]="sortBy == 'channel' && sortDesc"
+                            [class.sort-asc]="sortBy == 'channel' && !sortDesc">Kanálu</th>
+                        <th style="width: 200px" (click)="setSort('createdat')" class="sortable" [class.sort-desc]="sortBy == 'createdat' && sortDesc"
+                            [class.sort-asc]="sortBy == 'createdat' && !sortDesc">Data a času vytvoření</th>
+                    </tr>
+                </thead>
+            </table>
+
+            <app-card *ngFor="let item of list.items" [header]="false" [classes]="['mb-3']">
+                <div class="row">
+                    <div class="col">
+                        <h6>#{{item.id}} ({{item.title}}) - {{item.createdAt.toLocaleString()}}</h6>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <p *ngIf="item.guild" class="m-0">Server: <b>{{item.guild.name}}</b></p>
+                        <p *ngIf="item.channel" class="m-0">Kanál: <b>{{item.channel.name}}</b></p>
+                        <p *ngIf="item.processedUser" class="m-0">
+                            Provedl:
+                            <b>
+                                <ng-container *ngIf="item.processedUser.nickname">{{item.processedUser.nickname}} ({{item.processedUser.username}})
+                                </ng-container>
+                                <ng-container *ngIf="!item.processedUser.nickname">{{item.processedUser.username}}</ng-container>
+                            </b>
+                        </p>
+                    </div>
+
+                    <div class="col">
+                        <ul *ngIf="item.files && item.files.length > 0">
+                            <li *ngFor="let file of item.files">
+                                <a [routerLink]="'/admin/auditlog/file/' + item.id + '/' + file.id" class="text-dark">
+                                    {{file.filename}} ({{file.size | filesize}})
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col">
+                        <button class="btn btn-outline-primary mr-3" *ngIf="item.containsData">Zobrazit detaily</button>
+                        <button class="btn btn-outline-danger" (click)="removeItem(item.id)">Smazat záznam</button>
+                    </div>
+                </div>
+            </app-card>
+        </ng-container>
+    </app-data-list>
+</app-card>

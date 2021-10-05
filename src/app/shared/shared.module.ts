@@ -14,6 +14,7 @@ import { ValidationErrorsModalComponent } from './modal/validation-errors-modal/
 import { CommonDashboardComponent } from './common-dashboard/common-dashboard.component';
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { CheckboxBitmaskComponent } from './checkbox-bitmask/checkbox-bitmask.component';
+import { NgxFilesizeModule } from 'ngx-filesize';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { CheckboxBitmaskComponent } from './checkbox-bitmask/checkbox-bitmask.co
         FormsModule,
         NgbPaginationModule,
         RouterModule,
-        NgbModalModule
+        NgbModalModule,
+        NgxFilesizeModule
     ],
     exports: [
         CommonModule,
@@ -51,7 +53,8 @@ import { CheckboxBitmaskComponent } from './checkbox-bitmask/checkbox-bitmask.co
         ValidationErrorsModalComponent,
         CommonDashboardComponent,
         CheckboxComponent,
-        CheckboxBitmaskComponent
+        CheckboxBitmaskComponent,
+        NgxFilesizeModule
     ]
 })
 export class SharedModule { }

@@ -18,6 +18,10 @@ const routes: Routes = [
             {
                 path: 'users',
                 loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule)
+            },
+            {
+                path: 'audit-log',
+                loadChildren: () => import('./audit-log/audit-log.module').then(mod => mod.AuditLogModule)
             }
         ]
     },

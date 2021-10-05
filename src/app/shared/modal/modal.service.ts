@@ -1,6 +1,6 @@
 import { ModalData } from './modal-data';
 import { ModalComponent } from './modal.component';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Injectable } from '@angular/core';
 
 export type ModalSize = 'sm' | 'lg' | 'xl';
