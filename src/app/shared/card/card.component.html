@@ -1,9 +1,18 @@
 <div class="card {{size}}">
-    <h4 class="card-header">
-        <i [class]="icon" *ngIf="icon"></i>
-        {{title}}
+    <h4 class="card-header" *ngIf="header">
+        <div class="d-flex justify-content-between">
+            <div>
+                <i [class]="icon" *ngIf="icon"></i>
+                {{title}}
+            </div>
+
+            <button class="btn btn-link" *ngIf="allowHideButton" (click)="toggleVisiblity()">
+                <ng-container *ngIf="visible">Skrýt</ng-container>
+                <ng-container *ngIf="!visible">Zobrazit</ng-container>
+            </button>
+        </div>
     </h4>
-    <div class="card-body">
+    <div class="card-body" *ngIf="visible">
         <ng-content></ng-content>
     </div>
 </div>

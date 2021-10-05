@@ -32,7 +32,7 @@ export class AuthService {
 
     logout(): void {
         this.storage.remove('AuthData');
-        this.router.navigate(['/login']);
+        this.router.navigateByUrl('/login');
     }
 
     getLink(): Observable<OAuth2Link> {

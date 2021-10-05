@@ -1,0 +1,45 @@
+<app-card [title]="'Seznam uživatelů'" [icon]="'fas fa-users'">
+    <app-data-list #list (readData)="readData($event)">
+        <app-loading *ngIf="!list.isDataLoaded"></app-loading>
+
+        <table class="table table-sm table-bordered table-striped" *ngIf="list.isDataLoaded">
+            <thead>
+                <tr>
+                    <th (click)="toggleSort()" class="sortable" [class.sort-desc]="sortDesc" [class.sort-asc]="!sortDesc">Uživatelské jméno</th>
+                    <th>Servery</th>
+                    <th>Příznaky</th>
+                    <th>Akce</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of list.items">
+                    <td>
+                        {{item.username}}
+                        <span class="badge bg-secondary" *ngIf="item.isBot">Bot</span>
+                    </td>
+                    <td>
+                        <div class="d-flex flex-column">
+                            <span *ngFor="let guild of item.guilds" [class.text-danger]="!guild.value">{{guild.key}}</span>
+                        </div>
+                    </td>
+                    <td class="badge-list">
+                        <span class="badge bg-{{(item.haveApi ? 'success' : 'danger')}}"
+                            title="Uživatel {{(item.haveApi ? 'má' : 'nemá')}} přístup na API">API</span>
+                        <span class="badge bg-{{(item.haveBirthday ? 'success' : 'danger')}}"
+                            title="Uživatel {{(item.haveBirthday ? 'má' : 'nemá')}} uložené datum narození">Narozeniny</span>
+                        <span class="badge bg-{{(item.isBotAdmin ? 'success' : 'danger')}}"
+                            title="Uživatel {{(item.isBotAdmin ? 'je' : 'není')}} administrátor bota">BotAdmin</span>
+                        <span class="badge bg-{{(item.haveWebAdmin ? 'success' : 'danger')}}"
+                            title="Uživatel {{(item.haveWebAdmin ? 'má' : 'nemá')}} přístup do webové administrace">WebAdmin</span>
+                    </td>
+                    <td>
+                        <list-button [link]="'/admin/users/' + item.id" title="Detail uživatele {{item.username}}" icon="info"></list-button>
+                    </td>
+                </tr>
+                <tr *ngIf="list.items.length === 0">
+                    <td colspan="4">Zadanému filtru neodpovídají žádní uživatelé.</td>
+                </tr>
+            </tbody>
+        </table>
+    </app-data-list>
+</app-card>

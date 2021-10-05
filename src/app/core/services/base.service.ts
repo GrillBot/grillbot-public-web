@@ -25,7 +25,7 @@ export class BaseService {
             modal.componentInstance.errors = Support.flattern(Object.values(err.error.errors));
             return EMPTY;
         } else if (err.status === HttpStatusCode.Unauthorized) {
-            this.storage.remove('auth');
+            this.storage.remove('AuthData');
             this.router.navigate(['/', 'login']);
             return EMPTY;
         } else if (err.status !== HttpStatusCode.Ok) {

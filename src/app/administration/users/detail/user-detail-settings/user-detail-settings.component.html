@@ -1,0 +1,24 @@
+<app-card [title]="'Nastavení uživatele'" [allowHideButton]="false" icon="fas fa-user-cog">
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
+        <div class="row">
+            <div class="col">
+                <label>REST API token</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" formControlName="apiToken" />
+                    <button class="btn btn-outline-primary" type="button" (click)="createNewGuid()">Vygenerovat</button>
+                </div>
+                <app-checkbox title="Administrátor obdrží plná práva nad GrillBot." [id]="'bot-admin'" [label]="'Administrátor'"
+                    formControlName="botAdmin"></app-checkbox>
+            </div>
+
+            <div class="col">
+                <label>Poznámka</label>
+                <textarea class="form-control" formControlName="note"></textarea>
+            </div>
+
+            <div class="col d-flex align-items-end">
+                <button class="btn btn-success">Uložit změny</button>
+            </div>
+        </div>
+    </form>
+</app-card>

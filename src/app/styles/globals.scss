@@ -52,8 +52,18 @@ body {
     font-weight: lighter;
 }
 
-app-data-list table td .badge {
-    font-size: 0.6em;
+app-data-list table {
+    & td.badge-list {
+        & span:not(:last-child) {
+            margin-right: 5px;
+        }
+    }
+
+    & td:not(.badge-list) {
+        & .badge {
+            font-size: 0.6em;
+        }
+    }
 }
 
 select.form-control {
@@ -63,4 +73,8 @@ select.form-control {
 
 .modal {
     z-index: 10000;
+}
+
+textarea {
+    resize: none;
 }

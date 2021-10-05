@@ -9,4 +9,12 @@ export class CardComponent {
     @Input() title: string;
     @Input() icon?: string;
     @Input() size: 'sm' | 'md' | 'lg' = 'lg';
+    @Input() header = true;
+    @Input() allowHideButton = false;
+
+    visible = true;
+
+    toggleVisiblity(): void {
+        this.visible = !this.visible;
+    }
 }

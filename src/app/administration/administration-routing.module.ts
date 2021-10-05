@@ -14,6 +14,10 @@ const routes: Routes = [
             {
                 path: 'servers',
                 loadChildren: () => import('./guilds/guilds.module').then(mod => mod.GuildsModule)
+            },
+            {
+                path: 'users',
+                loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule)
             }
         ]
     },

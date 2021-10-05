@@ -35,7 +35,6 @@ export class GuildDetailComponent implements OnInit {
         this.guildService.getGuildDetail(guildId).subscribe(detail => {
             this.data = detail;
 
-            console.log(this.data);
             this.form = this.fb.group({
                 mutedRole: [this.data.mutedRole?.id ?? null],
                 adminChannel: [this.data.adminChannel?.id ?? null]

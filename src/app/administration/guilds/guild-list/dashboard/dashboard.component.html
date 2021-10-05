@@ -1,11 +1,4 @@
-<div class="row ml-0 mr-0">
-    <div class="col">
-        <app-filter (filterChanged)="list.filterChanged($event)"></app-filter>
-    </div>
-</div>
-
-<div class="row ml-0 mr-0">
-    <div class="col">
-        <app-list #list></app-list>
-    </div>
-</div>
+<common-dashboard>
+    <app-filter filter (filterChanged)="list.filterChanged($event)"></app-filter>
+    <app-list list #list></app-list>
+</common-dashboard>

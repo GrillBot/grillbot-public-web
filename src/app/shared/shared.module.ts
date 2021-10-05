@@ -11,6 +11,9 @@ import { ListButtonComponent } from './list-button/list-button.component';
 import { KeyValueItemDirective } from './directives/key-value-item.directive';
 import { ModalComponent } from './modal/modal.component';
 import { ValidationErrorsModalComponent } from './modal/validation-errors-modal/validation-errors-modal.component';
+import { CommonDashboardComponent } from './common-dashboard/common-dashboard.component';
+import { CheckboxComponent } from './checkbox/checkbox.component';
+import { CheckboxBitmaskComponent } from './checkbox-bitmask/checkbox-bitmask.component';
 
 @NgModule({
     declarations: [
@@ -20,7 +23,10 @@ import { ValidationErrorsModalComponent } from './modal/validation-errors-modal/
         ListButtonComponent,
         KeyValueItemDirective,
         ModalComponent,
-        ValidationErrorsModalComponent
+        ValidationErrorsModalComponent,
+        CommonDashboardComponent,
+        CheckboxComponent,
+        CheckboxBitmaskComponent
     ],
     imports: [
         CommonModule,
@@ -42,7 +48,10 @@ import { ValidationErrorsModalComponent } from './modal/validation-errors-modal/
         ListButtonComponent,
         KeyValueItemDirective,
         ModalComponent,
-        ValidationErrorsModalComponent
+        ValidationErrorsModalComponent,
+        CommonDashboardComponent,
+        CheckboxComponent,
+        CheckboxBitmaskComponent
     ]
 })
 export class SharedModule { }

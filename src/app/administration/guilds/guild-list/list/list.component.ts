@@ -6,8 +6,7 @@ import { DataListComponent } from 'src/app/shared/data-list/data-list.component'
 
 @Component({
     selector: 'app-list',
-    templateUrl: './list.component.html',
-    styleUrls: ['./list.component.scss']
+    templateUrl: './list.component.html'
 })
 export class ListComponent {
     private filter: GuildListFilter;
