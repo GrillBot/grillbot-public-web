@@ -1,0 +1,13 @@
+stages:
+    - Build
+
+Production:
+    image: node:latest
+    stage: Build
+    script:
+        - npm install -g @angular/cli
+        - npm install
+        - ng build --configuration=production
+    cache:
+        paths:
+            - node_modules/
