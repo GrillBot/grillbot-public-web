@@ -58,7 +58,7 @@ export enum AuditLogItemTypeTexts {
     OverwriteUpdated = 'Upravena výjimka do kanálu',
     Unban = 'Odblokován uživatel',
     MemberUpdated = 'Upraven uživatel',
-    MemberRoleUpdated = 'Role uživatele upraveny.',
+    MemberRoleUpdated = 'Role uživatele upraveny',
     GuildUpdated = 'Server upraven',
     UserLeft = 'Uživatel opustil server',
     UserJoined = 'Uživatel se připojil na server',

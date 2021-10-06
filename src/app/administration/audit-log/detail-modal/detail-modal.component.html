@@ -1,0 +1,471 @@
+<app-modal [title]="'Detail záznamu #' + item.id">
+    <app-loading *ngIf="!data"></app-loading>
+
+    <ng-container *ngIf="data">
+        <pre *ngIf="isTextView">{{data.message}}</pre>
+
+        <table class="table table-sm table-bordered" *ngIf="!isTextView">
+            <thead>
+                <tr>
+                    <th>Klíč</th>
+                    <th *ngIf="!isDiff">Hodnota</th>
+                    <th *ngIf="isDiff">Hodnota před</th>
+                    <th *ngIf="isDiff">Hodnota po</th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container [ngSwitch]="item.type">
+                    <ng-container *ngSwitchCase="AuditLogItemType.Command">
+                        <ng-container *ngTemplateOutlet="command"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.ChannelCreated">
+                        <ng-container *ngTemplateOutlet="channelInfo"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.ChannelDeleted">
+                        <ng-container *ngTemplateOutlet="channelInfo"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.ChannelUpdated">
+                        <ng-container *ngTemplateOutlet="channelUpdated"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.EmojiDeleted">
+                        <ng-container *ngTemplateOutlet="emojiDeleted"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.OverwriteCreated">
+                        <ng-container *ngTemplateOutlet="overwriteInfo"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.OverwriteDeleted">
+                        <ng-container *ngTemplateOutlet="overwriteInfo"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.OverwriteUpdated">
+                        <ng-container *ngTemplateOutlet="overwriteUpdated"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.Unban">
+                        <ng-container *ngTemplateOutlet="userUnbanned"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.MemberUpdated">
+                        <ng-container *ngTemplateOutlet="memberUpdated"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.MemberRoleUpdated">
+                        <ng-container *ngTemplateOutlet="memberUpdated"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.GuildUpdated">
+                        <ng-container *ngTemplateOutlet="guildUpdated"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.UserLeft">
+                        <ng-container *ngTemplateOutlet="userLeft"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.UserJoined">
+                        <ng-container *ngTemplateOutlet="userJoined"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.MessageEdited">
+                        <ng-container *ngTemplateOutlet="messageEdited"></ng-container>
+                    </ng-container>
+                    <ng-container *ngSwitchCase="AuditLogItemType.MessageDeleted">
+                        <ng-container *ngTemplateOutlet="messageRemoved"></ng-container>
+                    </ng-container>
+                </ng-container>
+            </tbody>
+        </table>
+    </ng-container>
+</app-modal>
+
+<ng-template #command>
+    <tr>
+        <td>Příkaz</td>
+        <td>{{data.command}}</td>
+    </tr>
+
+    <tr>
+        <td>Dokončen úspěšně</td>
+        <td>{{data.isSuccess | czechBooleanPipe}}</td>
+    </tr>
+
+    <ng-container *ngIf="!data.isSuccess">
+        <tr>
+            <td>Kód chyby</td>
+            <td>{{data.commandError}}</td>
+        </tr>
+
+        <tr>
+            <td>Chybové hlášení</td>
+            <td>
+                <pre>{{data.errorReason}}</pre>
+            </td>
+        </tr>
+    </ng-container>
+
+    <tr>
+        <td>Obsah zprávy</td>
+        <td>
+            <pre>{{data.messageContent}}</pre>
+        </td>
+    </tr>
+</ng-template>
+
+<ng-template #channelInfo>
+    <tr>
+        <td>Název</td>
+        <td>{{data.name}}</td>
+    </tr>
+
+    <tr>
+        <td>Typ</td>
+        <td>
+            <ng-container [ngSwitch]="data.type">
+                <ng-container *ngSwitchCase="0">Text</ng-container>
+                <ng-container *ngSwitchCase="1">DM</ng-container>
+                <ng-container *ngSwitchCase="2">Voice</ng-container>
+                <ng-container *ngSwitchCase="3">Group</ng-container>
+                <ng-container *ngSwitchCase="4">Category</ng-container>
+                <ng-container *ngSwitchCase="5">News</ng-container>
+            </ng-container>
+        </td>
+    </tr>
+
+    <tr>
+        <td>SlowMode (vteřiny)</td>
+        <td>{{data.slowMode}}</td>
+    </tr>
+
+    <tr>
+        <td>NSFW</td>
+        <td>{{data.isNsfw | czechBooleanPipe}}</td>
+    </tr>
+
+    <tr *ngIf="data.Bitrate">
+        <td>Bitrate (bps)</td>
+        <td>{{data.bitrate}}</td>
+    </tr>
+</ng-template>
+
+<ng-template #channelUpdated>
+    <tr *ngIf="data.before.name || data.after.name">
+        <td>Název</td>
+        <td>{{data.before.name}}</td>
+        <td>{{data.after.name}}</td>
+    </tr>
+
+    <tr *ngIf="data.before.type != undefined || data.after.type != undefined">
+        <td>Typ</td>
+        <td *ngIf="data.before.type != undefined">
+            <ng-container [ngSwitch]="data.before.type">
+                <ng-container *ngSwitchCase="0">Text</ng-container>
+                <ng-container *ngSwitchCase="1">DM</ng-container>
+                <ng-container *ngSwitchCase="2">Voice</ng-container>
+                <ng-container *ngSwitchCase="3">Group</ng-container>
+                <ng-container *ngSwitchCase="4">Category</ng-container>
+                <ng-container *ngSwitchCase="5">News</ng-container>
+            </ng-container>
+        </td>
+        <td *ngIf="data.before.type == undefined"></td>
+        <td *ngIf="data.after.type != undefined">
+            <ng-container [ngSwitch]="data.after.type">
+                <ng-container *ngSwitchCase="0">Text</ng-container>
+                <ng-container *ngSwitchCase="1">DM</ng-container>
+                <ng-container *ngSwitchCase="2">Voice</ng-container>
+                <ng-container *ngSwitchCase="3">Group</ng-container>
+                <ng-container *ngSwitchCase="4">Category</ng-container>
+                <ng-container *ngSwitchCase="5">News</ng-container>
+            </ng-container>
+        </td>
+        <td *ngIf="data.after.type == undefined"></td>
+    </tr>
+
+    <tr *ngIf="data.before.slowMode != undefined || data.after.slowMode != undefined">
+        <td>SlowMode (vteřiny)</td>
+        <td>{{data.before.slowMode}}</td>
+        <td>{{data.after.slowMode}}</td>
+    </tr>
+
+    <tr *ngIf="data.before.isNsfw != undefined || data.after.isNsfw != undefined">
+        <td>NSFW</td>
+        <td>{{data.before.isNsfw | czechBooleanPipe}}</td>
+        <td>{{data.after.isNsfw | czechBooleanPipe}}</td>
+    </tr>
+
+    <tr *ngIf="data.before.bitrate || data.after.bitrate">
+        <td>Bitrate (bps)</td>
+        <td>{{data.before.bitrate}}</td>
+        <td>{{data.after.bitrate}}</td>
+    </tr>
+</ng-template>
+
+<ng-template #emojiDeleted>
+    <tr>
+        <td>Identifikátor</td>
+        <td>{{data.id}}</td>
+    </tr>
+
+    <tr>
+        <td>Název</td>
+        <td>{{data.name}}</td>
+    </tr>
+</ng-template>
+
+<ng-template #overwriteInfo>
+    <tr>
+        <td>Id cíle</td>
+        <td>{{data.targetId}}</td>
+    </tr>
+
+    <tr>
+        <td>Typ</td>
+        <td>
+            <ng-container [ngSwitch]="data.target">
+                <ng-container *ngSwitchCase="0">Role</ng-container>
+                <ng-container *ngSwitchCase="1">Uživatel</ng-container>
+            </ng-container>
+        </td>
+    </tr>
+
+    <tr *ngIf="data.allowValue > 0">
+        <td>Povolená oprávnění:</td>
+        <td>{{data.allowValue | discordPermsPipe}}</td>
+    </tr>
+
+    <tr *ngIf="data.denyValue > 0">
+        <td>Zakázaná oprávnění:</td>
+        <td>{{data.denyValue | discordPermsPipe}}</td>
+    </tr>
+</ng-template>
+
+<ng-template #overwriteUpdated>
+    <tr *ngIf="data.before.targetId || data.after.targetId">
+        <td>Id cíle</td>
+        <td>{{data.before.targetId}}</td>
+        <td>{{data.after.targetId}}</td>
+    </tr>
+
+    <tr *ngIf="data.before.target != undefined || data.after.target != undefined">
+        <td>Typ</td>
+        <td>
+            <ng-container [ngSwitch]="data.before.target">
+                <ng-container *ngSwitchCase="0">Role</ng-container>
+                <ng-container *ngSwitchCase="1">Uživatel</ng-container>
+            </ng-container>
+        </td>
+        <td>
+            <ng-container [ngSwitch]="data.after.target">
+                <ng-container *ngSwitchCase="0">Role</ng-container>
+                <ng-container *ngSwitchCase="1">Uživatel</ng-container>
+            </ng-container>
+        </td>
+    </tr>
+
+    <tr *ngIf="data.before.allowValue > 0 || data.after.allowValue > 0">
+        <td>Povolená oprávnění:</td>
+        <td>{{data.before.allowValue | discordPermsPipe}}</td>
+        <td>{{data.after.allowValue | discordPermsPipe}}</td>
+    </tr>
+
+    <tr *ngIf="data.before.denyValue > 0 || data.after.denyValue > 0">
+        <td>Povolená oprávnění:</td>
+        <td>{{data.before.denyValue | discordPermsPipe}}</td>
+        <td>{{data.after.denyValue | discordPermsPipe}}</td>
+    </tr>
+</ng-template>
+
+<ng-template #userUnbanned>
+    <tr>
+        <td>Id</td>
+        <td>{{data.id}}</td>
+    </tr>
+    <tr>
+        <td>Uživatelské jméno</td>
+        <td>{{data.username}}#{{data.discriminator}}</td>
+    </tr>
+</ng-template>
+
+<ng-template #memberUpdated>
+    <tr *ngIf="data.nickname">
+        <td>Přezdívka</td>
+        <td>{{data.nickname.before}}</td>
+        <td>{{data.nickname.after}}</td>
+    </tr>
+    <tr *ngIf="data.isDeaf">
+        <td>Umlčení (vč. poslechu)</td>
+        <td>{{data.isDeaf.before | czechBooleanPipe}}</td>
+        <td>{{data.isDeaf.after | czechBooleanPipe}}</td>
+    </tr>
+    <tr *ngIf="data.isMuted">
+        <td>Umlčen (mikrofon)</td>
+        <td>{{data.isMuted.before | czechBooleanPipe}}</td>
+        <td>{{data.isMuted.after | czechBooleanPipe}}</td>
+    </tr>
+    <tr *ngIf="data.roles">
+        <td>Role</td>
+        <td colspan="2" class="member-updated-roles">
+            <span class="badge bg-{{(role.added ? 'success' : 'danger')}}" *ngFor="let role of data.roles">{{(role.added ? '+' : '-')}}
+                {{role.name}}</span>
+        </td>
+    </tr>
+</ng-template>
+
+<ng-template #guildUpdated>
+    <tr *ngIf="data.afkChannel">
+        <td>AFK kanál</td>
+        <td>{{data.afkChannel.before?.name}}</td>
+        <td>{{data.afkChannel.after?.name}}</td>
+    </tr>
+    <tr *ngIf="data.afkTimeout">
+        <td>AFK timeout (vteřiny)</td>
+        <td>{{data.afkTimeout.before}}</td>
+        <td>{{data.afkTimeout.after}}</td>
+    </tr>
+    <tr *ngIf="data.defaultMessageNotifications">
+        <td>Výchozí upozornění</td>
+        <td>
+            <ng-container [ngSwitch]="data.defaultMessageNotifications.before">
+                <ng-container *ngSwitchCase="0">Všechny zprávy</ng-container>
+                <ng-container *ngSwitchCase="1">Pouze označení</ng-container>
+            </ng-container>
+        </td>
+        <td>
+            <ng-container [ngSwitch]="data.defaultMessageNotifications.after">
+                <ng-container *ngSwitchCase="0">Všechny zprávy</ng-container>
+                <ng-container *ngSwitchCase="1">Pouze označení</ng-container>
+            </ng-container>
+        </td>
+    </tr>
+    <tr *ngIf="data.description">
+        <td>Popis</td>
+        <td>{{data.description.before}}</td>
+        <td>{{data.description.after}}</td>
+    </tr>
+    <tr *ngIf="data.vanityUrl">
+        <td>Vanity URL</td>
+        <td>{{data.vanityUrl.before}}</td>
+        <td>{{data.vanityUrl.after}}</td>
+    </tr>
+    <tr *ngIf="data.voiceRegionId">
+        <td>Hlasová oblast</td>
+        <td>{{data.voiceRegionId.before}}</td>
+        <td>{{data.voiceRegionId.after}}</td>
+    </tr>
+    <tr *ngIf="data.owner">
+        <td>Vlastník serveru</td>
+        <td>{{data.owner.before?.username}}#{{data.owner.before?.discriminator}}</td>
+        <td>{{data.owner.after?.username}}#{{data.owner.after?.discriminator}}</td>
+    </tr>
+    <tr *ngIf="data.publicUpdatesChannel">
+        <td>Kanál na novinky</td>
+        <td>{{data.publicUpdatesChannel.before?.name}}</td>
+        <td>{{data.publicUpdatesChannel.after?.name}}</td>
+    </tr>
+    <tr *ngIf="data.rulesChannel">
+        <td>Kanál s pravidly</td>
+        <td>{{data.rulesChannel.before?.name}}</td>
+        <td>{{data.rulesChannel.after?.name}}</td>
+    </tr>
+    <tr *ngIf="data.systemChannel">
+        <td>Systémový kanál</td>
+        <td>{{data.systemChannel.before?.name}}</td>
+        <td>{{data.systemChannel.after?.name}}</td>
+    </tr>
+    <tr *ngIf="data.name">
+        <td>Název</td>
+        <td>{{data.name.before}}</td>
+        <td>{{data.name.after}}</td>
+    </tr>
+    <tr *ngIf="data.mfaLevel">
+        <td>2FA úroveň</td>
+        <td>
+            <ng-container [ngSwitch]="data.mfaLevel.before">
+                <ng-container *ngSwitchCase="0">Vypnuto</ng-container>
+                <ng-container *ngSwitchCase="1">Zapnuto</ng-container>
+            </ng-container>
+        </td>
+        <td>
+            <ng-container [ngSwitch]="data.mfaLevel.after">
+                <ng-container *ngSwitchCase="0">Vypnuto</ng-container>
+                <ng-container *ngSwitchCase="1">Zapnuto</ng-container>
+            </ng-container>
+        </td>
+    </tr>
+    <tr>
+        <td>Změněna ikona</td>
+        <td colspan="2">{{data.iconChanged | czechBooleanPipe}}</td>
+    </tr>
+    <tr>
+        <td>Změněno pozadí pozvánky</td>
+        <td colspan="2">{{data.splashChanged | czechBooleanPipe}}</td>
+    </tr>
+    <tr>
+        <td>Změněno komunitní pozadí</td>
+        <td colspan="2">{{data.discoverySplashChanged | czechBooleanPipe}}</td>
+    </tr>
+    <tr>
+        <td>Změnen banner</td>
+        <td colspan="2">{{data.bannerChanged | czechBooleanPipe}}</td>
+    </tr>
+</ng-template>
+
+<ng-template #userLeft>
+    <tr>
+        <td>Uživatel</td>
+        <td>{{data.user.username}}#{{data.user.discriminator}}</td>
+    </tr>
+    <tr>
+        <td>BAN</td>
+        <td>{{data.isBan | czechBooleanPipe}}</td>
+    </tr>
+    <tr *ngIf="data.isBan">
+        <td>Důvod BANu</td>
+        <td>{{data.banReason}}</td>
+    </tr>
+    <tr>
+        <td>Počet členů po odpojení</td>
+        <td>{{data.memberCount}}</td>
+    </tr>
+</ng-template>
+
+<ng-template #userJoined>
+    <tr>
+        <td>Počet členů po připojení</td>
+        <td>{{data.memberCount}}</td>
+    </tr>
+</ng-template>
+
+<ng-template #messageEdited>
+    <tr>
+        <td>Obsah před</td>
+        <td>
+            <pre>{{data.diff.before}}</pre>
+        </td>
+    </tr>
+    <tr>
+        <td>Obsah po</td>
+        <td>
+            <pre>{{data.diff.after}}</pre>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <a [href]="data.jumpUrl" class="btn btn-link text-dark" target="_blank">Skočit na zprávu</a>
+        </td>
+    </tr>
+</ng-template>
+
+<ng-template #messageRemoved>
+    <tr>
+        <td>Nalezeno v cache</td>
+        <td>{{data.cached | czechBooleanPipe}}</td>
+    </tr>
+
+    <ng-container *ngIf="data.cached">
+        <tr>
+            <td>Autor</td>
+            <td>{{data.data.author.username}}#{{data.data.author.discriminator}}</td>
+        </tr>
+        <tr>
+            <td>Vytvořeno</td>
+            <td>{{data.data.createdAt | dateTimeFormatter}}</td>
+        </tr>
+        <tr *ngIf="data.data.content">
+            <td>Obsah</td>
+            <td>
+                <pre>{{data.data.content}}</pre>
+            </td>
+        </tr>
+    </ng-container>
+</ng-template>

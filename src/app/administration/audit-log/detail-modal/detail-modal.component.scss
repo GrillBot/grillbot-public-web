@@ -1,0 +1,27 @@
+pre {
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+table {
+    & tr {
+        & td:first-child,
+        & th:first-child {
+            width: 1%;
+            white-space: nowrap;
+            padding-right: 10px;
+        }
+
+        & pre {
+            margin-bottom: 0px;
+        }
+
+        & td {
+            &.member-updated-roles {
+                & .badge {
+                    margin-right: 5px;
+                }
+            }
+        }
+    }
+}

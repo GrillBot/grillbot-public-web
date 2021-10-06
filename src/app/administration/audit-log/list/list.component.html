@@ -45,7 +45,7 @@
                     <div class="col">
                         <ul *ngIf="item.files && item.files.length > 0">
                             <li *ngFor="let file of item.files">
-                                <a [routerLink]="'/admin/auditlog/file/' + item.id + '/' + file.id" class="text-dark">
+                                <a (click)="downloadFile(item.id, file)" class="text-dark cursor-ptr">
                                     {{file.filename}} ({{file.size | filesize}})
                                 </a>
                             </li>
@@ -55,7 +55,7 @@
 
                 <div class="row mt-2">
                     <div class="col">
-                        <button class="btn btn-outline-primary mr-3" *ngIf="item.containsData">Zobrazit detaily</button>
+                        <button class="btn btn-outline-primary mr-3" *ngIf="item.containsData" (click)="openDetail(item)">Zobrazit detaily</button>
                         <button class="btn btn-outline-danger" (click)="removeItem(item.id)">Smazat záznam</button>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, forwardRef, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { noop } from 'rxjs';
 

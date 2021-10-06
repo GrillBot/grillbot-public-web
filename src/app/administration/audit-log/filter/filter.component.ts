@@ -84,10 +84,4 @@ export class FilterComponent implements OnInit {
         this.filterChanged.emit(filter);
         this.storage.store<AuditLogListParams>('AuditLogListParams', filter.serialized);
     }
-
-    reset(): void {
-        const empty = AuditLogListParams.empty.serialized;
-        this.form.patchValue(empty);
-        this.submitForm();
-    }
 }

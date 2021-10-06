@@ -1,5 +1,5 @@
 import { PaginatedResponse } from './../models/common';
-import { AuditLogListItem, SortingTypes } from './../models/audit-log';
+import { AuditLogFileMetadata, AuditLogListItem, SortingTypes } from './../models/audit-log';
 import { environment } from 'src/environments/environment';
 import { Injectable } from '@angular/core';
 import { AuditLogListParams } from '../models/audit-log';
@@ -8,6 +8,7 @@ import { BaseService } from './base.service';
 import { map, catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { QueryParam } from '../models/http';
+import { saveAs } from 'file-saver';
 
 @Injectable({ providedIn: 'root' })
 export class AuditLogService {
@@ -50,5 +51,14 @@ export class AuditLogService {
         );
     }
 
-    // TODO: Download content with JWT header.
+    downloadFile(id: number, file: AuditLogFileMetadata): void {
+        const url = `${environment.apiUrl}/auditlog/${id}/${file.id}`;
+        const headers = this.base.getHttpHeaders();
+        (headers as any).responseType = 'blob';
+
+        this.base.http.get(url, { headers, responseType: 'blob', observe: 'response' }).subscribe(resource => {
+            const body = resource.body;
+            saveAs(body, file.filename);
+        });
+    }
 }

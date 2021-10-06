@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
     selector: 'app-modal',
-    templateUrl: './modal.component.html',
+    templateUrl: './modal.component.html'
 })
 export class ModalComponent {
     @Input() title: string;

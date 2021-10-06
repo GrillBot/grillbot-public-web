@@ -15,6 +15,9 @@ import { CommonDashboardComponent } from './common-dashboard/common-dashboard.co
 import { CheckboxComponent } from './checkbox/checkbox.component';
 import { CheckboxBitmaskComponent } from './checkbox-bitmask/checkbox-bitmask.component';
 import { NgxFilesizeModule } from 'ngx-filesize';
+import { CzechBooleanPipePipe } from './pipes/czech-boolean-pipe.pipe';
+import { DiscordPermsPipePipe } from './pipes/discord-perms-pipe.pipe';
+import { DateTimeFormatterPipe } from './pipes/date-time-formatter.pipe';
 
 @NgModule({
     declarations: [
@@ -27,7 +30,10 @@ import { NgxFilesizeModule } from 'ngx-filesize';
         ValidationErrorsModalComponent,
         CommonDashboardComponent,
         CheckboxComponent,
-        CheckboxBitmaskComponent
+        CheckboxBitmaskComponent,
+        CzechBooleanPipePipe,
+        DiscordPermsPipePipe,
+        DateTimeFormatterPipe
     ],
     imports: [
         CommonModule,
@@ -54,7 +60,10 @@ import { NgxFilesizeModule } from 'ngx-filesize';
         CommonDashboardComponent,
         CheckboxComponent,
         CheckboxBitmaskComponent,
-        NgxFilesizeModule
+        NgxFilesizeModule,
+        CzechBooleanPipePipe,
+        DiscordPermsPipePipe,
+        DateTimeFormatterPipe
     ]
 })
 export class SharedModule { }
