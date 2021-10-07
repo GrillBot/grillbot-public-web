@@ -22,6 +22,10 @@ const routes: Routes = [
             {
                 path: 'audit-log',
                 loadChildren: () => import('./audit-log/audit-log.module').then(mod => mod.AuditLogModule)
+            },
+            {
+                path: 'channels',
+                loadChildren: () => import('./channels/channels.module').then(mod => mod.ChannelsModule)
             }
         ]
     },

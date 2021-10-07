@@ -1,0 +1,31 @@
+<app-card [title]="'Kanály'" [icon]="'fas fa-envelope-open-text'">
+    <app-data-list #list (readData)="readData($event)">
+        <app-loading *ngIf="!list.isDataLoaded"></app-loading>
+        <table class="table table-bordered table-sm" *ngIf="list.isDataLoaded">
+
+            <thead>
+                <tr>
+                    <th style="width: 300px" (click)="setSort('name')" class="sortable" [class.sort-desc]="sortBy === 'name' && sortDesc"
+                        [class.sort-asc]="sortBy === 'name' && !sortDesc">Název</th>
+                    <th style="width: 300px" (click)="setSort('type')" class="sortable" [class.sort-desc]="sortBy === 'type' && sortDesc"
+                        [class.sort-asc]="sortBy === 'type' && !sortDesc">Typ</th>
+                    <th>Server</th>
+                    <th style="width: 200px">Akce</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of list.items">
+                    <td>{{item.name}}</td>
+                    <td>{{item.channelTypeName}}</td>
+                    <td>{{item.guild.name}}</td>
+                    <td>
+                        <list-button [link]="'/admin/channels/' + item.id" [icon]="'info'"></list-button>
+                    </td>
+                </tr>
+                <tr *ngIf="list.items.length === 0">
+                    <td colspan="4">Pro zadaný filtr nebyly nalezeny žádné kanály.</td>
+                </tr>
+            </tbody>
+        </table>
+    </app-data-list>
+</app-card>

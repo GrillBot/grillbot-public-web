@@ -1,3 +1,4 @@
+import { Support } from '../lib/support';
 import { DateTime } from './datetime';
 import { ChannelType } from './enums/channel-type';
 import { Guild } from './guilds';
@@ -57,15 +58,15 @@ export class SendMessageToChannelParams {
 }
 
 export class GetChannelListParams {
-    public guildId: string | null;
-    public nameContains: string | null;
-    public channelType: ChannelType | null;
+    public guildId: string | null = null;
+    public nameContains: string | null = null;
+    public channelType: ChannelType | null = null;
 
     get queryParams(): QueryParam[] {
         return [
             this.guildId ? new QueryParam('guildId', this.guildId) : null,
             this.nameContains ? new QueryParam('nameContains', this.nameContains) : null,
-            this.channelType ? new QueryParam('channelType', this.channelType) : null
+            this.channelType != null ? new QueryParam('channelType', this.channelType) : null
         ].filter(o => o);
     }
 
@@ -90,6 +91,10 @@ export class GuildChannel {
     public name: string;
     public type: ChannelType;
     public guild: Guild;
+
+    get channelTypeName(): string {
+        return Support.getEnumKeyByValue(ChannelType, this.type);
+    }
 
     static create(data: any): GuildChannel | null {
         if (!data) { return null; }

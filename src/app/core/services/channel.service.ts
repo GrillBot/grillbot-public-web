@@ -52,7 +52,7 @@ export class ChannelService {
         );
     }
 
-    getChannelDetail(id: number): Observable<ChannelDetail> {
+    getChannelDetail(id: string): Observable<ChannelDetail> {
         const url = `${environment.apiUrl}/channel/${id}`;
         const headers = this.base.getHttpHeaders();
 
@@ -62,7 +62,7 @@ export class ChannelService {
         );
     }
 
-    updateChannel(id: number, params: UpdateChannelParams): Observable<unknown> {
+    updateChannel(id: string, params: UpdateChannelParams): Observable<unknown> {
         const url = `${environment.apiUrl}/channel/${id}`;
         const headers = this.base.getHttpHeaders();
 
@@ -71,8 +71,8 @@ export class ChannelService {
         );
     }
 
-    getUserStatsOfChannel(id: number): Observable<PaginatedResponse<ChannelUserStatItem>> {
-        const url = `${environment.apiUrl}/channel/${id}/userStats`;
+    getUserStatsOfChannel(id: string, pagination: PaginatedParams): Observable<PaginatedResponse<ChannelUserStatItem>> {
+        const url = `${environment.apiUrl}/channel/${id}/userStats?${pagination.queryParams.filter(o => o).map(o => o.toString()).join('&')}`;
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<PaginatedResponse<ChannelUserStatItem>>(url, { headers }).pipe(

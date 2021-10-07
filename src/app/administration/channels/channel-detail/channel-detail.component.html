@@ -1,0 +1,113 @@
+<div class="d-flex justify-content-center">
+    <app-loading *ngIf="!data"></app-loading>
+</div>
+
+<ng-container *ngIf="data">
+    <div class="row ml-0 mr-0 mt-3">
+        <div class="col">
+            <app-card icon="fas fa-envelope-open-text" [title]="'Informace o kanálu'">
+                <div class="row">
+                    <div keyValueItem class="col" [key]="'Identifikátor'" [value]="data.id"></div>
+                    <div keyValueItem class="col" [key]="'Název'" [value]="data.name"></div>
+                    <div keyValueItem class="col" [key]="'Typ'" [value]="data.channelTypeName"></div>
+                    <div keyValueItem class="col" [key]="'Server'" [value]="data.guild.name"></div>
+                </div>
+
+                <div class="row mt-3">
+                    <div keyValueItem class="col" [key]="'První zpráva v'" [value]="data.firstMessageAt.toLocaleString()" *ngIf="data.firstMessageAt">
+                    </div>
+                    <div keyValueItem class="col" [key]="'Poslední zpráva v'" [value]="data.lastMessageAt.toLocaleString()"
+                        *ngIf="data.lastMessageAt"></div>
+                    <div keyValueItem class="col" [key]="'Poslední zpráva od'" [value]="data.lastMessageFrom.fullUsername"
+                        *ngIf="data.lastMessageFrom"></div>
+                    <div keyValueItem class="col" [key]="'Nejaktivnější uživatel'" [value]="data.mostActiveUser.fullUsername"
+                        *ngIf="data.mostActiveUser"></div>
+                </div>
+            </app-card>
+        </div>
+    </div>
+
+    <div class="row mt-3 ml-0 mr-0">
+        <div class="col">
+            <app-card icon="fas fa-cogs" [title]="'Nastavení'">
+                <form [formGroup]="form" (ngSubmit)="submitSettings()" class="row">
+                    <div class="col">
+                        <label>Příznaky</label>
+                        <checkbox-bitmask [options]="channelFlags" formControlName="flags"></checkbox-bitmask>
+                    </div>
+
+                    <div class="col d-flex align-items-end justify-content-end">
+                        <button class="btn btn-success me-2" type="submit">Uložit nastavení</button>
+                        <button class="btn btn-danger" type="button" (click)="cleanCache()">Vyčistit cache</button>
+                    </div>
+                </form>
+            </app-card>
+        </div>
+    </div>
+
+    <div class="row mt-3 ml-0 mr-0">
+        <div class="col">
+            <app-card icon="fas fa-envelope" [title]="'Odeslat zprávu do kanálu'">
+                <form [formGroup]="sendMessageForm" (ngSubmit)="sendMessageSubmit()">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Obsah zprávy</label>
+                                <textarea formControlName="content" class="form-control"></textarea>
+                                <span class="text-danger" *ngIf="hasError('content')">
+                                    <small *ngIf="hasError('content', 'required')">Pokud chcete odeslat zprávu, je třeba zadat
+                                        obsah.</small>
+                                    <small *ngIf="hasError('content', 'maxlength')">Je možné zadat zprávu maximálně 2000 znaků
+                                        dlouhou.</small>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col">
+                            <label>Reply na zprávu <small>(Volitelné) (Odkaz na zprávu, případně ID)</small></label>
+                            <input type="url" class="form-control" formControlName="reference" />
+                        </div>
+
+                        <div class="col d-flex align-items-end justify-content-end">
+                            <button class="btn btn-success" type="submit">Odeslat zprávu</button>
+                        </div>
+                    </div>
+                </form>
+            </app-card>
+        </div>
+    </div>
+
+    <div class="row mt-3 ms-0 me-0 mb-3">
+        <div class="col">
+            <app-card [icon]="'fas fa-comment-dots'" [title]="'Aktivita v kanálu'">
+                <app-data-list #channelStats (readData)="readChannelStats($event)">
+                    <app-loading *ngIf="!channelStats.isDataLoaded"></app-loading>
+
+                    <table class="table table-sm table-bordered" *ngIf="channelStats.isDataLoaded">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Uživatel</th>
+                                <th>Počet zpráv</th>
+                                <th>První zpráva</th>
+                                <th>Poslední zpráva</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of channelStats.items">
+                                <td>{{item.position}}.</td>
+                                <td *ngIf="!item.nickname">{{item.username}}</td>
+                                <td *ngIf="item.nickname">{{item.nickname}} ({{item.username}})</td>
+                                <td>{{item.count}}</td>
+                                <td>{{item.firstMessageAt.toLocaleString()}}</td>
+                                <td>{{item.lastMessageAt.toLocaleString()}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </app-data-list>
+            </app-card>
+        </div>
+    </div>
+</ng-container>

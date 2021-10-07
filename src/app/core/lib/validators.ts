@@ -8,4 +8,11 @@ export class ValidationHelper {
             return value && Guid.isGuid(value) ? null : { guid: true };
         };
     }
+
+    static isInvalid(form: AbstractControl, controlId: string, errorId: string = null): boolean {
+        const control = form.get(controlId);
+        if (!control.touched) { return false; }
+
+        return errorId ? control.hasError(errorId) : control.invalid;
+    }
 }
