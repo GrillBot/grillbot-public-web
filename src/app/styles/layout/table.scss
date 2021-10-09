@@ -1,24 +1,20 @@
-table {
-    & tr {
-        & th {
-            &.sortable {
-                cursor: pointer;
+table tr th {
+    &.sortable {
+        cursor: pointer;
 
-                &.sort-desc,
-                &.sort-asc {
-                    &:after {
-                        float: right;
-                    }
-                }
-
-                &.sort-desc:after {
-                    content: "▼";
-                }
-
-                &.sort-asc:after {
-                    content: "▲";
-                }
+        &.sort-desc,
+        &.sort-asc {
+            &:after {
+                float: right;
             }
+        }
+
+        &.sort-desc:after {
+            content: "▼";
+        }
+
+        &.sort-asc:after {
+            content: "▲";
         }
     }
 }

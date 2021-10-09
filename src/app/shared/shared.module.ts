@@ -18,6 +18,7 @@ import { NgxFilesizeModule } from 'ngx-filesize';
 import { CzechBooleanPipePipe } from './pipes/czech-boolean-pipe.pipe';
 import { DiscordPermsPipePipe } from './pipes/discord-perms-pipe.pipe';
 import { DateTimeFormatterPipe } from './pipes/date-time-formatter.pipe';
+import { SortingDirective } from './data-list/sorting.directive';
 
 @NgModule({
     declarations: [
@@ -33,7 +34,8 @@ import { DateTimeFormatterPipe } from './pipes/date-time-formatter.pipe';
         CheckboxBitmaskComponent,
         CzechBooleanPipePipe,
         DiscordPermsPipePipe,
-        DateTimeFormatterPipe
+        DateTimeFormatterPipe,
+        SortingDirective
     ],
     imports: [
         CommonModule,
@@ -63,7 +65,8 @@ import { DateTimeFormatterPipe } from './pipes/date-time-formatter.pipe';
         NgxFilesizeModule,
         CzechBooleanPipePipe,
         DiscordPermsPipePipe,
-        DateTimeFormatterPipe
+        DateTimeFormatterPipe,
+        SortingDirective
     ]
 })
 export class SharedModule { }

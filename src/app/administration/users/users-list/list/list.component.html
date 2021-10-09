@@ -5,7 +5,7 @@
         <table class="table table-sm table-bordered table-striped" *ngIf="list.isDataLoaded">
             <thead>
                 <tr>
-                    <th (click)="toggleSort()" class="sortable" [class.sort-desc]="sortDesc" [class.sort-asc]="!sortDesc">Uživatelské jméno</th>
+                    <th sortable (clicked)="toggleSort()" [key]="'username'" [current]="'username'" [sortDesc]='sortDesc'>Uživatelské jméno</th>
                     <th>Servery</th>
                     <th>Příznaky</th>
                     <th>Akce</th>

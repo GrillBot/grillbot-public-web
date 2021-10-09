@@ -7,16 +7,16 @@
                 <thead>
                     <tr>
                         <td style="width: 150px">Seřadit podle: </td>
-                        <th style="width: 200px" (click)="setSort('guild')" class="sortable" [class.sort-desc]="sortBy == 'guild' && sortDesc"
-                            [class.sort-asc]="sortBy == 'guild' && !sortDesc">Serveru</th>
-                        <th style="width: 200px" (click)="setSort('processed')" class="sortable" [class.sort-desc]="sortBy == 'processed' && sortDesc"
-                            [class.sort-asc]=" sortBy == 'processed' && !sortDesc">Uživatele</th>
-                        <th style="width: 200px" (click)="setSort('type')" class="sortable" [class.sort-desc]="sortBy == 'type' && sortDesc"
-                            [class.sort-asc]=" sortBy == 'type' && !sortDesc">Typu</th>
-                        <th style="width: 200px" (click)="setSort('channel')" class="sortable" [class.sort-desc]="sortBy == 'channel' && sortDesc"
-                            [class.sort-asc]="sortBy == 'channel' && !sortDesc">Kanálu</th>
-                        <th style="width: 200px" (click)="setSort('createdat')" class="sortable" [class.sort-desc]="sortBy == 'createdat' && sortDesc"
-                            [class.sort-asc]="sortBy == 'createdat' && !sortDesc">Data a času vytvoření</th>
+                        <th style="width: 200px" sortable (clicked)="setSort($any($event))" [key]="'guild'" [current]="sortBy" [sortDesc]="sortDesc">
+                            Serveru</th>
+                        <th style="width: 200px" sortable (clicked)="setSort($any($event))" [key]="'processed'" [current]="sortBy"
+                            [sortDesc]="sortDesc">Uživatele</th>
+                        <th style="width: 200px" sortable (clicked)="setSort($any($event))" [key]="'type'" [current]="sortBy" [sortDesc]="sortDesc">
+                            Typu</th>
+                        <th style="width: 200px" sortable (clicked)="setSort($any($event))" [key]="'channel'" [current]="sortBy"
+                            [sortDesc]="sortDesc">Kanálu</th>
+                        <th style="width: 200px" sortable (clicked)="setSort($any($event))" [key]="'createdat'" [current]="sortBy"
+                            [sortDesc]="sortDesc">Data a času vytvoření</th>
                     </tr>
                 </thead>
             </table>
