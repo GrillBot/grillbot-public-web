@@ -44,7 +44,5 @@ export class FilterComponent implements OnInit {
         this.form.patchValue({
             nameQuery: GuildListFilter.empty.nameQuery
         });
-
-        this.submitForm();
     }
 }

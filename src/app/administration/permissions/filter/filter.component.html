@@ -1,0 +1,20 @@
+<app-card [title]="'Vyhledávání'" [icon]="'fas fa-search'" [size]="'sm'">
+    <form class="row" [formGroup]="form">
+        <div class="col">
+            <div class="form-group">
+                <label>Příkaz</label>
+                <input type="text" formControlName="searchQuery" class="form-control" />
+            </div>
+        </div>
+
+        <div class="col-3 d-flex align-items-end justify-content-end">
+            <button class="btn btn-danger" (click)="reset()" type="button">Smazat filtr</button>
+        </div>
+    </form>
+
+    <div class="row mt-2">
+        <div class="col">
+            <a routerLink="/admin/permissions/create">Vytvořit oprávnění</a>
+        </div>
+    </div>
+</app-card>

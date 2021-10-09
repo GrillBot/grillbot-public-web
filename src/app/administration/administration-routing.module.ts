@@ -30,6 +30,10 @@ const routes: Routes = [
             {
                 path: 'invites',
                 loadChildren: () => import('./invites/invites.module').then(mod => mod.InvitesModule)
+            },
+            {
+                path: 'permissions',
+                loadChildren: () => import('./permissions/permissions.module').then(mod => mod.PermissionsModule)
             }
         ]
     },

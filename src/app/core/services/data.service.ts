@@ -1,3 +1,4 @@
+import { QueryParam } from './../models/http';
 import { Dictionary, ObservableDict, ObservableList } from './../models/common';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
@@ -30,8 +31,9 @@ export class DataService {
         );
     }
 
-    getRolesOfGuild(guildId: string): ObservableDict<string, string> {
-        const url = `${environment.apiUrl}/data/${guildId}/roles`;
+    getRoles(guildId?: string): ObservableDict<string, string> {
+        const parameter = [guildId ? new QueryParam('guildId', guildId) : null].filter(o => o).map(o => o.toString()).join('&');
+        const url = `${environment.apiUrl}/data/roles?${parameter}`;
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<Dictionary<string, string>>(url, { headers }).pipe(

@@ -4,13 +4,14 @@
             <div class="nav">
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/servers', icon:'fa-server', title:'Servery'}"></ng-container>
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/users', icon:'fa-users', title:'Uživatelé'}"></ng-container>
-                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/audit-log', icon:'fa-clipboard-list', title:'Audit Log'}"></ng-container>
+                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/audit-log', icon:'fa-clipboard-list', title:'Audit Log'}">
+                </ng-container>
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/channels', icon:'fa-envelope-open-text', title:'Kanály'}">
                 </ng-container>
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/invites', icon:'fa-user-plus', title:'Pozvánky'}"></ng-container>
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/permissions', icon:'fa-user-lock', title:'Oprávnění'}">
                 </ng-container>
-                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/reminder', icon:'fa-bell', title:'Notifikace'}"></ng-container>
+                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/reminder', icon:'fa-bell', title:'Reminder'}"></ng-container>
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/search', icon:'fa-search', title:'Hledání'}"></ng-container>
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/internal', icon:'fa-network-wired', title:'Interní'}">
                 </ng-container>

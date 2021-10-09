@@ -30,7 +30,7 @@ export class GuildDetailComponent implements OnInit {
     ngOnInit(): void {
         const guildId: string = this.activatedRoute.snapshot.params.id.toString();
 
-        this.dataService.getRolesOfGuild(guildId).subscribe(roles => this.roles = roles);
+        this.dataService.getRoles(guildId).subscribe(roles => this.roles = roles);
         this.dataService.getChannelsOfGuild(guildId).subscribe(channels => this.channels = channels);
         this.guildService.getGuildDetail(guildId).subscribe(detail => {
             this.data = detail;
