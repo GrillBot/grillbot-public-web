@@ -1,7 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { ChannelListSortTypes, GetChannelListParams } from 'src/app/core/models/channels';
 import { PaginatedParams } from 'src/app/core/models/common';
-import { ChannelService } from 'src/app/core/services/channel.service';
+import { GetInviteListParams, InviteListSortTypes } from 'src/app/core/models/invites';
+import { InviteService } from 'src/app/core/services/invite.service';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
 
 @Component({
@@ -9,28 +9,28 @@ import { DataListComponent } from 'src/app/shared/data-list/data-list.component'
     templateUrl: './list.component.html'
 })
 export class ListComponent {
-    private filter: GetChannelListParams;
+    private filter: GetInviteListParams;
 
-    sortDesc = false;
-    sortBy: ChannelListSortTypes = 'name';
+    sortDesc = true;
+    sortBy: InviteListSortTypes = 'createdAt';
 
     @ViewChild('list', { static: false }) list: DataListComponent;
 
     constructor(
-        private channelService: ChannelService
+        private inviteService: InviteService
     ) { }
 
-    filterChanged(filter: GetChannelListParams): void {
+    filterChanged(filter: GetInviteListParams): void {
         this.filter = filter;
         if (this.list) { this.list.onChange(); }
     }
 
     readData(pagination: PaginatedParams): void {
-        this.channelService.getChannelsList(this.filter, pagination, this.sortBy, this.sortDesc)
+        this.inviteService.getInviteList(this.filter, pagination, this.sortDesc, this.sortBy)
             .subscribe(list => this.list.setData(list));
     }
 
-    setSort(sortBy: ChannelListSortTypes): void {
+    setSort(sortBy: InviteListSortTypes): void {
         if (this.sortBy !== sortBy) {
             this.sortBy = sortBy;
         } else {

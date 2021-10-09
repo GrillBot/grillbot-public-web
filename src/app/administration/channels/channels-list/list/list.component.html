@@ -1,8 +1,8 @@
 <app-card [title]="'Kanály'" [icon]="'fas fa-envelope-open-text'">
     <app-data-list #list (readData)="readData($event)">
         <app-loading *ngIf="!list.isDataLoaded"></app-loading>
-        <table class="table table-bordered table-sm" *ngIf="list.isDataLoaded">
 
+        <table class="table table-bordered table-sm" *ngIf="list.isDataLoaded">
             <thead>
                 <tr>
                     <th style="width: 300px" (click)="setSort('name')" class="sortable" [class.sort-desc]="sortBy === 'name' && sortDesc"

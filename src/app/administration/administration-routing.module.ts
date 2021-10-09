@@ -26,6 +26,10 @@ const routes: Routes = [
             {
                 path: 'channels',
                 loadChildren: () => import('./channels/channels.module').then(mod => mod.ChannelsModule)
+            },
+            {
+                path: 'invites',
+                loadChildren: () => import('./invites/invites.module').then(mod => mod.InvitesModule)
             }
         ]
     },

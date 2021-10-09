@@ -1,0 +1,29 @@
+<app-card [title]="'Pozvánky'" [icon]="'fas fa-user-plus'">
+    <app-data-list #list (readData)="readData($event)">
+        <app-loading *ngIf="!list.isDataLoaded"></app-loading>
+
+        <table class="table table-bordered table-sm" *ngIf="list.isDataLoaded">
+            <thead>
+                <tr>
+                    <th style="width: 200px;" (click)="setSort('code')" class="sortable" [class.sort-desc]="sortBy === 'code' && sortDesc"
+                        [class.sort-asc]="sortBy === 'code' && !sortDesc">Kód</th>
+                    <th style="width: 300px" (click)="setSort('createdAt')" class="sortable" [class.sort-desc]="sortBy === 'createdAt' && sortDesc"
+                        [class.sort-asc]="sortBy === 'createdAt' && !sortDesc">Vytvořeno</th>
+                    <th (click)="setSort('creator')" class="sortable" [class.sort-desc]="sortBy === 'creator' && sortDesc"
+                        [class.sort-asc]="sortBy === 'creator' && !sortDesc">Vytvořil</th>
+                    <th>Použilo uživatelů</th>
+                    <th>Server</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of list.items">
+                    <td>{{item.code}}</td>
+                    <td>{{item.createdAt?.toLocaleString()}}</td>
+                    <td>{{item.creator?.fullUsername}}</td>
+                    <td>{{item.usedUsersCount}}</td>
+                    <td>{{item.guild?.name}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </app-data-list>
+</app-card>
