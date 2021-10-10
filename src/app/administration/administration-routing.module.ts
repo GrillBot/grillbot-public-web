@@ -34,6 +34,10 @@ const routes: Routes = [
             {
                 path: 'permissions',
                 loadChildren: () => import('./permissions/permissions.module').then(mod => mod.PermissionsModule)
+            },
+            {
+                path: 'reminder',
+                loadChildren: () => import('./reminders/reminders.module').then(mod => mod.RemindersModule)
             }
         ]
     },

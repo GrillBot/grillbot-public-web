@@ -53,15 +53,21 @@ body {
 }
 
 app-data-list table {
-    & td.badge-list {
-        & span:not(:last-child) {
-            margin-right: 5px;
+    & td {
+        &.badge-list {
+            & span:not(:last-child) {
+                margin-right: 5px;
+            }
         }
-    }
 
-    & td:not(.badge-list) {
-        & .badge {
-            font-size: 0.6em;
+        &:not(.badge-list) {
+            & .badge {
+                font-size: 0.6em;
+            }
+        }
+
+        & list-button {
+            margin-right: 5px;
         }
     }
 }
