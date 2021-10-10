@@ -43,7 +43,12 @@ export class ListComponent {
     }
 
     cancel(item: RemindMessage, notify: boolean): void {
-        this.reminderService.cancelRemind(item.id, notify).subscribe(_ => this.list.onChange());
+        let message = `Opravdu si přeješ zrušit oznámení pro uživatele ${item.toUser?.fullUsername}? `;
+        if (notify) { message += 'Uživateli přijde předčasně oznámení.'; }
+
+        this.modalService.showQuestion('Zrušení upozornění', message).onAccept.subscribe(_ => {
+            this.reminderService.cancelRemind(item.id, notify).subscribe(_ => this.list.onChange());
+        });
     }
 
     showMessage(item: RemindMessage): void {
