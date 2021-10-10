@@ -1,20 +1,33 @@
-table tr th {
-    &.sortable {
-        cursor: pointer;
+table {
+    & tr {
+        & th {
+            &.sortable {
+                cursor: pointer;
 
-        &.sort-desc,
-        &.sort-asc {
-            &:after {
-                float: right;
+                &.sort-desc,
+                &.sort-asc {
+                    &:after {
+                        float: right;
+                    }
+                }
+
+                &.sort-desc:after {
+                    content: "▼";
+                }
+
+                &.sort-asc:after {
+                    content: "▲";
+                }
             }
         }
 
-        &.sort-desc:after {
-            content: "▼";
-        }
-
-        &.sort-asc:after {
-            content: "▲";
+        & td,
+        & th {
+            &.auto-width {
+                width: 1%;
+                white-space: nowrap;
+                padding-right: 10px;
+            }
         }
     }
 }

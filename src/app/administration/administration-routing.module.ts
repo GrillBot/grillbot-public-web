@@ -42,6 +42,10 @@ const routes: Routes = [
             {
                 path: 'search',
                 loadChildren: () => import('./searching/searching.module').then(mod => mod.SearchingModule)
+            },
+            {
+                path: 'internal',
+                loadChildren: () => import('./internal/internal.module').then(mod => mod.InternalModule)
             }
         ]
     },

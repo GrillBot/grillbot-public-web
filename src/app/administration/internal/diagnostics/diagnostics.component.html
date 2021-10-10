@@ -1,0 +1,31 @@
+<app-card [title]="'Diagnostika'" [icon]="'fas fa-network-wired'">
+    <app-loading *ngIf="!data"></app-loading>
+
+    <ng-container *ngIf="data">
+        <div class="row">
+            <div keyValueItem class="col" [key]="'Instance'" [value]="data.instanceType"></div>
+            <div keyValueItem class="col" [key]="'Start v'" [value]="data.startAt.toLocaleString()"></div>
+            <div keyValueItem class="col" [key]="'Uptime'" [value]="data.uptime"></div>
+            <div keyValueItem class="col" [key]="'Aktivní čas'" [value]="data.cpuTime"></div>
+            <div keyValueItem class="col" [key]="'Odezva'" [value]="data.latency"></div>
+            <div keyValueItem class="col" [key]="'Stav připojení'" [value]="data.formattedConnectionState"></div>
+            <div keyValueItem class="col" [key]="'Využito paměti'" value="{{data.usedMemory | filesize}}"></div>
+        </div>
+
+        <div class="row mt-3">
+            <div keyValueItem class="col" [key]="'Stav bota'" [value]="data.botStatus"></div>
+            <div class="col-11 d-flex align-items-end">
+                <div class="btn-group">
+                    <button class="btn btn-sm btn-success" [disabled]="data.userStatus === UserStatus.Online"
+                        (click)="toggleState(UserStatus.Online)">Online</button>
+                    <button class="btn btn-sm btn-warning" [disabled]="data.userStatus === UserStatus.Idle"
+                        (click)="toggleState(UserStatus.Idle)">Neaktivní</button>
+                    <button class="btn btn-sm btn-danger" [disabled]="data.userStatus === UserStatus.DoNotDisturb"
+                        (click)="toggleState(UserStatus.DoNotDisturb)">Nerušit</button>
+                    <button class="btn btn-sm btn-secondary" (click)="toggleState(UserStatus.Invisible)"
+                        [disabled]="data.userStatus === UserStatus.Offline || data.userStatus === UserStatus.Invisible">Neviditelný</button>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</app-card>
