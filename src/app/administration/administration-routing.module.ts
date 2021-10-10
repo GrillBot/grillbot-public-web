@@ -38,6 +38,10 @@ const routes: Routes = [
             {
                 path: 'reminder',
                 loadChildren: () => import('./reminders/reminders.module').then(mod => mod.RemindersModule)
+            },
+            {
+                path: 'search',
+                loadChildren: () => import('./searching/searching.module').then(mod => mod.SearchingModule)
             }
         ]
     },

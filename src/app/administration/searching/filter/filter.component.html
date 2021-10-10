@@ -1,0 +1,33 @@
+<app-card [title]="'Vyhledávání'" [icon]="'fas fa-search'">
+    <form [formGroup]="form" class="row">
+        <div class="col form-group">
+            <label>Server</label>
+            <select formControlName="guildId" class="form-control" *ngIf="guilds">
+                <option [ngValue]="null">Nevybráno</option>
+                <option [ngValue]="guild.key" *ngFor="let guild of guilds">{{guild.value}}</option>
+            </select>
+        </div>
+
+        <div class="col form-group">
+            <label>Kanál</label>
+            <select class="form-control" formControlName="channelId">
+                <option [ngValue]="null">Nevybráno</option>
+                <ng-container *ngIf="channels">
+                    <option [ngValue]="channel.key" *ngFor="let channel of channels">{{channel.value}}</option>
+                </ng-container>
+            </select>
+        </div>
+
+        <div class="col form-group">
+            <label>Uživatel</label>
+            <select class="form-control" formControlName="userId">
+                <option [ngValue]="null">Nevybráno</option>
+                <option [ngValue]="user.key" *ngFor="let user of users">{{user.value}}</option>
+            </select>
+        </div>
+
+        <div class="col-2 d-flex justify-content-end align-items-end">
+            <button class="btn btn-danger" (click)="reset()" type="button">Smazat filtr</button>
+        </div>
+    </form>
+</app-card>

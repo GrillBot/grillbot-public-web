@@ -12,6 +12,7 @@ export class ListButtonComponent {
     @Input() iconGroup = 'fas';
     @Input() icon?: string;
     @Input() classList: string[] = [];
+    @Input() absoluteLink = false;
 
     @Output() clicked = new EventEmitter<unknown>();
 }

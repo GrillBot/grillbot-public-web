@@ -1,4 +1,8 @@
-<a [routerLink]="link" class="btn-secondary btn-sm" title="{{title}}" [ngClass]="classList" *ngIf="link">
+<a [routerLink]="link" class="btn-secondary btn-sm" title="{{title}}" [ngClass]="classList" *ngIf="link && !absoluteLink">
+    <i class="{{iconGroup}} fa-{{icon}}"></i>
+</a>
+
+<a [href]="link" class="btn-secondary btn-sm" title="{{title}}" [ngClass]="classList" *ngIf="link && absoluteLink" target="_blank">
     <i class="{{iconGroup}} fa-{{icon}}"></i>
 </a>
 

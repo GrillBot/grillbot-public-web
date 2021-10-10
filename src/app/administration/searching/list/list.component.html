@@ -1,0 +1,42 @@
+<app-card [title]="'Hledání'" [icon]="'fas fa-search'">
+    <app-data-list #list (readData)="readData($event)">
+        <app-loading *ngIf="!list.isDataLoaded"></app-loading>
+
+        <table class="table table-sm table-bordered" *ngIf="list.isDataLoaded">
+            <thead>
+                <tr>
+                    <th style="width: 40px">&nbsp;</th>
+                    <th style="width: 130px" sortable [key]="'id'" [current]="sortBy" [sortDesc]="sortDesc" (clicked)="setSort($any($event))">ID</th>
+                    <th sortable [key]="'user'" [current]="sortBy" [sortDesc]="sortDesc" (clicked)="setSort($any($event))">Hledající</th>
+                    <th sortable [key]="'guild'" [current]="sortBy" [sortDesc]="sortDesc" (clicked)="setSort($any($event))">Server</th>
+                    <th sortable [key]="'channel'" [current]="sortBy" [sortDesc]="sortDesc" (clicked)="setSort($any($event))">Kanál</th>
+                    <th>Akce</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of list.items">
+                    <td class="text-md-center">
+                        <app-checkbox #item_check [id]="item.id"></app-checkbox>
+                    </td>
+                    <td>{{item.id}}</td>
+                    <td>{{item.user.fullUsername}}</td>
+                    <td>{{item.guild.name}}</td>
+                    <td>{{item.channel.name}}</td>
+                    <td>
+                        <list-button [link]="item.jumpLink" icon="location-arrow" title="Přejít na zprávu" [absoluteLink]="true"></list-button>
+                        <list-button (clicked)="showMessage(item)" icon="info" title="Zobrazit zprávu"></list-button>
+                    </td>
+                </tr>
+                <tr *ngIf="list.items.length === 0">
+                    <td colspan="6">Pro zadaný filtr nebyly nalezeny žádné hledání.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="row mb-3" *ngIf="list.items.length > 0">
+            <div class="col">
+                <button class="btn btn-sm btn-danger" (click)="removeItems()">Smazat označené</button>
+            </div>
+        </div>
+    </app-data-list>
+</app-card>
