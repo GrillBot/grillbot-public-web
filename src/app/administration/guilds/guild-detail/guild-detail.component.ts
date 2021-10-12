@@ -31,7 +31,7 @@ export class GuildDetailComponent implements OnInit {
         const guildId: string = this.activatedRoute.snapshot.params.id.toString();
 
         this.dataService.getRoles(guildId).subscribe(roles => this.roles = roles);
-        this.dataService.getChannelsOfGuild(guildId).subscribe(channels => this.channels = channels);
+        this.dataService.getChannels(guildId).subscribe(channels => this.channels = channels);
         this.guildService.getGuildDetail(guildId).subscribe(detail => {
             this.data = detail;
 

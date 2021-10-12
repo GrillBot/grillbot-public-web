@@ -16,7 +16,7 @@ export class ModalService {
 
         modal.componentInstance.title = title;
         modal.componentInstance.text = content;
-        modal.componentInstance.isQuestion = true;
+        modal.componentInstance.type = 'question';
 
         return new ModalData(modal);
     }
@@ -26,7 +26,7 @@ export class ModalService {
 
         modal.componentInstance.title = title;
         modal.componentInstance.text = content;
-        modal.componentInstance.isQuestion = false;
+        modal.componentInstance.type = 'notification';
 
         return new ModalData(modal);
     }

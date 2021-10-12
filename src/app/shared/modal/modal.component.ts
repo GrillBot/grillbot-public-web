@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalType } from './modal-data';
 
 @Component({
     selector: 'app-modal',
@@ -8,7 +9,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 export class ModalComponent {
     @Input() title: string;
     @Input() text = '';
-    @Input() isQuestion = false;
+    @Input() type: ModalType = 'notification';
 
     constructor(public modal: NgbActiveModal) { }
 }

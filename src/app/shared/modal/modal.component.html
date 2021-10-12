@@ -11,10 +11,15 @@
 </div>
 
 <div class="modal-footer">
-    <button type="button" *ngIf="!isQuestion" (click)="modal.close(null)" class="btn btn-outline-secondary">Zavřít</button>
+    <button type="button" *ngIf="type === 'notification'" (click)="modal.close(null)" class="btn btn-outline-secondary">Zavřít</button>
 
-    <ng-container *ngIf="isQuestion">
+    <ng-container *ngIf="type === 'question'">
         <button type="button" (click)="modal.close(true)" class="btn btn-outline-success">Ano</button>
         <button type="button" (click)="modal.close(false)" class="btn btn-outline-danger">Ne</button>
+    </ng-container>
+
+    <ng-container *ngIf="type === 'form'">
+        <button type="button" (click)="modal.close(true)" class="btn btn-outline-success">Uložit</button>
+        <button type="button" (click)="modal.close(false)" class="btn btn-outline-danger">Zrušit</button>
     </ng-container>
 </div>

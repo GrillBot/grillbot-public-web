@@ -21,7 +21,7 @@ export class DataListComponent implements OnInit {
         private fb: FormBuilder
     ) { }
 
-    get limit(): AbstractControl { return this.form.get('limit'); }
+    get limit(): number { return parseInt(this.form?.get('limit')?.value ?? defaultPageSize, 10); }
     get pageSizes(): number[] { return pageSizes; }
 
     currentPage = 1;
@@ -40,7 +40,7 @@ export class DataListComponent implements OnInit {
     }
 
     onChange(): void {
-        const limit = parseInt(this.limit.value, 10);
+        const limit = this.limit;
         this.pageSize = limit;
         this.isDataLoaded = false;
 

@@ -13,3 +13,5 @@ export class ModalData<TComponent> {
         return this.modal.componentInstance as TComponent;
     }
 }
+
+export type ModalType = 'notification' | 'question' | 'form';

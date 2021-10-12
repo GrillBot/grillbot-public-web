@@ -75,7 +75,7 @@ export class FilterComponent implements OnInit {
     }
 
     setChannels(guildId: string): void {
-        this.dataService.getChannelsOfGuild(guildId).subscribe(channels => this.channels = channels);
+        this.dataService.getChannels(guildId).subscribe(channels => this.channels = channels);
     }
 
     submitForm(): void {

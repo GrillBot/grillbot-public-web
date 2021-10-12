@@ -21,8 +21,9 @@ export class DataService {
         );
     }
 
-    getChannelsOfGuild(guildId: string): ObservableDict<string, string> {
-        const url = `${environment.apiUrl}/data/${guildId}/channels`;
+    getChannels(guildId?: string): ObservableDict<string, string> {
+        const parameter = guildId ? new QueryParam('guildId', guildId) : '';
+        const url = `${environment.apiUrl}/data/channels?${parameter}`;
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<Dictionary<string, string>>(url, { headers }).pipe(

@@ -46,6 +46,10 @@ const routes: Routes = [
             {
                 path: 'internal',
                 loadChildren: () => import('./internal/internal.module').then(mod => mod.InternalModule)
+            },
+            {
+                path: 'unverify',
+                loadChildren: () => import('./unverify/unverify.module').then(mod => mod.UnverifyModule)
             }
         ]
     },

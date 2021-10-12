@@ -41,6 +41,10 @@ export class GuildUser extends User {
     public obtainedReactions: number;
     public nickname: string | null;
 
+    get fullname(): string {
+        return !this.nickname ? this.fullUsername : `${this.nickname} (${this.fullUsername})`;
+    }
+
     static create(data: any): GuildUser | null {
         if (!data) { return null; }
         const base = super.create(data);
