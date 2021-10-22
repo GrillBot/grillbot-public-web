@@ -23,8 +23,7 @@ export class UserDetailComponent implements OnInit {
     constructor(
         private userService: UserService,
         private activatedRoute: ActivatedRoute,
-        private fb: FormBuilder,
-        private modal: ModalService
+        private fb: FormBuilder
     ) { }
 
     ngOnInit(): void {

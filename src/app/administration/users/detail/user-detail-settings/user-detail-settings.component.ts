@@ -48,7 +48,7 @@ export class UserDetailSettingsComponent implements OnInit {
 
     submitForm(): void {
         const params = new UpdateUserParams(
-            this.form.value.apiToken.length === 0 ? null : this.form.value.apiToken,
+            !this.form.value.apiToken || this.form.value.apiToken.length === 0 ? null : this.form.value.apiToken,
             this.isCurrentUser || this.user.isBot ? this.user.isBotAdmin : this.form.value.botAdmin,
             this.form.value.note,
             this.isCurrentUser || this.user.isBot ? this.user.haveWebAdmin : this.form.value.webAdmin
