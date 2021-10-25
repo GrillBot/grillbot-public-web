@@ -277,6 +277,10 @@
 </ng-template>
 
 <ng-template #memberUpdated>
+    <tr *ngIf="data.target">
+        <td>Cílový uživatel</td>
+        <td colspan="2">{{data.target.username}}#{{data.target.discriminator}}</td>
+    </tr>
     <tr *ngIf="data.nickname">
         <td>Přezdívka</td>
         <td>{{data.nickname.before}}</td>
