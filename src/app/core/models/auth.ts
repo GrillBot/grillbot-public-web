@@ -39,7 +39,7 @@ export class JwtToken {
 export class AuthToken {
     public errorMessage: string;
     public accessToken: string;
-    public expiresAt: DateTime;
+    public expiresAt: DateTime | null;
 
     get jwt(): JwtToken {
         return this.accessToken ? JwtToken.createFromToken(this.accessToken) : null;
@@ -55,7 +55,7 @@ export class AuthToken {
         const token = new AuthToken();
         token.accessToken = data.accessToken;
         token.errorMessage = data.errorMessage;
-        token.expiresAt = DateTime.fromISOString(data.expiresAt);
+        token.expiresAt = data.expiresAt ? DateTime.fromISOString(data.expiresAt) : null;
 
         return token;
     }
