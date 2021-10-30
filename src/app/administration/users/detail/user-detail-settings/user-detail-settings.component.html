@@ -1,7 +1,7 @@
 <app-card [title]="'Nastavení uživatele'" [allowHideButton]="false" icon="fas fa-user-cog">
     <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="row">
-            <div class="col">
+            <div class="col-5">
                 <label>REST API token</label>
                 <div class="input-group">
                     <input type="text" class="form-control" formControlName="apiToken" />
@@ -15,12 +15,19 @@
                 </div>
             </div>
 
-            <div class="col">
+            <div class="col-3">
+                <b>Minimální čas pro selfunverify</b>
+                <app-time-span-input formControlName="selfUnverifyMinimalTime"></app-time-span-input>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-5">
                 <label>Poznámka</label>
                 <textarea class="form-control" formControlName="note"></textarea>
             </div>
 
-            <div class="col d-flex align-items-end">
+            <div class="col d-flex align-items-end justify-content-end">
                 <button class="btn btn-success">Uložit změny</button>
             </div>
         </div>

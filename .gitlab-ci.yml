@@ -2,7 +2,7 @@ stages:
     - Build
 
 Production:
-    image: node:latest
+    image: node:14
     stage: Build
     script:
         - npm install -g @angular/cli

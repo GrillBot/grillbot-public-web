@@ -19,6 +19,7 @@ import { CzechBooleanPipePipe } from './pipes/czech-boolean-pipe.pipe';
 import { DiscordPermsPipePipe } from './pipes/discord-perms-pipe.pipe';
 import { DateTimeFormatterPipe } from './pipes/date-time-formatter.pipe';
 import { SortingDirective } from './data-list/sorting.directive';
+import { TimeSpanInputComponent } from './time-span-input/time-span-input.component';
 
 @NgModule({
     declarations: [
@@ -35,7 +36,8 @@ import { SortingDirective } from './data-list/sorting.directive';
         CzechBooleanPipePipe,
         DiscordPermsPipePipe,
         DateTimeFormatterPipe,
-        SortingDirective
+        SortingDirective,
+        TimeSpanInputComponent
     ],
     imports: [
         CommonModule,
@@ -66,7 +68,8 @@ import { SortingDirective } from './data-list/sorting.directive';
         CzechBooleanPipePipe,
         DiscordPermsPipePipe,
         DateTimeFormatterPipe,
-        SortingDirective
+        SortingDirective,
+        TimeSpanInputComponent
     ]
 })
 export class SharedModule { }

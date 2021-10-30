@@ -151,6 +151,7 @@ export class UserDetail {
     public activeClients: string[];
     public isKnown: boolean;
     public avatarUrl: string;
+    public selfUnverifyMinimalTime: string | null;
 
     // tslint:disable: no-bitwise
     get isBotAdmin(): boolean { return (this.flags & UserFlags.BotAdmin) !== 0; }
@@ -173,6 +174,7 @@ export class UserDetail {
         detail.activeClients = data.activeClients?.map((o: string) => o);
         detail.isKnown = data.isKnown;
         detail.avatarUrl = data.avatarUrl;
+        detail.selfUnverifyMinimalTime = data.selfUnverifyMinimalTime;
 
         return detail;
     }
@@ -235,6 +237,7 @@ export class UpdateUserParams {
         public apiToken: string | null,
         public botAdmin: boolean,
         public note: string,
-        public webAdminAllowed: boolean
+        public webAdminAllowed: boolean,
+        public selfUnverifyMinimalTime: string | null
     ) { }
 }

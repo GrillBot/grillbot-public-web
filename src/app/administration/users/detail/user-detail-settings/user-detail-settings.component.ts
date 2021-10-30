@@ -32,7 +32,8 @@ export class UserDetailSettingsComponent implements OnInit {
             apiToken: [this.user.apiToken, ValidationHelper.isGuid()],
             botAdmin: [this.user.isBotAdmin],
             note: [this.user.note],
-            webAdmin: [this.user.haveWebAdmin]
+            webAdmin: [this.user.haveWebAdmin],
+            selfUnverifyMinimalTime: [this.user.selfUnverifyMinimalTime]
         });
 
         if (this.isCurrentUser || this.user.isBot) {
@@ -51,7 +52,8 @@ export class UserDetailSettingsComponent implements OnInit {
             !this.form.value.apiToken || this.form.value.apiToken.length === 0 ? null : this.form.value.apiToken,
             this.isCurrentUser || this.user.isBot ? this.user.isBotAdmin : this.form.value.botAdmin,
             this.form.value.note,
-            this.isCurrentUser || this.user.isBot ? this.user.haveWebAdmin : this.form.value.webAdmin
+            this.isCurrentUser || this.user.isBot ? this.user.haveWebAdmin : this.form.value.webAdmin,
+            this.form.value.selfUnverifyMinimalTime
         );
 
         this.userService.updateUser(this.user.id, params).subscribe(detail => {
