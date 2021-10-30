@@ -6,7 +6,7 @@ import { BaseService } from './base.service';
 import { Injectable } from '@angular/core';
 import {
     ChannelDetail, ChannelListSortTypes, ChannelUserStatItem, GetChannelListParams,
-    GuildChannel, SendMessageToChannelParams, UpdateChannelParams
+    GuildChannel, SendMessageToChannelParams
 } from '../models/channels';
 import { environment } from 'src/environments/environment';
 import { PaginatedParams } from '../models/common';
@@ -58,15 +58,6 @@ export class ChannelService {
 
         return this.base.http.get<ChannelDetail>(url, { headers }).pipe(
             map(data => ChannelDetail.create(data)),
-            catchError(err => this.base.catchError(err))
-        );
-    }
-
-    updateChannel(id: string, params: UpdateChannelParams): Observable<unknown> {
-        const url = `${environment.apiUrl}/channel/${id}`;
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.put(url, params, { headers }).pipe(
             catchError(err => this.base.catchError(err))
         );
     }

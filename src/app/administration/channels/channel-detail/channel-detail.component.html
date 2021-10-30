@@ -23,24 +23,12 @@
                     <div keyValueItem class="col" [key]="'Nejaktivnější uživatel'" [value]="data.mostActiveUser.fullUsername"
                         *ngIf="data.mostActiveUser"></div>
                 </div>
-            </app-card>
-        </div>
-    </div>
 
-    <div class="row mt-3 ml-0 mr-0">
-        <div class="col">
-            <app-card icon="fas fa-cogs" [title]="'Nastavení'">
-                <form [formGroup]="form" (ngSubmit)="submitSettings()" class="row">
+                <div class="row mt-2">
                     <div class="col">
-                        <label>Příznaky</label>
-                        <checkbox-bitmask [options]="channelFlags" formControlName="flags"></checkbox-bitmask>
+                        <button class="btn btn-danger btn-sm" type="button" (click)="cleanCache()">Vyčistit cache</button>
                     </div>
-
-                    <div class="col d-flex align-items-end justify-content-end">
-                        <button class="btn btn-success me-2" type="submit">Uložit nastavení</button>
-                        <button class="btn btn-danger" type="button" (click)="cleanCache()">Vyčistit cache</button>
-                    </div>
-                </form>
+                </div>
             </app-card>
         </div>
     </div>

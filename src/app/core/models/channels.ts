@@ -135,12 +135,6 @@ export class ChannelDetail extends GuildChannel {
     }
 }
 
-export class UpdateChannelParams {
-    constructor(
-        public flags: number
-    ) { }
-}
-
 export class ChannelUserStatItem {
     public position: number;
     public username: string;
