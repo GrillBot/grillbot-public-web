@@ -43,6 +43,7 @@ export class TimeSpanInputComponent implements OnInit, ControlValueAccessor {
     }
 
     writeValue(obj: string): void {
+        if (obj === null) { return; }
         const matched = obj.match(this.parseRegex);
 
         if (obj.includes('.')) {

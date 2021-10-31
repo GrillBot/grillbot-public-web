@@ -1,13 +1,13 @@
 import { QueryParam } from './../models/http';
-import { APP_BASE_HREF } from '@angular/common';
 import { StorageService } from './storage.service';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseService } from './base.service';
 import { AuthToken, OAuth2Link } from '../models/auth';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { UserService } from './user.service';
 
 @Injectable({
     providedIn: 'root'
@@ -16,8 +16,8 @@ export class AuthService {
     constructor(
         private storage: StorageService,
         private router: Router,
-        @Inject(APP_BASE_HREF) private baseHref: string,
-        private base: BaseService
+        private base: BaseService,
+        private userService: UserService
     ) { }
 
     get currentToken(): AuthToken {
@@ -31,6 +31,7 @@ export class AuthService {
     }
 
     logout(): void {
+        this.userService.hearthbeatOff().subscribe();
         this.storage.remove('AuthData');
         this.router.navigateByUrl('/login');
     }

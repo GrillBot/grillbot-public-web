@@ -31,7 +31,7 @@ export class FilterComponent implements OnInit {
             .filter(o => !isNaN(parseInt(o, 10)) && parseInt(o, 10) > 0)
             .map(o => ({ key: parseInt(o, 10), value: UserFilterFlagsTexts[Support.getEnumKeyByValue(UserFilterFlags, parseInt(o, 10))] }));
 
-        const filter = GetUserListParams.create(this.storage.read<GetUserListParams>('UserListFilter') || GetUserListParams.empty);
+        const filter = GetUserListParams.create(this.storage.read<GetUserListParams>('UserListFilter')) || GetUserListParams.empty;
 
         this.initFilter(filter);
         this.submitForm();
@@ -51,7 +51,7 @@ export class FilterComponent implements OnInit {
         const filter = GetUserListParams.create(this.form.value);
 
         this.filterChanged.emit(filter);
-        this.storage.store<GetUserListParams>('UserListFilter', filter);
+        this.storage.store<GetUserListParams>('UserListFilter', filter.serialize());
     }
 
     reset(): void {

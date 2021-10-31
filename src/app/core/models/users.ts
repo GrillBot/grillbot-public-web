@@ -1,9 +1,10 @@
 import { Dictionary } from 'src/app/core/models/common';
+import { Support } from '../lib/support';
 import { ChannelStatItem } from './channels';
 import { DateTime } from './datetime';
-import { UserFilterFlags } from './enums/user-filter-flags';
+import { UserFilterFlags, UserFilterMapping } from './enums/user-filter-flags';
 import { UserFlags } from './enums/user-flags';
-import { UserStatus } from './enums/user-status';
+import { StatusColorMapping, UserStatus, UserStatusTexts } from './enums/user-status';
 import { Guild } from './guilds';
 import { QueryParam } from './http';
 import { Invite, InviteBase } from './invites';
@@ -71,11 +72,16 @@ export class UserListItem {
     public haveBirthday: boolean;
     public username: string;
     public guilds: Dictionary<string, boolean>;
+    public discordStatus: UserStatus;
 
     // tslint:disable: no-bitwise
     get isBotAdmin(): boolean { return (this.flags & UserFlags.BotAdmin) !== 0; }
     get haveWebAdmin(): boolean { return (this.flags & UserFlags.WebAdmin) !== 0; }
     get isBot(): boolean { return (this.flags & UserFlags.NotUser) !== 0; }
+    get isWebAdminOnline(): boolean { return (this.flags & UserFlags.WebAdmin) !== 0; }
+
+    get status(): string { return UserStatusTexts[Support.getEnumKeyByValue(UserStatus, this.discordStatus)]; }
+    get statusColor(): string { return StatusColorMapping[Support.getEnumKeyByValue(UserStatus, this.discordStatus)]; }
 
     static create(data: any): UserListItem | null {
         if (!data) { return null; }
@@ -87,6 +93,7 @@ export class UserListItem {
         item.haveApi = data.haveApi ?? false;
         item.haveBirthday = data.haveBirthday ?? false;
         item.username = data.username;
+        item.discordStatus = data.discordStatus;
 
         return item;
     }
@@ -128,13 +135,36 @@ export class GetUserListParams {
     private static buildFlags(flags: number): number {
         let result = 0;
 
-        for (const item of Object.keys(UserFlags).map(o => parseInt(o, 10)).filter(o => !isNaN(o) && o > 0)) {
-            if ((flags & item) !== 0) {
-                result |= item;
+        for (const item of UserFilterMapping) {
+            if ((flags & item.source) !== 0) {
+                result |= item.destination;
             }
         }
 
         return result;
+    }
+
+    private serializeFlags(): number {
+        let result = 0;
+
+        if (this.haveApiAccess) { result |= UserFilterFlags.HaveApiAccess; }
+        if (this.haveBirthday) { result |= UserFilterFlags.HaveBirthday; }
+
+        for (const item of UserFilterMapping) {
+            if ((this.flags & item.destination) !== 0) {
+                result |= item.source;
+            }
+        }
+
+        return result;
+    }
+
+    serialize(): any {
+        return {
+            guild: this.guildId,
+            flags: this.serializeFlags(),
+            username: this.username
+        };
     }
 }
 

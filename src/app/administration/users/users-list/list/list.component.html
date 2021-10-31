@@ -6,8 +6,9 @@
             <thead>
                 <tr>
                     <th sortable (clicked)="toggleSort()" [key]="'username'" [current]="'username'" [sortDesc]='sortDesc'>Uživatelské jméno</th>
+                    <th style="width: 80px;">Stav</th>
                     <th>Servery</th>
-                    <th>Příznaky</th>
+                    <th>Doplňující informace</th>
                     <th>Akce</th>
                 </tr>
             </thead>
@@ -16,6 +17,10 @@
                     <td>
                         {{item.username}}
                         <span class="badge bg-secondary" *ngIf="item.isBot">Bot</span>
+                        <span class="badge bg-success" *ngIf="item.isWebAdminOnline" title="Uživatel je přihlášen do administrace">WebAdmin</span>
+                    </td>
+                    <td class="badge-list">
+                        <span class="badge bg-{{item.statusColor}}">{{item.status}}</span>
                     </td>
                     <td>
                         <div class="d-flex flex-column">
