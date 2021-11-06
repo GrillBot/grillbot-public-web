@@ -8,6 +8,7 @@ import { AuthToken } from '../models/auth';
 import { ModalService, ValidationErrorsModalComponent } from 'src/app/shared/modal';
 import { Support } from '../lib/support';
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 @Injectable({
     providedIn: 'root'
 })
@@ -22,11 +23,11 @@ export class BaseService {
     catchError(err: HttpErrorResponse, suppressModal: boolean = false): Observable<never> {
         if (err.status === HttpStatusCode.BadRequest && err.error?.errors) {
             const modal = this.modal.showCustomModal<ValidationErrorsModalComponent>(ValidationErrorsModalComponent, 'lg');
-            modal.componentInstance.errors = Support.flattern(Object.values(err.error.errors));
+            modal.componentInstance.errors = Support.flattern<string>(Object.values(err.error.errors) as string[]) as string[];
             return EMPTY;
         } else if (err.status === HttpStatusCode.Unauthorized) {
             this.storage.remove('AuthData');
-            this.router.navigate(['/', 'login']);
+            this.router.navigate(['/', 'login']).then().catch();
             return EMPTY;
         } else if (err.status !== HttpStatusCode.Ok) {
             let message = 'Při vykonání požadavku došlo k neočekávané chybě.<br>';
