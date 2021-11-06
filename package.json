@@ -28,7 +28,8 @@
         "bootstrap": "5.1.1",
         "guid": "0.0.12",
         "ngx-filesize": "2.0.16",
-        "file-saver": "2.0.5"
+        "file-saver": "2.0.5",
+        "diff": "5.0.0"
     },
     "devDependencies": {
         "@angular-devkit/build-angular": "~12.2.6",
@@ -40,6 +41,7 @@
         "tslint": "~6.1.0",
         "typescript": "~4.3.5",
         "@types/jwt-decode": "^2.2.1",
-        "@types/guid": "1.0.0"
+        "@types/guid": "1.0.0",
+        "@types/diff": "5.0.1"
     }
 }

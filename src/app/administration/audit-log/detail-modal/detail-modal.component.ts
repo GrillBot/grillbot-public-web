@@ -2,6 +2,7 @@ import { AuditLogItemType } from './../../../core/models/enums/audit-log-item-ty
 import { Component, Input, OnInit } from '@angular/core';
 import { AuditLogListItem } from 'src/app/core/models/audit-log';
 import { AuditLogService } from 'src/app/core/services/audit-log.service';
+import { diffLines } from 'diff';
 
 @Component({
     selector: 'app-detail-modal',
@@ -37,4 +38,13 @@ export class DetailModalComponent implements OnInit {
         this.auditLogService.getAuditLogData(this.item.id).subscribe(data => this.data = data);
     }
 
+    renderStringDiff(before: string, after: string): string {
+        const lines = diffLines(before, after, { newlineIsToken: true, ignoreCase: true });
+        const diff = lines.map(o => {
+            if (o.added) { return `+ ${o.value}`; }
+            else if (o.removed) { return `- ${o.value}`; }
+            else { return null; }
+        }).filter(o => o !== null);
+        return diff.join('\n');
+    }
 }
