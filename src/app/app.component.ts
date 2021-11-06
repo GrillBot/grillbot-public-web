@@ -8,8 +8,6 @@ import { filter } from 'rxjs/operators';
     templateUrl: './app.component.html'
 })
 export class AppComponent {
-    title = 'GrillBotClient';
-
     constructor(
         public router: Router,
         private titleService: Title
@@ -21,7 +19,7 @@ export class AppComponent {
                 while (snapshot.firstChild !== null) {
                     snapshot = snapshot.firstChild;
                 }
-                this.titleService.setTitle(snapshot.data.title || 'GrillBot');
+                this.titleService.setTitle(snapshot.data.title ? `${snapshot.data.title} | GrillBot` : 'GrillBot');
             });
     }
 }

@@ -13,43 +13,53 @@ const routes: Routes = [
             { path: '', redirectTo: 'servers', pathMatch: 'full' },
             {
                 path: 'servers',
-                loadChildren: () => import('./guilds/guilds.module').then(mod => mod.GuildsModule)
+                loadChildren: () => import('./guilds/guilds.module').then(mod => mod.GuildsModule),
+                data: { title: 'Servery' }
             },
             {
                 path: 'users',
-                loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule)
+                loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule),
+                data: { title: 'Uživatelé' }
             },
             {
                 path: 'audit-log',
-                loadChildren: () => import('./audit-log/audit-log.module').then(mod => mod.AuditLogModule)
+                loadChildren: () => import('./audit-log/audit-log.module').then(mod => mod.AuditLogModule),
+                data: { title: 'Audit log' }
             },
             {
                 path: 'channels',
-                loadChildren: () => import('./channels/channels.module').then(mod => mod.ChannelsModule)
+                loadChildren: () => import('./channels/channels.module').then(mod => mod.ChannelsModule),
+                data: { title: 'Kanály' }
             },
             {
                 path: 'invites',
-                loadChildren: () => import('./invites/invites.module').then(mod => mod.InvitesModule)
+                loadChildren: () => import('./invites/invites.module').then(mod => mod.InvitesModule),
+                data: { title: 'Pozvánky' }
             },
             {
                 path: 'permissions',
-                loadChildren: () => import('./permissions/permissions.module').then(mod => mod.PermissionsModule)
+                loadChildren: () => import('./permissions/permissions.module').then(mod => mod.PermissionsModule),
+                data: { title: 'Oprávnění' }
             },
             {
                 path: 'reminder',
-                loadChildren: () => import('./reminders/reminders.module').then(mod => mod.RemindersModule)
+                loadChildren: () => import('./reminders/reminders.module').then(mod => mod.RemindersModule),
+                data: { title: 'Reminder' }
             },
             {
                 path: 'search',
-                loadChildren: () => import('./searching/searching.module').then(mod => mod.SearchingModule)
+                loadChildren: () => import('./searching/searching.module').then(mod => mod.SearchingModule),
+                data: { title: 'Hledání' }
             },
             {
                 path: 'internal',
-                loadChildren: () => import('./internal/internal.module').then(mod => mod.InternalModule)
+                loadChildren: () => import('./internal/internal.module').then(mod => mod.InternalModule),
+                data: { title: 'Interní' }
             },
             {
                 path: 'unverify',
-                loadChildren: () => import('./unverify/unverify.module').then(mod => mod.UnverifyModule)
+                loadChildren: () => import('./unverify/unverify.module').then(mod => mod.UnverifyModule),
+                data: { title: 'Unverify' }
             }
         ]
     },
