@@ -6,7 +6,9 @@ import { BaseService } from './base.service';
 import { QueryParam } from '../models/http';
 import { environment } from 'src/environments/environment';
 import { map, catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
+/* eslint-disable @typescript-eslint/type-annotation-spacing */
 @Injectable({ providedIn: 'root' })
 export class SearchingService {
     constructor(
@@ -26,7 +28,7 @@ export class SearchingService {
 
         return this.base.http.get<PaginatedResponse<SearchingListItem>>(url, { headers }).pipe(
             map(data => PaginatedResponse.create(data, entity => SearchingListItem.create(entity))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -36,7 +38,7 @@ export class SearchingService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.delete(url, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 }

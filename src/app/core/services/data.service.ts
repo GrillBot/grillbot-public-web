@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { BaseService } from './base.service';
 import { map, catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class DataService {
@@ -16,19 +17,19 @@ export class DataService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<Dictionary<string, string>>(url, { headers }).pipe(
-            map(data => Object.keys(data).map(k => ({ key: k, value: data[k] }))),
-            catchError(err => this.base.catchError(err))
+            map(data => Object.keys(data).map(k => ({ key: k, value: data[k] as string }))),
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
     getChannels(guildId?: string): ObservableDict<string, string> {
-        const parameter = guildId ? new QueryParam('guildId', guildId) : '';
+        const parameter = guildId ? new QueryParam('guildId', guildId).toString() : '';
         const url = `${environment.apiUrl}/data/channels?${parameter}`;
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<Dictionary<string, string>>(url, { headers }).pipe(
-            map(data => Object.keys(data).map(k => ({ key: k, value: data[k] }))),
-            catchError(err => this.base.catchError(err))
+            map(data => Object.keys(data).map(k => ({ key: k, value: data[k] as string }))),
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -38,8 +39,8 @@ export class DataService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<Dictionary<string, string>>(url, { headers }).pipe(
-            map(data => Object.keys(data).map(k => ({ key: k, value: data[k] }))),
-            catchError(err => this.base.catchError(err))
+            map(data => Object.keys(data).map(k => ({ key: k, value: data[k] as string }))),
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -49,7 +50,7 @@ export class DataService {
 
         return this.base.http.get<string[]>(url, { headers }).pipe(
             map(data => data.map(o => o)),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -58,8 +59,8 @@ export class DataService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<Dictionary<string, string>>(url, { headers }).pipe(
-            map(data => Object.keys(data).map(k => ({ key: k, value: data[k] }))),
-            catchError(err => this.base.catchError(err))
+            map(data => Object.keys(data).map(k => ({ key: k, value: data[k] as string }))),
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 }

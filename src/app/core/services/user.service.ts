@@ -8,6 +8,7 @@ import { BaseService } from './base.service';
 import { QueryParam } from '../models/http';
 import { environment } from 'src/environments/environment';
 import { map, catchError } from 'rxjs/operators';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -27,7 +28,7 @@ export class UserService {
 
         return this.base.http.get<PaginatedResponse<UserListItem>>(url, { headers }).pipe(
             map(data => PaginatedResponse.create(data, entity => UserListItem.create(entity))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -37,7 +38,7 @@ export class UserService {
 
         return this.base.http.get<UserDetail>(url, { headers }).pipe(
             map(data => UserDetail.create(data)),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -47,7 +48,7 @@ export class UserService {
 
         return this.base.http.put<UserDetail>(url, params, { headers }).pipe(
             map(data => UserDetail.create(data)),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -56,7 +57,7 @@ export class UserService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.post(url, null, { headers }).pipe(
-            catchError(err => this.base.catchError(err, true))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err, true))
         );
     }
 
@@ -65,7 +66,7 @@ export class UserService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.delete(url, { headers }).pipe(
-            catchError(err => this.base.catchError(err, true))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err, true))
         );
     }
 }

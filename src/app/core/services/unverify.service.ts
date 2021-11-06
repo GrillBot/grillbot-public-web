@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { UnverifyLogParams, UnverifyListSortTypes, UnverifyLogItem } from './../models/unverify';
 import { catchError, map } from 'rxjs/operators';
 import { EmptyObservable, ObservableList, PaginatedParams, PaginatedResponse } from './../models/common';
@@ -8,6 +9,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { QueryParam } from '../models/http';
 
+/* eslint-disable @typescript-eslint/indent */
 @Injectable({ providedIn: 'root' })
 export class UnverifyService {
     constructor(
@@ -20,7 +22,7 @@ export class UnverifyService {
 
         return this.base.http.get<UnverifyUserProfile[]>(url, { headers }).pipe(
             map(data => data.map(o => UnverifyUserProfile.create(o))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -29,7 +31,7 @@ export class UnverifyService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.delete(url, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -38,14 +40,14 @@ export class UnverifyService {
         const url = `${environment.apiUrl}/unverify/${guildId}/${userId}?${parameter}`;
         const headers = this.base.getHttpHeaders();
 
-        return this.base.http.put<any>(url, null, { headers }).pipe(
+        return this.base.http.put<{ message: string }>(url, null, { headers }).pipe(
             map(data => data.message),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
-    getUnverifyLog(filter: UnverifyLogParams, pagination: PaginatedParams, sortBy: UnverifyListSortTypes, sortDesc: boolean)
-        : Observable<PaginatedResponse<UnverifyLogItem>> {
+    getUnverifyLog(filter: UnverifyLogParams, pagination: PaginatedParams, sortBy: UnverifyListSortTypes,
+        sortDesc: boolean): Observable<PaginatedResponse<UnverifyLogItem>> {
         const parameters = [
             ...filter.queryParams,
             ...pagination.queryParams,
@@ -57,7 +59,7 @@ export class UnverifyService {
 
         return this.base.http.get<PaginatedResponse<UnverifyLogItem>>(url, { headers }).pipe(
             map(data => PaginatedResponse.create(data, entity => UnverifyLogItem.create(entity))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -66,7 +68,7 @@ export class UnverifyService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.post(url, null, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 }

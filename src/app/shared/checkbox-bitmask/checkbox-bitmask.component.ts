@@ -30,15 +30,15 @@ export class CheckboxBitmaskComponent implements OnInit, ControlValueAccessor {
         this.gridSize = Math.max(Math.min(this.options?.length ?? 3, 3), 1);
     }
 
-    writeValue(obj: any): void {
+    writeValue(obj: number): void {
         this.bitmask = obj;
     }
 
-    registerOnChange(fn: any): void {
+    registerOnChange(fn: (value: number) => void): void {
         this.onChange = fn;
     }
 
-    registerOnTouched(fn: any): void {
+    registerOnTouched(fn: () => void): void {
         this.onTouched = fn;
     }
 

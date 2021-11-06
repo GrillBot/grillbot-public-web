@@ -1,4 +1,4 @@
-import { Directive, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Directive, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 
 @Directive({
     // tslint:disable-next-line: directive-selector
@@ -13,6 +13,12 @@ export class SortingDirective implements OnInit {
 
     constructor(private ref: ElementRef<HTMLElement>) { }
 
+    @HostListener('click')
+    onClick(): void {
+        this.clicked.emit(this.key);
+        this.setSortIcon();
+    }
+
     ngOnInit(): void {
         this.ref.nativeElement.classList.add('sortable');
         this.setSortIcon();
@@ -26,11 +32,5 @@ export class SortingDirective implements OnInit {
         } else {
             this.ref.nativeElement.classList.add('sort-asc');
         }
-    }
-
-    @HostListener('click')
-    onClick(): void {
-        this.clicked.emit(this.key);
-        this.setSortIcon();
     }
 }

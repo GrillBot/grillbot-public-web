@@ -2,6 +2,7 @@ import { filter } from 'rxjs/operators';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return */
 export class ModalData<TComponent> {
     constructor(public modal: NgbModalRef) { }
 

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 
 export type ModalSize = 'sm' | 'lg' | 'xl';
 
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 @Injectable({ providedIn: 'root' })
 export class ModalService {
     constructor(

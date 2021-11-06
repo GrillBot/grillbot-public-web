@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { PaginatedParams, PaginatedResponse } from './../models/common';
 import { Injectable } from '@angular/core';
 import { GetInviteListParams, GuildInvite, InviteListSortTypes } from '../models/invites';
@@ -7,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { QueryParam } from '../models/http';
 import { map, catchError } from 'rxjs/operators';
 
+/* eslint-disable @typescript-eslint/type-annotation-spacing */
 @Injectable({ providedIn: 'root' })
 export class InviteService {
     constructor(
@@ -26,7 +28,7 @@ export class InviteService {
 
         return this.base.http.get<PaginatedResponse<GuildInvite>>(url, { headers }).pipe(
             map(data => PaginatedResponse.create(data, entity => GuildInvite.create(entity))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 }

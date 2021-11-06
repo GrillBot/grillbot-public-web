@@ -6,6 +6,7 @@ import { BaseService } from './base.service';
 import { CommandStatisticItem, DiagnosticsInfo } from '../models/system';
 import { environment } from 'src/environments/environment';
 import { UserStatus } from '../models/enums/user-status';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({ providedIn: 'root' })
 export class SystemService {
@@ -19,7 +20,7 @@ export class SystemService {
 
         return this.base.http.get<DiagnosticsInfo>(url, { headers }).pipe(
             map(data => DiagnosticsInfo.create(data)),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -28,8 +29,8 @@ export class SystemService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<Dictionary<string, string>>(url, { headers }).pipe(
-            map(data => Object.keys(data).map(k => ({ key: k, value: data[k] }))),
-            catchError(err => this.base.catchError(err))
+            map(data => Object.keys(data).map(k => ({ key: k, value: data[k] as string }))),
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -39,7 +40,7 @@ export class SystemService {
 
         return this.base.http.get<CommandStatisticItem[]>(url, { headers }).pipe(
             map(data => data.map(o => CommandStatisticItem.create(o))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -48,7 +49,7 @@ export class SystemService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.put(url, null, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 }

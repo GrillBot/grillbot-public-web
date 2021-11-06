@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { PaginatedResponse } from './../models/common';
 import { QueryParam } from './../models/http';
 import { catchError, map } from 'rxjs/operators';
@@ -11,6 +12,7 @@ import {
 import { environment } from 'src/environments/environment';
 import { PaginatedParams } from '../models/common';
 
+/* eslint-disable @typescript-eslint/indent */
 @Injectable({ providedIn: 'root' })
 export class ChannelService {
     constructor(
@@ -22,7 +24,7 @@ export class ChannelService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.post(url, params, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -39,7 +41,7 @@ export class ChannelService {
 
         return this.base.http.get<PaginatedResponse<GuildChannel>>(url, { headers }).pipe(
             map(data => PaginatedResponse.create(data, entity => GuildChannel.create(entity))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -48,7 +50,7 @@ export class ChannelService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.delete(url, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -58,17 +60,18 @@ export class ChannelService {
 
         return this.base.http.get<ChannelDetail>(url, { headers }).pipe(
             map(data => ChannelDetail.create(data)),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
     getUserStatsOfChannel(id: string, pagination: PaginatedParams): Observable<PaginatedResponse<ChannelUserStatItem>> {
-        const url = `${environment.apiUrl}/channel/${id}/userStats?${pagination.queryParams.filter(o => o).map(o => o.toString()).join('&')}`;
+        const parameters = pagination.queryParams.filter(o => o).map(o => o.toString()).join('&');
+        const url = `${environment.apiUrl}/channel/${id}/userStats?${parameters}`;
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<PaginatedResponse<ChannelUserStatItem>>(url, { headers }).pipe(
             map(data => PaginatedResponse.create(data, entity => ChannelUserStatItem.create(entity))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 }

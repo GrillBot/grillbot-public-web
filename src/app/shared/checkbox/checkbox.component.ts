@@ -1,4 +1,4 @@
-import { Component, forwardRef, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, forwardRef, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
 import { noop } from 'rxjs';
 
@@ -19,35 +19,34 @@ export class CheckboxComponent implements OnInit, ControlValueAccessor {
     @Input() label: string;
     @Input() checked = false;
     @Input() disabled = false;
+    @Output('onChange') onChangeEvent = new EventEmitter<boolean>();
 
     form: FormGroup;
 
-    // tslint:disable-next-line: no-output-rename no-output-on-prefix
-    @Output('onChange') onChangeEvent = new EventEmitter<boolean>();
-
     private onChange: (_: any) => void = noop;
-    get checkbox(): AbstractControl { return this.form.get('checkbox'); }
 
     constructor(private fb: FormBuilder) { }
+
+    get checkbox(): AbstractControl { return this.form.get('checkbox'); }
 
     ngOnInit(): void {
         this.form = this.fb.group({
             checkbox: [{ value: this.checked, disabled: this.disabled }]
         });
 
-        this.checkbox.valueChanges.subscribe(value => {
+        this.checkbox.valueChanges.subscribe((value: boolean) => {
             this.onChange(value);
             this.onChangeEvent.emit(value);
             this.checked = value;
         });
     }
 
-    writeValue(obj: any): void {
+    writeValue(obj: boolean): void {
         this.checkbox.setValue(obj);
         this.checked = obj;
     }
 
-    registerOnChange(fn: any): void {
+    registerOnChange(fn: (value: boolean) => void): void {
         this.onChange = fn;
     }
 

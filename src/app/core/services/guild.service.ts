@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Guild, GuildDetail, GuildListFilter, UpdateGuildParams } from '../models/guilds';
@@ -23,7 +24,7 @@ export class GuildService {
 
         return this.base.http.get<PaginatedResponse<Guild>>(url, { headers }).pipe(
             map(data => PaginatedResponse.create<Guild>(data, entity => Guild.create(entity))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -33,7 +34,7 @@ export class GuildService {
 
         return this.base.http.get<GuildDetail>(url, { headers }).pipe(
             map(data => GuildDetail.create(data)),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -43,7 +44,7 @@ export class GuildService {
 
         return this.base.http.put<GuildDetail>(url, params, { headers }).pipe(
             map(data => GuildDetail.create(data)),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PaginatedParams, PaginatedResponse } from 'src/app/core/models/common';
 import { defaultPageSize, pageSizes } from './models';
 
@@ -14,18 +14,17 @@ export class DataListComponent implements OnInit {
     isDataLoaded = false;
     totalItemsCount = 0;
     items: any[] = [];
-
     form: FormGroup;
+    currentPage = 1;
+    pageSize: number;
 
     constructor(
         private fb: FormBuilder
     ) { }
 
+    /* eslint-disable @typescript-eslint/no-unsafe-argument */
     get limit(): number { return parseInt(this.form?.get('limit')?.value ?? defaultPageSize, 10); }
     get pageSizes(): number[] { return pageSizes; }
-
-    currentPage = 1;
-    pageSize: number;
 
     ngOnInit(): void {
         this.form = this.fb.group({

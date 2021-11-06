@@ -2,6 +2,13 @@ import { Component, forwardRef, OnInit } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { noop } from 'rxjs';
 
+interface FormType {
+    days: number;
+    hours: number;
+    minutes: number;
+    seconds: number;
+}
+
 @Component({
     selector: 'app-time-span-input',
     templateUrl: './time-span-input.component.html',
@@ -14,11 +21,10 @@ import { noop } from 'rxjs';
     ]
 })
 export class TimeSpanInputComponent implements OnInit, ControlValueAccessor {
-    private parseRegex = new RegExp('(\\d+)?\\.?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))');
-
-    private onChange: (value: string) => void = noop;
-
     form: FormGroup;
+
+    private parseRegex = new RegExp('(\\d+)?\\.?(\\d\\d):(60|([0-5][0-9])):(60|([0-5][0-9]))');
+    private onChange: (value: string) => void = noop;
 
     constructor(
         private fb: FormBuilder
@@ -32,11 +38,11 @@ export class TimeSpanInputComponent implements OnInit, ControlValueAccessor {
             seconds: [null, Validators.compose([Validators.min(0), Validators.max(59)])]
         });
 
-        this.form.valueChanges.subscribe(value => {
+        this.form.valueChanges.subscribe((value: FormType) => {
             const days = !value.days ? '' : `${value.days}.`;
-            const hours = value.hours < 10 ? '0' + (value.hours == null ? '0' : value.hours) : value.hours;
-            const minutes = value.minutes < 10 ? '0' + (value.minutes == null ? '0' : value.minutes) : value.minutes;
-            const seconds = value.seconds < 10 ? '0' + (value.seconds == null ? '0' : value.seconds) : value.seconds;
+            const hours = value.hours < 10 ? `0${(value.hours == null ? '0' : value.hours)}` : value.hours;
+            const minutes = value.minutes < 10 ? `0${(value.minutes == null ? '0' : value.minutes)}` : value.minutes;
+            const seconds = value.seconds < 10 ? `0${(value.seconds == null ? '0' : value.seconds)}` : value.seconds;
 
             this.onChange(`${days}${hours}:${minutes}:${seconds}`);
         });
@@ -58,7 +64,7 @@ export class TimeSpanInputComponent implements OnInit, ControlValueAccessor {
         }
     }
 
-    registerOnChange(fn: any): void {
+    registerOnChange(fn: (value: string) => void): void {
         this.onChange = fn;
     }
 

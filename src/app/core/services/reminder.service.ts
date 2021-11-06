@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
@@ -7,6 +8,7 @@ import { QueryParam } from '../models/http';
 import { GetReminderListParams, RemindListSortTypes, RemindMessage } from '../models/reminder';
 import { BaseService } from './base.service';
 
+/* eslint-disable @typescript-eslint/type-annotation-spacing */
 @Injectable({ providedIn: 'root' })
 export class ReminderService {
     constructor(
@@ -26,7 +28,7 @@ export class ReminderService {
 
         return this.base.http.get<PaginatedResponse<RemindMessage>>(url, { headers }).pipe(
             map(data => PaginatedResponse.create(data, entity => RemindMessage.create(entity))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -36,7 +38,7 @@ export class ReminderService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.delete(url, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 }

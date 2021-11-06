@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ExplicitPermissionState } from './../models/enums/explicit-permission-state';
 import { QueryParam } from './../models/http';
 import { catchError, map } from 'rxjs/operators';
@@ -19,7 +20,7 @@ export class PermissionService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.post(url, params, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -32,7 +33,7 @@ export class PermissionService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.delete(url, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -43,7 +44,7 @@ export class PermissionService {
 
         return this.base.http.get<ExplicitPermission[]>(url, { headers }).pipe(
             map(data => data.map(o => ExplicitPermission.create(o))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -57,7 +58,7 @@ export class PermissionService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.put(url, null, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 }
