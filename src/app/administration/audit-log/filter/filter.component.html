@@ -51,5 +51,11 @@
                 <checkbox-bitmask [options]="types" formControlName="types"></checkbox-bitmask>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col d-flex justify-content-end">
+                <button class="btn btn-danger" (click)="cleanFilter()">Smazat filtr</button>
+            </div>
+        </div>
     </form>
 </app-card>

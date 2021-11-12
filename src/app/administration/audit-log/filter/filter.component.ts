@@ -46,6 +46,21 @@ export class FilterComponent implements OnInit {
         this.submitForm();
     }
 
+    setChannels(guildId: string): void {
+        this.dataService.getChannels(guildId).subscribe(channels => this.channels = channels);
+    }
+
+    submitForm(): void {
+        const filter = AuditLogListParams.create(this.form.value);
+
+        this.filterChanged.emit(filter);
+        this.storage.store<AuditLogListParams>('AuditLogListParams', filter.serialized);
+    }
+
+    cleanFilter(): void {
+        this.form.patchValue(AuditLogListParams.empty.serialized);
+    }
+
     private initFilter(filter: AuditLogListParams): void {
         const serialized = filter.serialized;
 
@@ -72,16 +87,5 @@ export class FilterComponent implements OnInit {
         });
 
         this.form.valueChanges.pipe(debounceTime(300)).subscribe(_ => this.submitForm());
-    }
-
-    setChannels(guildId: string): void {
-        this.dataService.getChannels(guildId).subscribe(channels => this.channels = channels);
-    }
-
-    submitForm(): void {
-        const filter = AuditLogListParams.create(this.form.value);
-
-        this.filterChanged.emit(filter);
-        this.storage.store<AuditLogListParams>('AuditLogListParams', filter.serialized);
     }
 }
