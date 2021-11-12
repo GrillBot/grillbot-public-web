@@ -7,8 +7,6 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { LoginComponent } from './components/login/login.component';
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common';
-import { UrlSerializer } from '@angular/router';
-import { CaseInsensitiveUrlSerializer } from './core/lib/case-insensitve-url-serializer';
 
 @NgModule({
     declarations: [
@@ -26,10 +24,6 @@ import { CaseInsensitiveUrlSerializer } from './core/lib/case-insensitve-url-ser
             provide: APP_BASE_HREF,
             useFactory: (platformLocation: PlatformLocation) => platformLocation.getBaseHrefFromDOM(),
             deps: [PlatformLocation]
-        },
-        {
-            provide: UrlSerializer,
-            useClass: CaseInsensitiveUrlSerializer
         }
     ],
     bootstrap: [AppComponent]
