@@ -1,4 +1,4 @@
-<div class="card {{size}}" [ngClass]="classes">
+<div class="card {{size}}" [ngClass]="classes" [ngStyle]="{'max-width': maxWidth}">
     <h4 class="card-header" *ngIf="header">
         <div class="d-flex justify-content-between">
             <div>

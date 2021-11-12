@@ -12,6 +12,7 @@ export class CardComponent {
     @Input() header = true;
     @Input() allowHideButton = false;
     @Input() classes: string[];
+    @Input() maxWidth?: string;
 
     visible = true;
 

@@ -4,11 +4,10 @@ import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-administration',
-    templateUrl: './administration.component.html',
-    styleUrls: ['./administration.component.scss']
+    templateUrl: './administration.component.html'
 })
 export class AdministrationComponent implements OnInit, OnDestroy {
-    private hearthbeatInterval: any;
+    private hearthbeatInterval: number;
 
     constructor(
         private userService: UserService
@@ -18,7 +17,7 @@ export class AdministrationComponent implements OnInit, OnDestroy {
         document.body.classList.add('sb-nav-fixed');
 
         this.userService.hearthbeat().subscribe();
-        this.hearthbeatInterval = setInterval(() => {
+        this.hearthbeatInterval = window.setInterval(() => {
             this.userService.hearthbeat().subscribe();
         }, environment.hearthbeat);
     }
