@@ -31,8 +31,11 @@ export class AuthService {
     }
 
     logout(): void {
-        this.userService.hearthbeatOff().subscribe();
-        this.storage.remove('AuthData');
+        if (this.isLogged) {
+            this.userService.hearthbeatOff().subscribe();
+            this.storage.remove('AuthData');
+        }
+
         this.router.navigateByUrl('/login');
     }
 
