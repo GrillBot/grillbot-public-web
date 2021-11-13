@@ -1,72 +1,38 @@
 <app-modal [title]="'Detail záznamu #' + item.id">
-    <app-loading *ngIf="!data"></app-loading>
+    <pre *ngIf="isTextView">{{data}}</pre>
 
-    <ng-container *ngIf="data">
-        <pre *ngIf="isTextView">{{data.message}}</pre>
-
-        <table class="table table-sm table-bordered" *ngIf="!isTextView">
-            <thead>
-                <tr>
-                    <th>Klíč</th>
-                    <th *ngIf="!isDiff">Hodnota</th>
-                    <th *ngIf="isDiff">Hodnota před</th>
-                    <th *ngIf="isDiff">Hodnota po</th>
-                </tr>
-            </thead>
-            <tbody>
-                <ng-container [ngSwitch]="item.type">
-                    <ng-container *ngSwitchCase="AuditLogItemType.Command">
-                        <ng-container *ngTemplateOutlet="command"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.ChannelCreated">
-                        <ng-container *ngTemplateOutlet="channelInfo"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.ChannelDeleted">
-                        <ng-container *ngTemplateOutlet="channelInfo"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.ChannelUpdated">
-                        <ng-container *ngTemplateOutlet="channelUpdated"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.EmojiDeleted">
-                        <ng-container *ngTemplateOutlet="emojiDeleted"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.OverwriteCreated">
-                        <ng-container *ngTemplateOutlet="overwriteInfo"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.OverwriteDeleted">
-                        <ng-container *ngTemplateOutlet="overwriteInfo"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.OverwriteUpdated">
-                        <ng-container *ngTemplateOutlet="overwriteUpdated"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.Unban">
-                        <ng-container *ngTemplateOutlet="userUnbanned"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.MemberUpdated">
-                        <ng-container *ngTemplateOutlet="memberUpdated"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.MemberRoleUpdated">
-                        <ng-container *ngTemplateOutlet="memberUpdated"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.GuildUpdated">
-                        <ng-container *ngTemplateOutlet="guildUpdated"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.UserLeft">
-                        <ng-container *ngTemplateOutlet="userLeft"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.UserJoined">
-                        <ng-container *ngTemplateOutlet="userJoined"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.MessageEdited">
-                        <ng-container *ngTemplateOutlet="messageEdited"></ng-container>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="AuditLogItemType.MessageDeleted">
-                        <ng-container *ngTemplateOutlet="messageRemoved"></ng-container>
-                    </ng-container>
+    <table class="table table-sm table-bordered" *ngIf="!isTextView">
+        <thead>
+            <tr>
+                <th>Klíč</th>
+                <th *ngIf="!isDiff">Hodnota</th>
+                <th *ngIf="isDiff">Hodnota před</th>
+                <th *ngIf="isDiff">Hodnota po</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container [ngSwitch]="item.type">
+                <ng-container *ngSwitchCase="AuditLogItemType.Command">
+                    <ng-container *ngTemplateOutlet="command"></ng-container>
                 </ng-container>
-            </tbody>
-        </table>
-    </ng-container>
+                <ng-container *ngSwitchCase="AuditLogItemType.ChannelUpdated">
+                    <ng-container *ngTemplateOutlet="channelUpdated"></ng-container>
+                </ng-container>
+                <ng-container *ngSwitchCase="AuditLogItemType.OverwriteUpdated">
+                    <ng-container *ngTemplateOutlet="overwriteUpdated"></ng-container>
+                </ng-container>
+                <ng-container *ngSwitchCase="AuditLogItemType.MemberUpdated">
+                    <ng-container *ngTemplateOutlet="memberUpdated"></ng-container>
+                </ng-container>
+                <ng-container *ngSwitchCase="AuditLogItemType.MemberRoleUpdated">
+                    <ng-container *ngTemplateOutlet="memberUpdated"></ng-container>
+                </ng-container>
+                <ng-container *ngSwitchCase="AuditLogItemType.GuildUpdated">
+                    <ng-container *ngTemplateOutlet="guildUpdated"></ng-container>
+                </ng-container>
+            </ng-container>
+        </tbody>
+    </table>
 </app-modal>
 
 <ng-template #command>
@@ -102,73 +68,11 @@
     </tr>
 </ng-template>
 
-<ng-template #channelInfo>
-    <tr>
-        <td>Název</td>
-        <td>{{data.name}}</td>
-    </tr>
-
-    <tr>
-        <td>Typ</td>
-        <td>
-            <ng-container [ngSwitch]="data.type">
-                <ng-container *ngSwitchCase="0">Text</ng-container>
-                <ng-container *ngSwitchCase="1">DM</ng-container>
-                <ng-container *ngSwitchCase="2">Voice</ng-container>
-                <ng-container *ngSwitchCase="3">Group</ng-container>
-                <ng-container *ngSwitchCase="4">Category</ng-container>
-                <ng-container *ngSwitchCase="5">News</ng-container>
-            </ng-container>
-        </td>
-    </tr>
-
-    <tr>
-        <td>SlowMode (vteřiny)</td>
-        <td>{{data.slowMode}}</td>
-    </tr>
-
-    <tr>
-        <td>NSFW</td>
-        <td>{{data.isNsfw | czechBooleanPipe}}</td>
-    </tr>
-
-    <tr *ngIf="data.Bitrate">
-        <td>Bitrate (bps)</td>
-        <td>{{data.bitrate}}</td>
-    </tr>
-</ng-template>
-
 <ng-template #channelUpdated>
     <tr *ngIf="data.before.name || data.after.name">
         <td>Název</td>
         <td>{{data.before.name}}</td>
         <td>{{data.after.name}}</td>
-    </tr>
-
-    <tr *ngIf="data.before.type != undefined || data.after.type != undefined">
-        <td>Typ</td>
-        <td *ngIf="data.before.type != undefined">
-            <ng-container [ngSwitch]="data.before.type">
-                <ng-container *ngSwitchCase="0">Text</ng-container>
-                <ng-container *ngSwitchCase="1">DM</ng-container>
-                <ng-container *ngSwitchCase="2">Voice</ng-container>
-                <ng-container *ngSwitchCase="3">Group</ng-container>
-                <ng-container *ngSwitchCase="4">Category</ng-container>
-                <ng-container *ngSwitchCase="5">News</ng-container>
-            </ng-container>
-        </td>
-        <td *ngIf="data.before.type == undefined"></td>
-        <td *ngIf="data.after.type != undefined">
-            <ng-container [ngSwitch]="data.after.type">
-                <ng-container *ngSwitchCase="0">Text</ng-container>
-                <ng-container *ngSwitchCase="1">DM</ng-container>
-                <ng-container *ngSwitchCase="2">Voice</ng-container>
-                <ng-container *ngSwitchCase="3">Group</ng-container>
-                <ng-container *ngSwitchCase="4">Category</ng-container>
-                <ng-container *ngSwitchCase="5">News</ng-container>
-            </ng-container>
-        </td>
-        <td *ngIf="data.after.type == undefined"></td>
     </tr>
 
     <tr *ngIf="data.before.slowMode != undefined || data.after.slowMode != undefined">
@@ -187,45 +91,6 @@
         <td>Bitrate (bps)</td>
         <td>{{data.before.bitrate}}</td>
         <td>{{data.after.bitrate}}</td>
-    </tr>
-</ng-template>
-
-<ng-template #emojiDeleted>
-    <tr>
-        <td>Identifikátor</td>
-        <td>{{data.id}}</td>
-    </tr>
-
-    <tr>
-        <td>Název</td>
-        <td>{{data.name}}</td>
-    </tr>
-</ng-template>
-
-<ng-template #overwriteInfo>
-    <tr>
-        <td>Id cíle</td>
-        <td>{{data.targetId}}</td>
-    </tr>
-
-    <tr>
-        <td>Typ</td>
-        <td>
-            <ng-container [ngSwitch]="data.target">
-                <ng-container *ngSwitchCase="0">Role</ng-container>
-                <ng-container *ngSwitchCase="1">Uživatel</ng-container>
-            </ng-container>
-        </td>
-    </tr>
-
-    <tr *ngIf="data.allowValue > 0">
-        <td>Povolená oprávnění:</td>
-        <td>{{data.allowValue | discordPermsPipe}}</td>
-    </tr>
-
-    <tr *ngIf="data.denyValue > 0">
-        <td>Zakázaná oprávnění:</td>
-        <td>{{data.denyValue | discordPermsPipe}}</td>
     </tr>
 </ng-template>
 
@@ -265,17 +130,6 @@
     </tr>
 </ng-template>
 
-<ng-template #userUnbanned>
-    <tr>
-        <td>Id</td>
-        <td>{{data.id}}</td>
-    </tr>
-    <tr>
-        <td>Uživatelské jméno</td>
-        <td>{{data.username}}#{{data.discriminator}}</td>
-    </tr>
-</ng-template>
-
 <ng-template #memberUpdated>
     <tr *ngIf="data.target">
         <td>Cílový uživatel</td>
@@ -295,13 +149,6 @@
         <td>Umlčen (mikrofon)</td>
         <td>{{data.isMuted.before | czechBooleanPipe}}</td>
         <td>{{data.isMuted.after | czechBooleanPipe}}</td>
-    </tr>
-    <tr *ngIf="data.roles">
-        <td>Role</td>
-        <td colspan="2" class="member-updated-roles">
-            <span class="badge bg-{{(role.added ? 'success' : 'danger')}}" *ngFor="let role of data.roles">{{(role.added ? '+' : '-')}}
-                {{role.name}}</span>
-        </td>
     </tr>
 </ng-template>
 
@@ -402,80 +249,4 @@
         <td>Změnen banner</td>
         <td colspan="2">{{data.bannerChanged | czechBooleanPipe}}</td>
     </tr>
-</ng-template>
-
-<ng-template #userLeft>
-    <tr>
-        <td>Uživatel</td>
-        <td>{{data.user.username}}#{{data.user.discriminator}}</td>
-    </tr>
-    <tr>
-        <td>BAN</td>
-        <td>{{data.isBan | czechBooleanPipe}}</td>
-    </tr>
-    <tr *ngIf="data.isBan">
-        <td>Důvod BANu</td>
-        <td>{{data.banReason}}</td>
-    </tr>
-    <tr>
-        <td>Počet členů po odpojení</td>
-        <td>{{data.memberCount}}</td>
-    </tr>
-</ng-template>
-
-<ng-template #userJoined>
-    <tr>
-        <td>Počet členů po připojení</td>
-        <td>{{data.memberCount}}</td>
-    </tr>
-</ng-template>
-
-<ng-template #messageEdited>
-    <tr>
-        <td>Obsah před</td>
-        <td>
-            <pre>{{data.diff.before}}</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>Obsah po</td>
-        <td>
-            <pre>{{data.diff.after}}</pre>
-        </td>
-    </tr>
-    <tr>
-        <td>Rozdíly</td>
-        <td>
-            <pre>{{renderStringDiff(data.diff.before, data.diff.after)}}</pre>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <a [href]="data.jumpUrl" class="btn btn-link text-dark" target="_blank">Skočit na zprávu</a>
-        </td>
-    </tr>
-</ng-template>
-
-<ng-template #messageRemoved>
-    <tr>
-        <td>Nalezeno v cache</td>
-        <td>{{data.cached | czechBooleanPipe}}</td>
-    </tr>
-
-    <ng-container *ngIf="data.cached">
-        <tr>
-            <td>Autor</td>
-            <td>{{data.data.author.username}}#{{data.data.author.discriminator}}</td>
-        </tr>
-        <tr>
-            <td>Vytvořeno</td>
-            <td>{{data.data.createdAt | dateTimeFormatter}}</td>
-        </tr>
-        <tr *ngIf="data.data.content">
-            <td>Obsah</td>
-            <td>
-                <pre>{{data.data.content}}</pre>
-            </td>
-        </tr>
-    </ng-container>
 </ng-template>

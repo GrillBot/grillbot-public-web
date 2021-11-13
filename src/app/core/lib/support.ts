@@ -1,3 +1,5 @@
+import { diffLines } from 'diff';
+
 export class Support {
     static getEnumKeyByValue(type: any, value: any): string {
         return Object.keys(type).find(o => type[o] === value);
@@ -12,6 +14,7 @@ export class Support {
 
         for (const item of arr) {
             if (Array.isArray(item)) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
                 result.push(...this.flattern(item));
             } else {
                 result.push(item);
@@ -19,5 +22,14 @@ export class Support {
         }
 
         return result;
+    }
+
+    static createDiff(before: string, after: string): string[] {
+        const lines = diffLines(before, after, { newlineIsToken: true, ignoreCase: true });
+        return lines.map(o => {
+            if (o.added) { return `+ ${o.value}`; }
+            else if (o.removed) { return `- ${o.value}`; }
+            else { return null; }
+        }).filter(o => o !== null);
     }
 }

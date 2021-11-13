@@ -72,7 +72,10 @@ module.exports = {
                 },
                 "FunctionExpression": {
                     "parameters": "first"
-                }
+                },
+                "ignoredNodes": [
+                    "SwitchCase"
+                ]
             }
         ],
         "@typescript-eslint/member-delimiter-style": [
@@ -164,7 +167,7 @@ module.exports = {
         ],
         "id-match": "error",
         "import/no-deprecated": "warn",
-        "indent": "error",
+        "indent": "off",
         "jsdoc/check-alignment": "error",
         "jsdoc/check-indentation": "error",
         "jsdoc/newline-after-description": "error",
@@ -281,6 +284,7 @@ module.exports = {
                 }
             }
         ],
-        "@typescript-eslint/no-unnecessary-type-assertion": "off"
+        "@typescript-eslint/no-unnecessary-type-assertion": "off",
+        "@typescript-eslint/no-floating-promises": "off"
     }
 };

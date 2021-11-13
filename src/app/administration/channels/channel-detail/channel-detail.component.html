@@ -35,7 +35,7 @@
 
     <div class="row mt-3 ml-0 mr-0">
         <div class="col">
-            <app-card icon="fas fa-envelope" [title]="'Odeslat zprávu do kanálu'">
+            <app-card icon="fas fa-envelope" [title]="'Odeslat zprávu do kanálu'" [allowHideButton]="true">
                 <form [formGroup]="sendMessageForm" (ngSubmit)="sendMessageSubmit()">
                     <div class="row">
                         <div class="col">

@@ -1,30 +1,19 @@
-<app-card [title]="'Vyhledávání'" [icon]="'fas fa-search'" [size]="'md'">
+<app-card [title]="'Vyhledávání'" [icon]="'fas fa-search'" [size]="'md'" [allowHideButton]="true">
     <form [formGroup]="form">
         <div class="row">
             <div class="col form-group">
                 <label>Server</label>
-                <select formControlName="guild" class="form-control" *ngIf="guilds">
-                    <option [ngValue]="null">Nevybráno</option>
-                    <option [ngValue]="guild.key" *ngFor="let guild of guilds">{{guild.value}}</option>
-                </select>
+                <app-search-input [searchSource]="'guilds'" formControlName="guild"></app-search-input>
             </div>
 
             <div class="col form-group">
                 <label>Kanál</label>
-                <select class="form-control" formControlName="channel">
-                    <option [ngValue]="null">Nevybráno</option>
-                    <ng-container *ngIf="channels">
-                        <option [ngValue]="channel.key" *ngFor="let channel of channels">{{channel.value}}</option>
-                    </ng-container>
-                </select>
+                <app-search-input [searchSource]="'channels'" [guildId]="guildId" formControlName="channel"></app-search-input>
             </div>
 
             <div class="col form-group">
                 <label>Uživatel</label>
-                <select class="form-control" formControlName="processedUser">
-                    <option [ngValue]="null">Nevybráno</option>
-                    <option [ngValue]="user.key" *ngFor="let user of users">{{user.value}}</option>
-                </select>
+                <app-search-input [searchSource]="'users'" formControlName="processedUsers" [isMultiSelect]="true"></app-search-input>
             </div>
         </div>
 
@@ -38,17 +27,23 @@
                 <label>Zapsáno do</label>
                 <input type="datetime-local" class="form-control" formControlName="createdTo" />
             </div>
+        </div>
 
+        <div class="row">
             <div class="col form-group">
-                <label>&nbsp;</label>
-                <app-checkbox [id]="'ignore-bots'" formControlName="ignoreBots" [label]="'Ignorovat operace provedené boty'"></app-checkbox>
+                <label>Typy operací</label>
+                <ng-select [bindValue]="'key'" [bindLabel]="'value'" [closeOnSelect]="false" [clearable]="true" [items]="types" [multiple]="true"
+                    [notFoundText]="'Nenalezen žádný typ'" [searchable]="true" formControlName="types"></ng-select>
             </div>
         </div>
 
         <div class="row mt-3">
-            <div class="col form-group">
-                <label>Typy operací</label>
-                <checkbox-bitmask [options]="types" formControlName="types"></checkbox-bitmask>
+            <div class="col d-flex align-items-center">
+                <app-checkbox [id]="'ignore-bots'" formControlName="ignoreBots" [label]="'Ignorovat operace provedené boty'"></app-checkbox>
+            </div>
+
+            <div class="col d-flex justify-content-end">
+                <button class="btn btn-danger" (click)="cleanFilter()">Smazat filtr</button>
             </div>
         </div>
     </form>

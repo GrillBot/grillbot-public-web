@@ -6,19 +6,21 @@ import { SearchingService } from 'src/app/core/services/searching.service';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
 import { ModalService } from 'src/app/shared/modal';
 import { CheckboxComponent } from 'src/app/shared/checkbox/checkbox.component';
+import { CardComponent } from 'src/app/shared/card/card.component';
 
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html'
 })
 export class ListComponent {
-    private filter: GetSearchingListParams;
+    @ViewChild('list', { static: false }) list: DataListComponent;
+    @ViewChildren('item_check') checkboxes: QueryList<CheckboxComponent>;
+    @ViewChild('card', { static: false }) card: CardComponent;
 
     sortDesc = true;
     sortBy: SearchingListSortTypes = 'id';
 
-    @ViewChild('list', { static: false }) list: DataListComponent;
-    @ViewChildren('item_check') checkboxes: QueryList<CheckboxComponent>;
+    private filter: GetSearchingListParams;
 
     constructor(
         private searchingService: SearchingService,
@@ -32,7 +34,7 @@ export class ListComponent {
 
     readData(pagination: PaginatedParams): void {
         this.searchingService.getSearchList(this.filter, pagination, this.sortBy, this.sortDesc)
-            .subscribe(list => this.list.setData(list));
+            .subscribe(list => this.list.setData(list, this.card));
     }
 
     setSort(sortBy: SearchingListSortTypes): void {

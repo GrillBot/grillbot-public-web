@@ -48,18 +48,12 @@
                                 Umlčující role
                                 <i class="fas fa-info-circle" title="Role, která zablokuje přístup do veřejných kanálů, znemožní psaní, ..."></i>
                             </label>
-                            <select class="form-control" formControlName="mutedRole">
-                                <option [value]="null">Nevybráno</option>
-                                <option *ngFor="let role of roles" [ngValue]="role.key">{{role.value}}</option>
-                            </select>
+                            <app-search-input [searchSource]="'roles'" [guildId]="data.id" formControlName="mutedRole"></app-search-input>
                         </div>
 
                         <div class="col-3 form-group">
                             <label>Administrátorský kanál</label>
-                            <select class="form-control" formControlName="adminChannel">
-                                <option [value]="null">Nevybráno</option>
-                                <option *ngFor="let channel of channels" [ngValue]="channel.key">{{channel.value}}</option>
-                            </select>
+                            <app-search-input [searchSource]="'guilds'" [guildId]="data.id" formControlName="adminChannel"></app-search-input>
                         </div>
 
                         <div class="col d-flex align-items-end">

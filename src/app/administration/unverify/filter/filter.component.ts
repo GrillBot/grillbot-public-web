@@ -5,7 +5,6 @@ import { Dictionary } from './../../../core/models/common';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UnverifyLogParams } from 'src/app/core/models/unverify';
-import { DataService } from 'src/app/core/services/data.service';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -14,24 +13,17 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class FilterComponent implements OnInit {
     @Output() filterChanged = new EventEmitter<UnverifyLogParams>();
-
     form: FormGroup;
-
-    users: Dictionary<string, string>;
-    guilds: Dictionary<string, string>;
-    operations: Dictionary<number, string>;
+    operations: Dictionary<string, string>;
 
     constructor(
         private fb: FormBuilder,
-        private dataService: DataService,
         private storage: StorageService
     ) { }
 
     ngOnInit(): void {
-        this.dataService.getGuilds().subscribe(guilds => this.guilds = guilds);
-        this.dataService.getUsersList().subscribe(users => this.users = users);
         this.operations = Object.keys(UnverifyOperation).map(o => parseInt(o, 10)).filter(o => !isNaN(o))
-            .map(o => ({ key: o, value: UnverifyOperationTexts[Support.getEnumKeyByValue(UnverifyOperation, o)] }));
+            .map(o => ({ key: o.toString(), value: UnverifyOperationTexts[Support.getEnumKeyByValue(UnverifyOperation, o)] as string }));
 
         const filter = UnverifyLogParams.create(
             this.storage.read<UnverifyLogParams>('UnverifyLogParams')
@@ -39,6 +31,17 @@ export class FilterComponent implements OnInit {
 
         this.initFilter(filter);
         this.submitForm();
+    }
+
+    submitForm(): void {
+        const filter = UnverifyLogParams.create(this.form.value);
+
+        this.filterChanged.emit(filter);
+        this.storage.store<UnverifyLogParams>('UnverifyLogParams', filter);
+    }
+
+    reset(): void {
+        this.form.patchValue(UnverifyLogParams.empty);
     }
 
     private initFilter(filter: UnverifyLogParams): void {
@@ -53,16 +56,4 @@ export class FilterComponent implements OnInit {
 
         this.form.valueChanges.pipe(debounceTime(500)).subscribe(_ => this.submitForm());
     }
-
-    submitForm(): void {
-        const filter = UnverifyLogParams.create(this.form.value);
-
-        this.filterChanged.emit(filter);
-        this.storage.store<UnverifyLogParams>('UnverifyLogParams', filter);
-    }
-
-    reset(): void {
-        this.form.patchValue(UnverifyLogParams.empty);
-    }
-
 }

@@ -1,4 +1,4 @@
-<app-card [title]="'Vyhledávání'" [icon]="'fas fa-search'">
+<app-card [title]="'Vyhledávání'" [icon]="'fas fa-search'" [allowHideButton]="true">
     <form [formGroup]="form">
         <div class="row">
             <div class="col">
@@ -11,20 +11,14 @@
             <div class="col">
                 <div class="form-group">
                     <label>Server</label>
-                    <select class="form-control" formControlName="guildId">
-                        <option [ngValue]="null">Nevybráno</option>
-                        <option [ngValue]="guild.key" *ngFor="let guild of guilds">{{guild.value}}</option>
-                    </select>
+                    <app-search-input [searchSource]="'guilds'" formControlName="guildId"></app-search-input>
                 </div>
             </div>
 
             <div class="col">
                 <div class="form-group">
                     <label>Zakladatel</label>
-                    <select class="form-control" formControlName="creatorId">
-                        <option [ngValue]="null">Nevybráno</option>
-                        <option [ngValue]="user.key" *ngFor="let user of users">{{user.value}}</option>
-                    </select>
+                    <app-search-input [searchSource]="'users'" formControlName="creatorId"></app-search-input>
                 </div>
             </div>
 

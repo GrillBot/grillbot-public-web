@@ -1,9 +1,9 @@
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand ps-3" routerLink="/">GrillBot</a>
+    <a class="navbar-brand ps-3 cursor-ptr" (click)="toggleMenu()">GrillBot</a>
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 text-white">
-        <li class="nav-item cursor-ptr" (click)="logout()" title="Stisknutí provede odhlášení">
+        <a class="nav-item text-white text-decoration-none" [routerLink]="'/admin/users/' + authService.currentToken.jwt.id">
             <i class="fas fa-user fa-fw"></i>
             {{authService.currentToken.jwt.uniqueName}}
-        </li>
+        </a>
     </ul>
 </nav>

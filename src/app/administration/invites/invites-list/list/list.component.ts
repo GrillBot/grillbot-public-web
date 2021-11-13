@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { PaginatedParams } from 'src/app/core/models/common';
 import { GetInviteListParams, InviteListSortTypes } from 'src/app/core/models/invites';
 import { InviteService } from 'src/app/core/services/invite.service';
+import { CardComponent } from 'src/app/shared/card/card.component';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
 
 @Component({
@@ -9,12 +10,13 @@ import { DataListComponent } from 'src/app/shared/data-list/data-list.component'
     templateUrl: './list.component.html'
 })
 export class ListComponent {
-    private filter: GetInviteListParams;
+    @ViewChild('list', { static: false }) list: DataListComponent;
+    @ViewChild('card', { static: false }) card: CardComponent;
 
     sortDesc = true;
     sortBy: InviteListSortTypes = 'createdAt';
 
-    @ViewChild('list', { static: false }) list: DataListComponent;
+    private filter: GetInviteListParams;
 
     constructor(
         private inviteService: InviteService
@@ -27,7 +29,7 @@ export class ListComponent {
 
     readData(pagination: PaginatedParams): void {
         this.inviteService.getInviteList(this.filter, pagination, this.sortDesc, this.sortBy)
-            .subscribe(list => this.list.setData(list));
+            .subscribe(list => this.list.setData(list, this.card));
     }
 
     setSort(sortBy: InviteListSortTypes): void {

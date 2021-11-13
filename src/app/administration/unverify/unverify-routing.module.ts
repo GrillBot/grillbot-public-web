@@ -4,8 +4,8 @@ import { CurrentStateComponent } from './current-state/current-state.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
-    { path: '', component: DashboardComponent },
-    { path: 'current', component: CurrentStateComponent }
+    { path: '', component: CurrentStateComponent },
+    { path: 'logs', component: DashboardComponent }
 ];
 
 @NgModule({

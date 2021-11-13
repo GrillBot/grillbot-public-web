@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { PaginatedResponse } from './../models/common';
 import { AuditLogFileMetadata, AuditLogListItem, SortingTypes } from './../models/audit-log';
 import { environment } from 'src/environments/environment';
@@ -21,16 +22,7 @@ export class AuditLogService {
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.delete(url, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
-        );
-    }
-
-    getAuditLogData(id: number): Observable<any> {
-        const url = `${environment.apiUrl}/auditlog/${id}`;
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.get<any>(url, { headers }).pipe(
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
@@ -47,17 +39,19 @@ export class AuditLogService {
 
         return this.base.http.get<PaginatedResponse<AuditLogListItem>>(url, { headers }).pipe(
             map(data => PaginatedResponse.create(data, entity => AuditLogListItem.create(entity))),
-            catchError(err => this.base.catchError(err))
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
 
     downloadFile(id: number, file: AuditLogFileMetadata): void {
         const url = `${environment.apiUrl}/auditlog/${id}/${file.id}`;
         const headers = this.base.getHttpHeaders();
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         (headers as any).responseType = 'blob';
 
         this.base.http.get(url, { headers, responseType: 'blob', observe: 'response' }).subscribe(resource => {
             const body = resource.body;
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-call
             saveAs(body, file.filename);
         });
     }

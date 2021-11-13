@@ -1,23 +1,18 @@
-<app-card [title]="'Vyhledávání'" [icon]="'fas fa-search'" [size]="'md'">
+<app-card [title]="'Vyhledávání'" [icon]="'fas fa-search'" [size]="'lg'" [maxWidth]="'1300px'" [allowHideButton]="true">
     <form [formGroup]="form">
         <div class="row">
             <div class="col">
                 <div class="form-group">
                     <label>Server</label>
-                    <select class="form-control" formControlName="guildId">
-                        <option [ngValue]="null">Nevybráno</option>
-                        <option [ngValue]="guild.key" *ngFor="let guild of guilds">{{guild.value}}</option>
-                    </select>
+                    <app-search-input [searchSource]="'guilds'" formControlName="guildId"></app-search-input>
                 </div>
             </div>
 
             <div class="col">
                 <div class="form-group">
                     <label>Typ kanálu</label>
-                    <select class="form-control" formControlName="channelType">
-                        <option [ngValue]="null">Nevybráno</option>
-                        <option [ngValue]="type.key" *ngFor="let type of channelTypes">{{type.value}}</option>
-                    </select>
+                    <ng-select [bindValue]="'key'" [bindLabel]="'value'" [closeOnSelect]="true" [clearable]="true" [items]="channelTypes"
+                        [multiple]="false" [notFoundText]="'Nenalezen žádný typ'" [searchable]="true" formControlName="channelType"></ng-select>
                 </div>
             </div>
 
@@ -27,10 +22,8 @@
                     <input type="text" class="form-control" formControlName="nameContains" />
                 </div>
             </div>
-        </div>
 
-        <div class="row mt-3">
-            <div class="col d-flex align-content-end justify-content-end">
+            <div class="col-2 d-flex align-items-end justify-content-end">
                 <button class="btn btn-danger" (click)="reset()" type="button">Smazat filtr</button>
             </div>
         </div>
