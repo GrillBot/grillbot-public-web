@@ -25,6 +25,7 @@ export class DataListComponent implements OnInit {
     /* eslint-disable @typescript-eslint/no-unsafe-argument */
     get limit(): number { return parseInt(this.form?.get('limit')?.value ?? defaultPageSize, 10); }
     get pageSizes(): number[] { return pageSizes; }
+    get isEmpty(): boolean { return this.items.length === 0; }
 
     ngOnInit(): void {
         this.form = this.fb.group({

@@ -3,7 +3,7 @@
         <app-loading *ngIf="!list.isDataLoaded"></app-loading>
 
         <ng-container *ngIf="list.isDataLoaded">
-            <table class="table table-bordered table-sm">
+            <table class="table table-bordered table-sm" *ngIf="!list.isEmpty">
                 <thead>
                     <tr>
                         <td style="width: 150px">Seřadit podle: </td>
@@ -20,6 +20,10 @@
                     </tr>
                 </thead>
             </table>
+
+            <app-card *ngIf="list.isEmpty" [header]="false" [classes]="['mb-3']">
+                <h6 class="mb-0">Pro zadaný filtr nebyly nalezeny žádné položky.</h6>
+            </app-card>
 
             <app-card *ngFor="let item of list.items" [header]="false" [classes]="['mb-3']">
                 <div class="row">

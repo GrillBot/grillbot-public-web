@@ -8,10 +8,7 @@
 
             <div class="col form-group">
                 <label>Server</label>
-                <select formControlName="guild" class="form-control">
-                    <option [ngValue]="null">Nevybráno</option>
-                    <option *ngFor="let guild of guilds" [ngValue]="guild.key">{{guild.value}}</option>
-                </select>
+                <app-search-input formControlName="guild" [searchSource]="'guilds'"></app-search-input>
             </div>
         </div>
 

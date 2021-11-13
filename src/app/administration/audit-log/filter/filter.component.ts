@@ -3,8 +3,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuditLogListParams } from 'src/app/core/models/audit-log';
 import { StorageService } from 'src/app/core/services/storage.service';
-import { DataService } from 'src/app/core/services/data.service';
-import { AuditLogItemTypeMask, AuditLogItemTypeTexts } from 'src/app/core/models/enums/audit-log-item-type';
+import { AuditLogItemType, AuditLogItemTypeTexts } from 'src/app/core/models/enums/audit-log-item-type';
 import { Support } from 'src/app/core/lib/support';
 import { debounceTime } from 'rxjs/operators';
 
@@ -16,29 +15,22 @@ export class FilterComponent implements OnInit {
     @Output() filterChanged = new EventEmitter<AuditLogListParams>();
 
     form: FormGroup;
-
-    guilds: Dictionary<string, string>;
-    users: Dictionary<string, string>;
-    channels: Dictionary<string, string>;
     types: Dictionary<number, string>;
 
     constructor(
         private fb: FormBuilder,
-        private storage: StorageService,
-        private dataService: DataService
+        private storage: StorageService
     ) { }
 
+    get guildId(): string { return this.form.get('guild').value as string; }
+
     ngOnInit(): void {
-        this.dataService.getGuilds().subscribe(guilds => this.guilds = guilds);
-        this.dataService.getUsersList().subscribe(users => this.users = users);
-        this.types = Object.keys(AuditLogItemTypeMask)
+        this.types = Object.keys(AuditLogItemType)
             .filter(o => !isNaN(parseInt(o, 10)) && parseInt(o, 10) > 0)
-            .map(o => {
-                return {
-                    key: parseInt(o, 10),
-                    value: AuditLogItemTypeTexts[Support.getEnumKeyByValue(AuditLogItemTypeMask, parseInt(o, 10))]
-                };
-            });
+            .map(o => ({
+                key: parseInt(o, 10),
+                value: AuditLogItemTypeTexts[Support.getEnumKeyByValue(AuditLogItemType, parseInt(o, 10))] as string
+            }));
 
         const filter = AuditLogListParams.create(this.storage.read<any>('AuditLogListParams')) || AuditLogListParams.empty;
 
@@ -46,44 +38,32 @@ export class FilterComponent implements OnInit {
         this.submitForm();
     }
 
-    setChannels(guildId: string): void {
-        this.dataService.getChannels(guildId).subscribe(channels => this.channels = channels);
-    }
-
     submitForm(): void {
         const filter = AuditLogListParams.create(this.form.value);
 
         this.filterChanged.emit(filter);
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         this.storage.store<AuditLogListParams>('AuditLogListParams', filter.serialized);
     }
 
     cleanFilter(): void {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         this.form.patchValue(AuditLogListParams.empty.serialized);
     }
 
     private initFilter(filter: AuditLogListParams): void {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const serialized = filter.serialized;
 
+        /* eslint-disable @typescript-eslint/no-unsafe-member-access */
         this.form = this.fb.group({
             guild: [serialized.guild],
             channel: [serialized.channel],
             createdFrom: [serialized.createdFrom],
             createdTo: [serialized.createdTo],
             ignoreBots: [serialized.ignoreBots],
-            processedUser: [serialized.processedUser],
+            processedUsers: [serialized.processedUsers],
             types: [serialized.types]
-        });
-
-        if (serialized.guild) {
-            this.setChannels(serialized.guild);
-        }
-
-        this.form.get('guild').valueChanges.subscribe(guildId => {
-            if (guildId) {
-                this.setChannels(guildId);
-            } else {
-                this.channels = null;
-            }
         });
 
         this.form.valueChanges.pipe(debounceTime(300)).subscribe(_ => this.submitForm());

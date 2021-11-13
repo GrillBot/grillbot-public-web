@@ -20,6 +20,8 @@ import { DiscordPermsPipePipe } from './pipes/discord-perms-pipe.pipe';
 import { DateTimeFormatterPipe } from './pipes/date-time-formatter.pipe';
 import { SortingDirective } from './data-list/sorting.directive';
 import { TimeSpanInputComponent } from './time-span-input/time-span-input.component';
+import { SearchInputComponent } from './search-input/search-input.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
     declarations: [
@@ -37,7 +39,8 @@ import { TimeSpanInputComponent } from './time-span-input/time-span-input.compon
         DiscordPermsPipePipe,
         DateTimeFormatterPipe,
         SortingDirective,
-        TimeSpanInputComponent
+        TimeSpanInputComponent,
+        SearchInputComponent
     ],
     imports: [
         CommonModule,
@@ -47,7 +50,8 @@ import { TimeSpanInputComponent } from './time-span-input/time-span-input.compon
         NgbPaginationModule,
         RouterModule,
         NgbModalModule,
-        NgxFilesizeModule
+        NgxFilesizeModule,
+        NgSelectModule
     ],
     exports: [
         CommonModule,
@@ -69,7 +73,9 @@ import { TimeSpanInputComponent } from './time-span-input/time-span-input.compon
         DiscordPermsPipePipe,
         DateTimeFormatterPipe,
         SortingDirective,
-        TimeSpanInputComponent
+        TimeSpanInputComponent,
+        SearchInputComponent,
+        NgSelectModule
     ]
 })
 export class SharedModule { }

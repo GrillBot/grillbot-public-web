@@ -4,40 +4,29 @@
             <div class="col">
                 <div class="form-group">
                     <label>Operace</label>
-                    <select class="form-control" formControlName="operation">
-                        <option [ngValue]="null">Nevybráno</option>
-                        <option [ngValue]="operation.key" *ngFor="let operation of operations">{{operation.value}}</option>
-                    </select>
+                    <ng-select [bindValue]="'key'" [bindLabel]="'value'" [closeOnSelect]="true" [clearable]="true" [items]="operations"
+                        [notFoundText]="'Nenalezen žádný typ operace'" [searchable]="true" formControlName="operation"></ng-select>
                 </div>
             </div>
 
             <div class="col">
                 <div class="form-group">
                     <label>Server</label>
-                    <select class="form-control" formControlName="guildId">
-                        <option [ngValue]="null">Nevybráno</option>
-                        <option [ngValue]="guild.key" *ngFor="let guild of guilds">{{guild.value}}</option>
-                    </select>
+                    <app-search-input [searchSource]="'guilds'" formControlName="guildId"></app-search-input>
                 </div>
             </div>
 
             <div class="col">
                 <div class="form-group">
                     <label>Akci provedl</label>
-                    <select class="form-control" formControlName="fromUserId">
-                        <option [ngValue]="null">Nevybráno</option>
-                        <option [ngValue]="user.key" *ngFor="let user of users">{{user.value}}</option>
-                    </select>
+                    <app-search-input [searchSource]="'users'" formControlName="fromUserId"></app-search-input>
                 </div>
             </div>
 
             <div class="col">
                 <div class="form-group">
                     <label>Cílový uživatel</label>
-                    <select class="form-control" formControlName="toUserId">
-                        <option [ngValue]="null">Nevybráno</option>
-                        <option [ngValue]="user.key" *ngFor="let user of users">{{user.value}}</option>
-                    </select>
+                    <app-search-input [searchSource]="'users'" formControlName="toUserId"></app-search-input>
                 </div>
             </div>
         </div>

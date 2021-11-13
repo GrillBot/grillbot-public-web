@@ -3,7 +3,6 @@ import { ExplicitPermissionStateTexts } from './../../../core/models/enums/expli
 import { Dictionary } from './../../../core/models/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { DataService } from 'src/app/core/services/data.service';
 import { PermissionService } from 'src/app/core/services/permission.service';
 import { ExplicitPermissionState } from 'src/app/core/models/enums/explicit-permission-state';
 import { Support } from 'src/app/core/lib/support';
@@ -16,29 +15,22 @@ import { ValidationHelper } from 'src/app/core/lib/validators';
 })
 export class CreateComponent implements OnInit {
     form: FormGroup;
-
-    commands: string[];
-    users: Dictionary<string, string>;
-    roles: Dictionary<string, string>;
     states: Dictionary<number, string>;
-
-    get isRole(): boolean { return this.form.get('isRole')?.value ?? false; }
 
     constructor(
         private fb: FormBuilder,
-        private dataService: DataService,
         private permissionService: PermissionService,
         private router: Router
     ) { }
 
+    get isRole(): boolean { return this.form.get('isRole')?.value as boolean ?? false; }
+
     ngOnInit(): void {
-        this.dataService.getCommands().subscribe(commands => this.commands = commands);
-        this.dataService.getUsersList().subscribe(users => this.users = users);
-        this.dataService.getRoles().subscribe(roles => this.roles = roles);
         this.states = Object.keys(ExplicitPermissionState).map(o => parseInt(o, 10)).filter(o => !isNaN(o))
-            .map(o => ({ key: o, value: ExplicitPermissionStateTexts[Support.getEnumKeyByValue(ExplicitPermissionState, o)] }));
+            .map(o => ({ key: o, value: ExplicitPermissionStateTexts[Support.getEnumKeyByValue(ExplicitPermissionState, o)] as string }));
 
         this.form = this.fb.group({
+            // eslint-disable-next-line @typescript-eslint/unbound-method
             command: [null, Validators.required],
             isRole: [false],
             role: [null],
@@ -48,16 +40,6 @@ export class CreateComponent implements OnInit {
 
         this.form.get('isRole').valueChanges.subscribe(_ => this.setValidators());
         this.setValidators();
-    }
-
-    private setValidators(): void {
-        if (this.isRole) {
-            this.form.get('role').addValidators([Validators.required]);
-            this.form.get('user').clearValidators();
-        } else {
-            this.form.get('user').addValidators([Validators.required]);
-            this.form.get('role').clearValidators();
-        }
     }
 
     submitForm(): void {
@@ -70,5 +52,17 @@ export class CreateComponent implements OnInit {
 
     hasError(controlId: string, errorId: string = null): boolean {
         return ValidationHelper.isInvalid(this.form, controlId, errorId);
+    }
+
+    private setValidators(): void {
+        if (this.isRole) {
+            // eslint-disable-next-line @typescript-eslint/unbound-method
+            this.form.get('role').addValidators([Validators.required]);
+            this.form.get('user').clearValidators();
+        } else {
+            // eslint-disable-next-line @typescript-eslint/unbound-method
+            this.form.get('user').addValidators([Validators.required]);
+            this.form.get('role').clearValidators();
+        }
     }
 }

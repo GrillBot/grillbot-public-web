@@ -54,8 +54,9 @@ export class DataService {
         );
     }
 
-    getUsersList(): ObservableDict<string, string> {
-        const url = `${environment.apiUrl}/data/users`;
+    getUsersList(bots?: boolean): ObservableDict<string, string> {
+        const parameter = bots === undefined ? '' : new QueryParam('bots', bots).toString();
+        const url = `${environment.apiUrl}/data/users?${parameter}`;
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<Dictionary<string, string>>(url, { headers }).pipe(

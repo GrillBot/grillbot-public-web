@@ -1,9 +1,7 @@
-import { Dictionary } from './../../../core/models/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { GetReminderListParams } from 'src/app/core/models/reminder';
 import { StorageService } from 'src/app/core/services/storage.service';
-import { DataService } from 'src/app/core/services/data.service';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -12,26 +10,31 @@ import { debounceTime } from 'rxjs/operators';
 })
 export class FilterComponent implements OnInit {
     @Output() filterChanged = new EventEmitter<GetReminderListParams>();
-
     form: FormGroup;
-
-    users: Dictionary<string, string>;
 
     constructor(
         private fb: FormBuilder,
-        private storage: StorageService,
-        private dataService: DataService
+        private storage: StorageService
     ) { }
 
     ngOnInit(): void {
-        this.dataService.getUsersList().subscribe(users => this.users = users);
-
         const filter = GetReminderListParams.create(
             this.storage.read<GetReminderListParams>('ReminderListParams')
         ) || GetReminderListParams.empty;
 
         this.initFilter(filter);
         this.submitForm();
+    }
+
+    submitForm(): void {
+        const filter = GetReminderListParams.create(this.form.value);
+
+        this.filterChanged.emit(filter);
+        this.storage.store<GetReminderListParams>('ReminderListParams', filter);
+    }
+
+    reset(): void {
+        this.form.patchValue(GetReminderListParams.empty);
     }
 
     private initFilter(filter: GetReminderListParams): void {
@@ -45,16 +48,5 @@ export class FilterComponent implements OnInit {
         });
 
         this.form.valueChanges.pipe(debounceTime(500)).subscribe(_ => this.submitForm());
-    }
-
-    submitForm(): void {
-        const filter = GetReminderListParams.create(this.form.value);
-
-        this.filterChanged.emit(filter);
-        this.storage.store<GetReminderListParams>('ReminderListParams', filter);
-    }
-
-    reset(): void {
-        this.form.patchValue(GetReminderListParams.empty);
     }
 }

@@ -2,10 +2,10 @@
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/servers', icon:'fa-server', title:'Servery'}"></ng-container>
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/users', icon:'fa-users', title:'Uživatelé'}"></ng-container>
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/audit-log', icon:'fa-clipboard-list', title:'Audit log'}">
                 </ng-container>
+                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/servers', icon:'fa-server', title:'Servery'}"></ng-container>
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/channels', icon:'fa-envelope-open-text', title:'Kanály'}">
                 </ng-container>
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/invites', icon:'fa-user-plus', title:'Pozvánky'}"></ng-container>

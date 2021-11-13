@@ -4,20 +4,14 @@
             <div class="col">
                 <div class="form-group">
                     <label>Odesílatel</label>
-                    <select class="form-control" formControlName="fromUserId">
-                        <option [ngValue]="null">Nevybráno</option>
-                        <option [ngValue]="user.key" *ngFor="let user of users">{{user.value}}</option>
-                    </select>
+                    <app-search-input [searchSource]="'users'" formControlName="fromUserId"></app-search-input>
                 </div>
             </div>
 
             <div class="col">
                 <div class="form-group">
                     <label>Příjemce</label>
-                    <select class="form-control" formControlName="toUserId">
-                        <option [ngValue]="null">Nevybráno</option>
-                        <option [ngValue]="user.key" *ngFor="let user of users">{{user.value}}</option>
-                    </select>
+                    <app-search-input [searchSource]="'users'" formControlName="toUserId"></app-search-input>
                 </div>
             </div>
 
