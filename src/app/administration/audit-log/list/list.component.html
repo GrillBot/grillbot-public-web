@@ -1,4 +1,4 @@
-<app-card [title]="'Audit log'" [icon]="'fas fa-clipboard-list'">
+<app-card #card [title]="'Audit log'" [icon]="'fas fa-clipboard-list'">
     <app-data-list #list (readData)="readData($event)">
         <app-loading *ngIf="!list.isDataLoaded"></app-loading>
 

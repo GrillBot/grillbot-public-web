@@ -1,4 +1,4 @@
-<app-card [title]="'Oprávnění'" [icon]="'fas fa-user-lock'">
+<app-card [title]="'Oprávnění'" [icon]="'fas fa-user-lock'" [recordsCount]="data?.length">
     <app-loading *ngIf="!data"></app-loading>
 
     <table class="table table-sm table-bordered" *ngIf="data">

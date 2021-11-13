@@ -1,4 +1,4 @@
-<app-card [title]="'Unverify log'" [icon]="'fas fa-skull-crossbones'">
+<app-card #card [title]="'Unverify log'" [icon]="'fas fa-skull-crossbones'">
     <app-data-list #list (readData)="readData($event)">
         <app-loading *ngIf="!list.isDataLoaded"></app-loading>
 

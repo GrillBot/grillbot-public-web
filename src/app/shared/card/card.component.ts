@@ -13,6 +13,7 @@ export class CardComponent {
     @Input() allowHideButton = false;
     @Input() classes: string[];
     @Input() maxWidth?: string;
+    @Input() recordsCount?: number;
 
     visible = true;
 

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PaginatedParams, PaginatedResponse } from 'src/app/core/models/common';
+import { CardComponent } from '../card/card.component';
 import { defaultPageSize, pageSizes } from './models';
 
 @Component({
@@ -48,10 +49,14 @@ export class DataListComponent implements OnInit {
         this.readData.emit(paginationParams);
     }
 
-    setData(result: PaginatedResponse<any>): void {
+    setData(result: PaginatedResponse<any>, parentCard?: CardComponent): void {
         this.items = result.data;
         this.currentPage = result.page;
         this.totalItemsCount = result.totalItemsCount === 0 ? 1 : result.totalItemsCount;
+
+        if (parentCard) {
+            parentCard.recordsCount = result.totalItemsCount;
+        }
 
         this.isDataLoaded = true;
     }

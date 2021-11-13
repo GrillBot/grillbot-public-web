@@ -1,4 +1,4 @@
-<app-card [title]="'Seznam notifikací'" [icon]="'fas fa-bell'">
+<app-card #card [title]="'Seznam notifikací'" [icon]="'fas fa-bell'">
     <app-data-list #list (readData)="readData($event)">
         <app-loading *ngIf="!list.isDataLoaded"></app-loading>
 

@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { PaginatedParams } from 'src/app/core/models/common';
 import { GetReminderListParams, RemindListSortTypes, RemindMessage } from 'src/app/core/models/reminder';
 import { ReminderService } from 'src/app/core/services/reminder.service';
+import { CardComponent } from 'src/app/shared/card/card.component';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
 import { ModalService } from 'src/app/shared/modal';
 
@@ -10,12 +11,13 @@ import { ModalService } from 'src/app/shared/modal';
     templateUrl: './list.component.html'
 })
 export class ListComponent {
-    private filter: GetReminderListParams;
+    @ViewChild('list', { static: false }) list: DataListComponent;
+    @ViewChild('card', { static: false }) card: CardComponent;
 
     sortDesc = true;
     sortBy: RemindListSortTypes = 'id';
 
-    @ViewChild('list', { static: false }) list: DataListComponent;
+    private filter: GetReminderListParams;
 
     constructor(
         private reminderService: ReminderService,
@@ -29,7 +31,7 @@ export class ListComponent {
 
     readData(pagination: PaginatedParams): void {
         this.reminderService.getReminderList(this.filter, pagination, this.sortBy, this.sortDesc)
-            .subscribe(list => this.list.setData(list));
+            .subscribe(list => this.list.setData(list, this.card));
     }
 
     setSort(sortBy: RemindListSortTypes): void {
@@ -47,7 +49,7 @@ export class ListComponent {
         if (notify) { message += 'Uživateli přijde předčasně oznámení.'; }
 
         this.modalService.showQuestion('Zrušení upozornění', message).onAccept.subscribe(_ => {
-            this.reminderService.cancelRemind(item.id, notify).subscribe(_ => this.list.onChange());
+            this.reminderService.cancelRemind(item.id, notify).subscribe(__ => this.list.onChange());
         });
     }
 

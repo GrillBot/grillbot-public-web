@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { AuditLogFileMetadata, AuditLogListItem, AuditLogListParams, SortingTypes } from 'src/app/core/models/audit-log';
 import { PaginatedParams } from 'src/app/core/models/common';
 import { AuditLogService } from 'src/app/core/services/audit-log.service';
+import { CardComponent } from 'src/app/shared/card/card.component';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
 import { ModalService } from 'src/app/shared/modal';
 import { DetailModalComponent } from '../detail-modal/detail-modal.component';
@@ -12,12 +13,13 @@ import { DetailModalComponent } from '../detail-modal/detail-modal.component';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent {
-    private filter: AuditLogListParams;
+    @ViewChild('list', { static: false }) list: DataListComponent;
+    @ViewChild('card', { static: false }) card: CardComponent;
 
     sortDesc = true;
     sortBy: SortingTypes = 'createdat';
 
-    @ViewChild('list', { static: false }) list: DataListComponent;
+    private filter: AuditLogListParams;
 
     constructor(
         private auditLogService: AuditLogService,
@@ -31,7 +33,7 @@ export class ListComponent {
 
     readData(pagination: PaginatedParams): void {
         this.auditLogService.getAuditLogList(this.filter, pagination, this.sortDesc, this.sortBy)
-            .subscribe(list => this.list.setData(list));
+            .subscribe(list => this.list.setData(list, this.card));
     }
 
     setSort(sortBy: SortingTypes): void {

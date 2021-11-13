@@ -5,6 +5,7 @@ import { UnverifyService } from 'src/app/core/services/unverify.service';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
 import { ModalService } from 'src/app/shared/modal';
 import { DataService } from 'src/app/core/services/data.service';
+import { CardComponent } from 'src/app/shared/card/card.component';
 
 @Component({
     selector: 'app-list',
@@ -12,14 +13,14 @@ import { DataService } from 'src/app/core/services/data.service';
     styleUrls: ['./list.component.scss']
 })
 export class ListComponent implements OnInit {
-    private filter: UnverifyLogParams | null = null;
+    @ViewChild('list', { static: false }) list: DataListComponent;
+    @ViewChild('card', { static: false }) card: CardComponent;
 
     sortDesc = true;
     sortBy: UnverifyListSortTypes = 'createdAt';
-
-    @ViewChild('list', { static: true }) list: DataListComponent;
-
     channels: Dictionary<string, string>;
+
+    private filter: UnverifyLogParams | null = null;
 
     constructor(
         private unverifyService: UnverifyService,
@@ -40,7 +41,7 @@ export class ListComponent implements OnInit {
         if (!this.filter) { return; }
 
         this.unverifyService.getUnverifyLog(this.filter, pagination, this.sortBy, this.sortDesc)
-            .subscribe(list => this.list.setData(list));
+            .subscribe(list => this.list.setData(list, this.card));
     }
 
     setSort(sortBy: UnverifyListSortTypes): void {
@@ -54,9 +55,9 @@ export class ListComponent implements OnInit {
     }
 
     recoverState(item: UnverifyLogItem): void {
-        this.modalService.showQuestion('Obnovení stavu uživatele', 'Opravdu si přejete obnovit tomuto uživateli stav přístupů před unverify?').onAccept.subscribe(_ => {
-            this.unverifyService.recoverUnverifyState(item.id).subscribe(__ => this.list.onChange());
-        });
+        this.modalService
+            .showQuestion('Obnovení stavu uživatele', 'Opravdu si přejete obnovit tomuto uživateli stav přístupů před unverify?')
+            .onAccept.subscribe(_ => this.unverifyService.recoverUnverifyState(item.id).subscribe(__ => this.list.onChange()));
     }
 
     resolveChannelName(id: string): string | null {
