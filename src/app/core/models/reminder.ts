@@ -35,6 +35,9 @@ export class GetReminderListParams {
     public messageContains: string | null = null;
     public createdFrom: string | null = null;
     public createdTo: string | null = null;
+    public onlyWaiting = false;
+
+    static get empty(): GetReminderListParams { return new GetReminderListParams(); }
 
     get queryParams(): QueryParam[] {
         return [
@@ -43,12 +46,12 @@ export class GetReminderListParams {
             this.originalMessageId ? new QueryParam('originalMessageId', this.originalMessageId) : null,
             this.messageContains ? new QueryParam('messageContains', this.messageContains) : null,
             this.createdFrom ? new QueryParam('createdFrom', this.createdFrom) : null,
-            this.createdTo ? new QueryParam('createdTo', this.createdTo) : null
+            this.createdTo ? new QueryParam('createdTo', this.createdTo) : null,
+            new QueryParam('onlyWaiting', this.onlyWaiting)
         ].filter(o => o);
     }
 
-    static get empty(): GetReminderListParams { return new GetReminderListParams(); }
-
+    /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
     static create(form: any): GetReminderListParams | null {
         if (!form) { return null; }
         const params = new GetReminderListParams();
@@ -59,6 +62,7 @@ export class GetReminderListParams {
         params.messageContains = form.messageContains;
         params.originalMessageId = form.originalMessageId;
         params.toUserId = form.toUserId;
+        params.onlyWaiting = form.onlyWaiting;
 
         return params;
     }

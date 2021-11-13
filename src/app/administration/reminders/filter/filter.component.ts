@@ -44,7 +44,8 @@ export class FilterComponent implements OnInit {
             originalMessageId: [filter.originalMessageId],
             messageContains: [filter.messageContains],
             createdFrom: [filter.createdFrom],
-            createdTo: [filter.createdTo]
+            createdTo: [filter.createdTo],
+            onlyWaiting: [filter.onlyWaiting]
         });
 
         this.form.valueChanges.pipe(debounceTime(500)).subscribe(_ => this.submitForm());
