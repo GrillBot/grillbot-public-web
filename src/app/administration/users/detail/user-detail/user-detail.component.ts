@@ -1,12 +1,11 @@
 import { Support } from './../../../../core/lib/support';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserFlags } from 'src/app/core/models/enums/user-flags';
 import { StatusColorMapping, UserStatus, UserStatusTexts } from 'src/app/core/models/enums/user-status';
 import { UserDetail } from 'src/app/core/models/users';
 import { UserService } from 'src/app/core/services/user.service';
-import { ModalService } from 'src/app/shared/modal';
 
 @Component({
     selector: 'app-user-detail',
@@ -17,17 +16,20 @@ export class UserDetailComponent implements OnInit {
     data: UserDetail;
     form: FormGroup;
 
-    get statusColor(): string { return StatusColorMapping[Support.getEnumKeyByValue(UserStatus, this.data.status)]; }
-    get statusText(): string { return UserStatusTexts[Support.getEnumKeyByValue(UserStatus, this.data.status)]; }
-
     constructor(
         private userService: UserService,
         private activatedRoute: ActivatedRoute,
-        private fb: FormBuilder
-    ) { }
+        private fb: FormBuilder,
+        private router: Router
+    ) {
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    }
+
+    get statusColor(): string { return StatusColorMapping[Support.getEnumKeyByValue(UserStatus, this.data.status)] as string; }
+    get statusText(): string { return UserStatusTexts[Support.getEnumKeyByValue(UserStatus, this.data.status)] as string; }
 
     ngOnInit(): void {
-        const userId: string = this.activatedRoute.snapshot.params.id.toString();
+        const userId: string = this.activatedRoute.snapshot.params.id as string;
 
         this.userService.getUserDetail(userId).subscribe(detail => {
             this.data = detail;
