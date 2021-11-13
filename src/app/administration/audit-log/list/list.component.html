@@ -26,44 +26,229 @@
             </app-card>
 
             <app-card *ngFor="let item of list.items" [header]="false" [classes]="['mb-3']">
-                <div class="row">
-                    <div class="col">
-                        <h6>#{{item.id}} ({{item.title}}) - {{item.createdAt.toLocaleString()}}</h6>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <p *ngIf="item.guild" class="m-0">Server: <b>{{item.guild.name}}</b></p>
-                        <p *ngIf="item.channel" class="m-0">Kanál: <b>{{item.channel.name}}</b></p>
-                        <p *ngIf="item.processedUser" class="m-0">
-                            Provedl:
-                            <b>
-                                <ng-container *ngIf="item.processedUser.nickname">{{item.processedUser.nickname}} ({{item.processedUser.username}})
-                                </ng-container>
-                                <ng-container *ngIf="!item.processedUser.nickname">{{item.processedUser.username}}</ng-container>
-                            </b>
-                        </p>
-                    </div>
-
-                    <div class="col">
-                        <ul *ngIf="item.files && item.files.length > 0">
-                            <li *ngFor="let file of item.files">
-                                <a (click)="downloadFile(item.id, file)" class="text-dark cursor-ptr">
-                                    {{file.filename}} ({{file.size | filesize}})
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="row mt-2">
-                    <div class="col">
-                        <button class="btn btn-outline-primary mr-3" *ngIf="item.containsData" (click)="openDetail(item)">Zobrazit detaily</button>
-                        <button class="btn btn-outline-danger" (click)="removeItem(item.id)">Smazat záznam</button>
-                    </div>
-                </div>
+                <ng-container *ngTemplateOutlet="logRow;context:{item:item}"></ng-container>
             </app-card>
         </ng-container>
     </app-data-list>
 </app-card>
+
+<ng-template #logRow let-item="item">
+    <div class="row">
+        <div class="col-10">
+            <ng-container *ngTemplateOutlet="logRowContent;context:{item:item}"></ng-container>
+        </div>
+
+        <div class="col d-flex flex-column">
+            <button class="btn btn-outline-primary" *ngIf="item.canOpenDetail" (click)="openDetail(item)">Zobrazit detail záznamu</button>
+            <button class="btn btn-outline-danger mt-2" (click)="removeItem(item.id)">Smazat záznam</button>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #logRowContent let-item="item">
+    <div class="row">
+        <div class="col">
+            <h6>#{{item.id}} ({{item.title}}) - {{item.createdAt.toLocaleString()}}</h6>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-5">
+            <p *ngIf="item.guild" class="m-0">Server: <b>{{item.guild.name}}</b></p>
+            <p *ngIf="item.channel" class="m-0">Kanál: <b>{{item.channel.name}}</b></p>
+            <p *ngIf="item.processedUser" class="m-0">
+                Provedl:
+                <b>
+                    <ng-container *ngIf="item.processedUser.nickname">{{item.processedUser.nickname}} ({{item.processedUser.username}})
+                    </ng-container>
+                    <ng-container *ngIf="!item.processedUser.nickname">{{item.processedUser.username}}</ng-container>
+                </b>
+            </p>
+        </div>
+
+        <ng-container *ngIf="item.canShowColumn">
+            <ng-container *ngTemplateOutlet="logDataCol;context:{data:item.data,type:item.type}"></ng-container>
+        </ng-container>
+
+        <div class="col" *ngIf="item.files && item.files.length > 0">
+            <ul>
+                <li *ngFor="let file of item.files">
+                    <a (click)="downloadFile(item.id, file)" class="text-dark cursor-ptr">
+                        {{file.filename}} ({{file.size | filesize}})
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <ng-container *ngIf="item.data">
+        <ng-container *ngTemplateOutlet="logDataRow;context:{data:item.data,type:item.type}"></ng-container>
+    </ng-container>
+</ng-template>
+
+<ng-template #logDataRow let-data="data" let-type="type">
+    <div class="log-data-row">
+        <pre class="alert alert-secondary" *ngIf="type === AuditLogItemType.Info">{{data}}</pre>
+        <pre class="alert alert-warning" *ngIf="type === AuditLogItemType.Warning">{{data}}</pre>
+        <pre class="alert alert-danger" *ngIf="type === AuditLogItemType.Error">{{Support.cut(data, 1000)}}</pre>
+
+        <div *ngIf="type === AuditLogItemType.MemberRoleUpdated">
+            <span class="badge bg-{{(role.added ? 'success' : 'danger')}} me-1" *ngFor="let role of data.roles">{{(role.added ? '+' : '-')}}
+                {{role.name}}</span>
+        </div>
+
+        <table *ngIf="type === AuditLogItemType.MessageEdited" class="table table-sm table-bordered mt-2">
+            <tr>
+                <td>Obsah před</td>
+                <td>
+                    <pre>{{data.diff.before}}</pre>
+                </td>
+            </tr>
+            <tr>
+                <td>Obsah po</td>
+                <td>
+                    <pre>{{data.diff.after}}</pre>
+                </td>
+            </tr>
+            <tr>
+                <td>Rozdíly</td>
+                <td>
+                    <pre>{{Support.createDiff(data.diff.before, data.diff.after).join('\n')}}</pre>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <a [href]="data.jumpUrl" class="btn btn-link text-dark" target="_blank">Skočit na zprávu</a>
+                </td>
+            </tr>
+        </table>
+
+        <div *ngIf="type === AuditLogItemType.MessageDeleted">
+            <pre class="alert alert-secondary">{{data.data.content}}</pre>
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #logDataCol let-data="data" let-type="type">
+    <div class="col">
+        <ng-container *ngIf="type === AuditLogItemType.Command">
+            <p class="m-0">Příkaz: <b>{{data.command}}</b></p>
+            <p class="m-0">Dokončen úspěšně: <b>{{data.isSuccess | czechBooleanPipe}}</b></p>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.ChannelCreated || type === AuditLogItemType.ChannelDeleted">
+            <p class="m-0">Název: <b>{{data.name}}</b></p>
+            <p class="m-0">
+                Typ:
+                <b>
+                    <ng-container [ngSwitch]="data.type">
+                        <ng-container *ngSwitchCase="0">Text</ng-container>
+                        <ng-container *ngSwitchCase="1">DM</ng-container>
+                        <ng-container *ngSwitchCase="2">Voice</ng-container>
+                        <ng-container *ngSwitchCase="3">Group</ng-container>
+                        <ng-container *ngSwitchCase="4">Category</ng-container>
+                        <ng-container *ngSwitchCase="5">News</ng-container>
+                    </ng-container>
+                </b>
+            </p>
+            <p class="m-0" *ngIf="data.slowMode">SlowMode (vteřiny): <b>{{data.slowMode}}</b></p>
+            <p class="m-0" *ngIf="data.type === 0 || data.type === 5">NSFW: <b>{{data.isNsfw | czechBooleanPipe}}</b></p>
+            <p class="m-0" *ngIf="data.bitrate">Bitrate (bps): <b>{{data.bitrate}}</b></p>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.ChannelUpdated">
+            Změněno:
+            <b *ngIf="data.before.name || data.after.name">Název </b>
+            <b *ngIf="data.before.slowMode != undefined || data.after.slowMode != undefined">SlowMode </b>
+            <b *ngIf="data.before.isNsfw != undefined || data.after.isNsfw != undefined">NSFW stav </b>
+            <b *ngIf="data.before.bitrate || data.after.bitrate">Bitrate</b>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.EmojiDeleted">
+            <p class="m-0">ID: <b>{{data.id}}</b></p>
+            <p class="m-0">Název: <b>{{data.name}}</b></p>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.OverwriteCreated || type === AuditLogItemType.OverwriteDeleted">
+            <p class="m-0">ID cíle: <b>{{data.targetId}}</b></p>
+            <p class="m-0">
+                Typ:
+                <ng-container [ngSwitch]="data.target">
+                    <b *ngSwitchCase="0">Role</b>
+                    <b *ngSwitchCase="1">Uživatel</b>
+                </ng-container>
+            </p>
+            <p class="m-0" *ngIf="data.allowValue > 0">Povolená oprávnění: <b>{{data.allowValue | discordPermsPipe}}</b></p>
+            <p class="m-0" *ngIf="data.denyValue > 0">Zakázaná oprávnění: <b>{{data.denyValue | discordPermsPipe}}</b></p>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.OverwriteUpdated">
+            <p class="m-0" *ngIf="data.before.targetId ?? data.after.targetId">ID cíle: <b>{{data.before.targetId ?? data.after.targetId}}</b></p>
+            <p class="m-0" *ngIf="data.before.target != undefined || data.after.target != undefined">
+                Typ:
+                <ng-container [ngSwitch]="data.before.target ?? data.after.target">
+                    <b *ngSwitchCase="0">Role</b>
+                    <b *ngSwitchCase="1">Uživatel</b>
+                </ng-container>
+            </p>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.Unban">
+            <p class="m-0">ID: <b>{{data.id}}</b></p>
+            <p class="m-0">Název: <b>{{data.username}}#{{data.discriminator}}</b></p>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.MemberUpdated">
+            <p class="m-0">Cílový uživatel: <b>{{data.target.username}}#{{data.target.discriminator}}</b></p>
+            <p class="m-0" *ngIf="data.nickname">Změněna přezdívka</p>
+            <p class="m-0" *ngIf="data.isDeaf || data.isMuted">Změněno umlčení</p>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.MemberRoleUpdated">
+            <p class="m-0">Cílový uživatel: <b>{{data.target.username}}#{{data.target.discriminator}}</b></p>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.GuildUpdated">
+            <p class="m-0">
+                Změměno:
+                <b>
+                    <span class="m-0" *ngIf="data.afkChannel">AFK kanál </span>
+                    <span *ngIf="data.afkTimeout">AFK timeout </span>
+                    <span *ngIf="data.defaultMessageNotifications">Výchozí upozornění </span>
+                    <span *ngIf="data.description">Popis </span>
+                    <span *ngIf="data.vanityUrl">Vanity URL </span>
+                    <span *ngIf="data.voiceRegionId">Hlasová oblast </span>
+                    <span *ngIf="data.owner">Vlastník serveru </span>
+                    <span *ngIf="data.publicUpdatesChannel">Kanál na novinky </span>
+                    <span *ngIf="data.rulesChannel">Kanál s pravidly </span>
+                    <span *ngIf="data.systemChannel">Systémový kanál </span>
+                    <span *ngIf="data.name">Název </span>
+                    <span *ngIf="data.mfaLevel">2FA úroveň </span>
+                    <span *ngIf="data.iconChanged">Změněna ikona </span>
+                    <span *ngIf="data.splashChanged">Změněno pozadí pozvánky </span>
+                    <span *ngIf="data.discoverySplashChanged">Změněno komunitní pozadí </span>
+                    <span *ngIf="data.bannerChanged">Změněn banner</span>
+                </b>
+            </p>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.UserLeft">
+            <p class="m-0">Uživatel: <b>{{data.user.username}}#{{data.user.discriminator}}</b></p>
+            <p class="m-0">Počet členů (po odpojení): <b>{{data.memberCount}}</b></p>
+            <p class="m-0">BAN: <b>{{data.isBan | czechBooleanPipe}}</b></p>
+            <p class="m-0" *ngIf="data.isBan">Důvod BANu: <b>{{data.banReason}}</b></p>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.UserJoined">
+            <p class="m-0">Počet členů (po odpojení): <b>{{data.memberCount}}</b></p>
+        </ng-container>
+
+        <ng-container *ngIf="type === AuditLogItemType.MessageDeleted">
+            <p class="m-0">Nalezeno v cache: <b>{{data.cached | czechBooleanPipe}}</b></p>
+            <ng-container *ngIf="data.cached">
+                <p class="m-0">Autor: <b>{{data.data.author.username}}#{{data.data.author.discriminator}}</b></p>
+                <p class="m-0">Vytvořeno: <b>{{data.data.createdAt | dateTimeFormatter}}</b></p>
+            </ng-container>
+        </ng-container>
+    </div>
+</ng-template>

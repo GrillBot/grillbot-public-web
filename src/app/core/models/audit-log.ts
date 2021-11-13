@@ -5,7 +5,7 @@ import { DateTime } from './datetime';
 import { AuditLogItemType } from './enums/audit-log-item-type';
 import { Guild } from './guilds';
 import { QueryParam } from './http';
-import { GuildUser } from './users';
+import { User } from './users';
 
 export class AuditLogListParams {
     public guildId: string | null;
@@ -63,30 +63,73 @@ export class AuditLogListItem {
     public id: number;
     public createdAt: DateTime;
     public guild: Guild | null;
-    public processedUser: GuildUser;
-    public discordAuditLogItemId: string | null;
+    public processedUser: User | null;
+    public discordAuditLogItemIds: string[] | null;
     public type: AuditLogItemType;
     public channel: Channel | null;
     public files: AuditLogFileMetadata[];
-    public containsData: boolean;
+    public data: any;
 
     get title(): string {
         return AuditLogItemTypeTexts[Support.getEnumKeyByValue(AuditLogItemType, this.type)] as string;
+    }
+
+    get canOpenDetail(): boolean {
+        const textTypes = [
+            AuditLogItemType.Info,
+            AuditLogItemType.Error,
+            AuditLogItemType.Warning
+        ];
+
+        if (textTypes.includes(this.type) && (this.data as string).length > 1000) { return true; }
+
+        const otherTypeWithDetails = [
+            AuditLogItemType.Command,
+            AuditLogItemType.ChannelUpdated,
+            AuditLogItemType.OverwriteUpdated,
+            AuditLogItemType.MemberUpdated,
+            AuditLogItemType.GuildUpdated
+        ];
+
+        if (otherTypeWithDetails.includes(this.type)) { return true; }
+        return false;
+    }
+
+    get canShowColumn(): boolean {
+        const types = [
+            AuditLogItemType.Command,
+            AuditLogItemType.ChannelCreated,
+            AuditLogItemType.ChannelDeleted,
+            AuditLogItemType.ChannelUpdated,
+            AuditLogItemType.EmojiDeleted,
+            AuditLogItemType.OverwriteCreated,
+            AuditLogItemType.OverwriteDeleted,
+            AuditLogItemType.OverwriteUpdated,
+            AuditLogItemType.Unban,
+            AuditLogItemType.MemberUpdated,
+            AuditLogItemType.MemberRoleUpdated,
+            AuditLogItemType.GuildUpdated,
+            AuditLogItemType.UserLeft,
+            AuditLogItemType.UserJoined,
+            AuditLogItemType.MessageDeleted
+        ];
+
+        return types.includes(this.type);
     }
 
     static create(data: any): AuditLogListItem | null {
         if (!data) { return null; }
         const item = new AuditLogListItem();
 
-        item.channel = data.channel ? Channel.create(data.channel) : null;
-        item.containsData = data.containsData;
-        item.createdAt = DateTime.fromISOString(data.createdAt);
-        item.discordAuditLogItemId = data.discordAuditLogItemId;
-        item.files = data.files.map((o: any) => AuditLogFileMetadata.create(o)).filter((o: AuditLogFileMetadata) => o);
-        item.guild = data.guild ? Guild.create(data.guild) : null;
         item.id = data.id;
-        item.processedUser = data.processedUser ? GuildUser.create(data.processedUser) : null;
+        item.createdAt = DateTime.fromISOString(data.createdAt as string);
+        item.guild = data.guild ? Guild.create(data.guild) : null;
+        item.processedUser = data.processedUser ? User.create(data.processedUser) : null;
+        item.discordAuditLogItemIds = data.discordAuditLogItemId;
         item.type = data.type;
+        item.channel = data.channel ? Channel.create(data.channel) : null;
+        item.files = (data.files as any[]).map((o: any) => AuditLogFileMetadata.create(o)).filter((o: AuditLogFileMetadata) => o);
+        item.data = data.data;
 
         return item;
     }

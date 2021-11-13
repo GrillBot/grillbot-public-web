@@ -15,13 +15,5 @@ table {
         & pre {
             margin-bottom: 0px;
         }
-
-        & td {
-            &.member-updated-roles {
-                & .badge {
-                    margin-right: 5px;
-                }
-            }
-        }
     }
 }
