@@ -1,8 +1,6 @@
 import { Support } from './../../../../core/lib/support';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserFlags } from 'src/app/core/models/enums/user-flags';
 import { StatusColorMapping, UserStatus, UserStatusTexts } from 'src/app/core/models/enums/user-status';
 import { UserDetail } from 'src/app/core/models/users';
 import { UserService } from 'src/app/core/services/user.service';
@@ -14,12 +12,10 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 export class UserDetailComponent implements OnInit {
     data: UserDetail;
-    form: FormGroup;
 
     constructor(
         private userService: UserService,
         private activatedRoute: ActivatedRoute,
-        private fb: FormBuilder,
         private router: Router
     ) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -31,16 +27,7 @@ export class UserDetailComponent implements OnInit {
     ngOnInit(): void {
         const userId: string = this.activatedRoute.snapshot.params.id as string;
 
-        this.userService.getUserDetail(userId).subscribe(detail => {
-            this.data = detail;
-
-            this.form = this.fb.group({
-                apiToken: [''],
-                // tslint:disable-next-line: no-bitwise
-                botAdmin: [(detail.flags & UserFlags.BotAdmin) !== 0],
-                note: [detail.note]
-            });
-        });
+        this.userService.getUserDetail(userId).subscribe(detail => this.data = detail);
     }
 
     onUserUpdated(detail: UserDetail): void {

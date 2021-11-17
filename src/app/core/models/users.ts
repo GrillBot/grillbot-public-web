@@ -25,11 +25,13 @@ export class User {
 
         const user = new User();
 
+        /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
         user.id = data.id;
         user.isBot = data.isBot;
         user.avatarUrl = data.avatarUrl;
         user.discriminator = data.discriminator;
         user.username = data.username;
+        /* eslint-enable */
 
         return user;
     }
@@ -67,7 +69,6 @@ export class GuildUser extends User {
 
 export class UserListItem {
     public id: string;
-    public haveApi: boolean;
     public flags: number;
     public haveBirthday: boolean;
     public username: string;
@@ -90,7 +91,6 @@ export class UserListItem {
         item.id = data.id;
         item.flags = data.flags;
         item.guilds = Object.keys(data.guilds).map(o => ({ key: o, value: data.guilds[o] }));
-        item.haveApi = data.haveApi ?? false;
         item.haveBirthday = data.haveBirthday ?? false;
         item.username = data.username;
         item.discordStatus = data.discordStatus;
@@ -102,7 +102,6 @@ export class UserListItem {
 export class GetUserListParams {
     public username: string | null = null;
     public guildId: string | null = null;
-    public haveApiAccess = false;
     public flags = 0;
     public haveBirthday = false;
 
@@ -110,7 +109,6 @@ export class GetUserListParams {
         return [
             this.username ? new QueryParam('username', this.username) : null,
             this.guildId ? new QueryParam('guildId', this.guildId) : null,
-            new QueryParam('haveApiAccess', this.haveApiAccess),
             this.flags ? new QueryParam('flags', this.flags) : null,
             new QueryParam('haveBirthday', this.haveBirthday)
         ].filter(o => o);
@@ -125,7 +123,6 @@ export class GetUserListParams {
 
         params.flags = this.buildFlags(form.flags);
         params.guildId = form.guild;
-        params.haveApiAccess = (form.flags & UserFilterFlags.HaveApiAccess) !== 0;
         params.haveBirthday = (form.flags & UserFilterFlags.HaveBirthday) !== 0;
         params.username = form.username;
 
@@ -147,7 +144,6 @@ export class GetUserListParams {
     private serializeFlags(): number {
         let result = 0;
 
-        if (this.haveApiAccess) { result |= UserFilterFlags.HaveApiAccess; }
         if (this.haveBirthday) { result |= UserFilterFlags.HaveBirthday; }
 
         for (const item of UserFilterMapping) {
@@ -170,7 +166,6 @@ export class GetUserListParams {
 
 export class UserDetail {
     public id: string;
-    public apiToken: string;
     public username: string;
     public note: string;
     public flags: number;
@@ -193,7 +188,6 @@ export class UserDetail {
         const detail = new UserDetail();
 
         detail.id = data.id;
-        detail.apiToken = data.apiToken;
         detail.username = data.username;
         detail.note = data.note;
         detail.flags = data.flags;
@@ -264,7 +258,6 @@ export class EmoteStatItem {
 
 export class UpdateUserParams {
     constructor(
-        public apiToken: string | null,
         public botAdmin: boolean,
         public note: string,
         public webAdminAllowed: boolean,
