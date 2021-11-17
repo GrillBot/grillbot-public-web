@@ -10,7 +10,7 @@ const routes: Routes = [
         component: AdministrationComponent,
         canActivateChild: [AuthGuard],
         children: [
-            { path: '', redirectTo: 'servers', pathMatch: 'full' },
+            { path: '', redirectTo: 'users', pathMatch: 'full' },
             {
                 path: 'servers',
                 loadChildren: () => import('./guilds/guilds.module').then(mod => mod.GuildsModule),
