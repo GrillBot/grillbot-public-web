@@ -40,16 +40,21 @@ export class AuthService {
     }
 
     getLink(): Observable<OAuth2Link> {
-        const url = `${environment.apiUrl}/auth/link`;
+        const url = `${environment.apiUrl}/auth/link?isPublic=false`;
 
         return this.base.http.get<any>(url).pipe(
             map(data => OAuth2Link.create(data))
         );
     }
 
-    processLogin(sessionId: string): Observable<AuthToken> {
-        const query = new QueryParam('sessionId', sessionId);
-        const url = `${environment.apiUrl}/auth/token?${query.toString()}`;
+    processLogin(sessionId: string, isPublic: boolean): Observable<AuthToken> {
+        const parameters = [
+            new QueryParam('sessionId', sessionId),
+            new QueryParam('isPublic', isPublic)
+        ];
+
+        const query = parameters.map(o => o.toString()).join('&');
+        const url = `${environment.apiUrl}/auth/token?${query}`;
 
         return this.base.http.get<any>(url).pipe(
             map(data => AuthToken.create(data)),
