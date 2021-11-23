@@ -6,7 +6,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "GrillBotClient": {
+        "GrillBotPublicClient": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -40,7 +40,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/GrillBotClient",
+                        "outputPath": "dist/GrillBotPublicClient",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -120,19 +120,19 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "GrillBotClient:build",
+                        "browserTarget": "GrillBotPublicClient:build",
                         "ssl": true,
                         "sslKey": "localhost.key",
                         "sslCert": "localhost.crt"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "GrillBotClient:build:production"
+                            "browserTarget": "GrillBotPublicClient:build:production"
                         }
                     }
                 }
             }
         }
     },
-    "defaultProject": "GrillBotClient"
+    "defaultProject": "GrillBotPublicClient"
 }

@@ -7,4 +7,4 @@ RUN npm run ng -- build --configuration=production
 
 FROM nginx
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY --from=BUILD /usr/src/app/dist/GrillBotClient /usr/share/nginx/html
+COPY --from=BUILD /usr/src/app/dist/GrillBotPublicClient /usr/share/nginx/html

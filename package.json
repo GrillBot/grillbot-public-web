@@ -1,5 +1,5 @@
 {
-    "name": "grill-bot-client",
+    "name": "grill-bot-public-client",
     "version": "0.0.0",
     "scripts": {
         "ng": "ng",
