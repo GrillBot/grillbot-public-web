@@ -1,9 +1,6 @@
-<div class="d-flex justify-content-center">
-    <app-loading *ngIf="!data"></app-loading>
-</div>
-
 <ng-container *ngIf="data">
     <div class="row ml-0 mr-0 mt-2">
+        <app-loading *ngIf="!data"></app-loading>
         <div class="col">
             <app-card icon="fas fa-user" [title]="'Informace o uživateli'">
                 <div class="row">
@@ -22,13 +19,14 @@
                         </div>
 
                         <div class="row mt-3">
+                            <div keyValueItem class="col-3" [key]="'Minimální čas unverify'" [value]="data.selfUnverifyMinimalTime ?? 'Výchozí'">
+                            </div>
+
                             <div class="col flags">
                                 <span class="badge bg-{{(data.haveBirthday ? 'success' : 'danger')}}"
                                     title="Uživatel {{(data.haveBirthday ? 'má' : 'nemá')}} uložené datum narození">Narozeniny</span>
                                 <span class="badge bg-{{(data.isBotAdmin ? 'success' : 'danger')}}"
                                     title="Uživatel {{(data.isBotAdmin ? 'je' : 'není')}} administrátor bota">BotAdmin</span>
-                                <span class="badge bg-{{(data.haveWebAdmin ? 'success' : 'danger')}}"
-                                    title="Uživatel {{(data.haveWebAdmin ? 'má' : 'nemá')}} přístup do webové administrace">WebAdmin</span>
                             </div>
                         </div>
 
@@ -43,12 +41,6 @@
                     </div>
                 </div>
             </app-card>
-        </div>
-    </div>
-
-    <div class="row ml-0 mr-0 mt-3">
-        <div class="col">
-            <app-user-detail-settings [user]="data" (userUpdated)="onUserUpdated($event)"></app-user-detail-settings>
         </div>
     </div>
 

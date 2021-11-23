@@ -1,4 +1,3 @@
-import { UpdateUnverifyTimeModalComponent } from './../update-unverify-time-modal/update-unverify-time-modal.component';
 import { Dictionary } from './../../../core/models/common';
 import { UnverifyUserProfile } from './../../../core/models/unverify';
 import { Component, OnInit } from '@angular/core';
@@ -46,24 +45,5 @@ export class CurrentStateComponent implements OnInit {
 
     showReason(profile: UnverifyUserProfile): void {
         this.modalService.showNotification('Důvod odebrání přístupu', profile.reason);
-    }
-
-    removeUnverify(profile: UnverifyUserProfile): void {
-        this.modalService.showQuestion('Vrácení přístupu', 'Opravdu si přejete vrátit přístup?').onAccept.subscribe(_ => {
-            this.unverifyService.removeUnverify(profile.guild.id, profile.user.id).subscribe(_ => this.reloadData());
-        });
-    }
-
-    openTimeUpdate(profile: UnverifyUserProfile): void {
-        const modal = this.modalService.showCustomModal<UpdateUnverifyTimeModalComponent>(UpdateUnverifyTimeModalComponent);
-
-        modal.componentInstance.profile = profile;
-        modal.onAccept.subscribe(_ => {
-            const newEnd = modal.componentInstance.end;
-            this.unverifyService.updateUnverifyTime(profile.guild.id, profile.user.id, newEnd).subscribe(result => {
-                this.modalService.showNotification('Změna času odebrání přístupu', result.replace(/\*\*/g, ''))
-                    .onClose.subscribe(___ => this.reloadData());
-            });
-        });
     }
 }

@@ -7,16 +7,14 @@
                 <thead>
                     <tr>
                         <th>Seřadit podle: </th>
-                        <th sortable style="width: 150px" (clicked)="setSort($any($event))" [key]="'operation'" [current]="sortBy"
+                        <th sortable style="width: 250px" (clicked)="setSort($any($event))" [key]="'operation'" [current]="sortBy"
                             [sortDesc]="sortDesc">Operace</th>
-                        <th sortable style="width: 150px;" (clicked)="setSort($any($event))" [key]="'guild'" [current]="sortBy" [sortDesc]="sortDesc">
+                        <th sortable style="width: 250px;" (clicked)="setSort($any($event))" [key]="'guild'" [current]="sortBy" [sortDesc]="sortDesc">
                             Server</th>
-                        <th sortable style="width: 150px" (clicked)="setSort($any($event))" [key]="'fromUser'" [current]="sortBy"
+                        <th sortable style="width: 250px" (clicked)="setSort($any($event))" [key]="'fromUser'" [current]="sortBy"
                             [sortDesc]="sortDesc">Provedl</th>
-                        <th sortable style="width: 250px" (clicked)="setSort($any($event))" [key]="'toUser'" [current]="sortBy" [sortDesc]="sortDesc">
-                            Cílový uživatel</th>
-                        <th sortable (clicked)="setSort($any($event))" [key]="'createdAt'" [current]="sortBy" [sortDesc]="sortDesc">Datum a čas
-                            provedení</th>
+                        <th sortable style="width: 250px" (clicked)="setSort($any($event))" [key]="'createdAt'" [current]="sortBy"
+                            [sortDesc]="sortDesc">Datum a čas provedení</th>
                     </tr>
                 </thead>
             </table>
@@ -34,7 +32,6 @@
                             <div class="col">
                                 <p class="m-0">Server: <b>{{item.guild.name}}</b></p>
                                 <p class="m-0">Provedl: <b>{{item.fromUser.fullname}}</b></p>
-                                <p class="m-0">Cílový uživatel: <b>{{item.toUser.fullname}}</b></p>
                             </div>
 
                             <div class="col" *ngIf="item.anyData">
@@ -105,14 +102,6 @@
                                         </div>
                                     </ng-container>
                                 </ng-container>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-2 d-flex justify-content-end" *ngIf="item.isUnverify">
-                        <div class="row mt-2">
-                            <div class="col">
-                                <button class="btn btn-outline-success" (click)="recoverState(item)">Obnovit stav</button>
                             </div>
                         </div>
                     </div>

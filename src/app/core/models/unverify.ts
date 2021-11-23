@@ -44,7 +44,6 @@ export class UnverifyLogItem {
     public operation: UnverifyOperation;
     public guild: Guild;
     public fromUser: GuildUser;
-    public toUser: GuildUser;
     public createdAt: DateTime;
     public removeData: UnverifyLogRemove | null;
     public setData: UnverifyLogSet | null;
@@ -73,7 +72,6 @@ export class UnverifyLogItem {
         item.operation = data.operation;
         item.removeData = data.removeData ? UnverifyLogRemove.create(data.removeData) : null;
         item.setData = data.setData ? UnverifyLogSet.create(data.setData) : null;
-        item.toUser = GuildUser.create(data.toUser);
         item.updateData = data.updateData ? UnverifyLogUpdate.create(data.updateData) : null;
 
         return item;
@@ -140,8 +138,6 @@ export class UnverifyLogUpdate {
 export class UnverifyLogParams {
     public operation: UnverifyOperation | null = null;
     public guildId: string | null = null;
-    public fromUserId: string | null = null;
-    public toUserId: string | null = null;
     public createdFrom: string | null = null;
     public createdTo: string | null = null;
 
@@ -149,8 +145,6 @@ export class UnverifyLogParams {
         return [
             this.operation != null ? new QueryParam('operation', this.operation) : null,
             this.guildId ? new QueryParam('guildId', this.guildId) : null,
-            this.fromUserId ? new QueryParam('fromUserId', this.fromUserId) : null,
-            this.toUserId ? new QueryParam('toUserId', this.toUserId) : null,
             this.createdFrom ? new QueryParam('createdFrom', this.createdFrom) : null,
             this.createdTo ? new QueryParam('createdTo', this.createdTo) : null
         ].filter(o => o);
@@ -164,13 +158,11 @@ export class UnverifyLogParams {
 
         params.createdFrom = form.createdFrom;
         params.createdTo = form.createdTo;
-        params.fromUserId = form.fromUserId;
         params.guildId = form.guildId;
         params.operation = form.operation;
-        params.toUserId = form.toUserId;
 
         return params;
     }
 }
 
-export type UnverifyListSortTypes = 'operation' | 'guild' | 'fromUser' | 'toUser' | 'createdAt';
+export type UnverifyListSortTypes = 'operation' | 'guild' | 'createdAt';

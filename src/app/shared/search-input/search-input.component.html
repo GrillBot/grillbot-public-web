@@ -16,11 +16,6 @@
                         <ng-container *ngIf="items.length >= 5">kanálů</ng-container>
                     </ng-container>
 
-                    <ng-container *ngIf="searchSource === 'commands'">
-                        <ng-container *ngIf="items.length > 1 && items.length < 5">příkazy</ng-container>
-                        <ng-container *ngIf="items.length >= 5">příkazů</ng-container>
-                    </ng-container>
-
                     <ng-container *ngIf="searchSource === 'guilds'">
                         <ng-container *ngIf="items.length > 1 && items.length < 5">servery</ng-container>
                         <ng-container *ngIf="items.length >= 5">serverů</ng-container>

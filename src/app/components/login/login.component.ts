@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
                 this.errorMessage = result.errorMessage;
 
                 if (!this.errorMessage) {
-                    this.storage.store('AuthData', result.serialize());
+                    this.storage.store('GrillBot_Public_AuthData', result.serialize());
                     this.router.navigate(['/admin']);
                 }
             });

@@ -48,8 +48,6 @@ export class FilterComponent implements OnInit {
         this.form = this.fb.group({
             operation: [filter.operation],
             guildId: [filter.guildId],
-            fromUserId: [filter.fromUserId],
-            toUserId: [filter.toUserId],
             createdFrom: [filter.createdFrom],
             createdTo: [filter.createdTo]
         });

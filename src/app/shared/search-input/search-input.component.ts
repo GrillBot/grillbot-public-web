@@ -3,7 +3,6 @@ import { Component, forwardRef, Input, OnChanges, OnInit, SimpleChanges } from '
 import { NG_VALUE_ACCESSOR, ControlValueAccessor } from '@angular/forms';
 import { DataService } from 'src/app/core/services/data.service';
 import { SearchDataSource } from './models';
-import { map } from 'rxjs/operators';
 import { noop } from 'rxjs';
 
 @Component({
@@ -57,9 +56,6 @@ export class SearchInputComponent implements OnInit, ControlValueAccessor, OnCha
             case 'channels':
                 request = this.dataService.getChannels(this.guildId);
                 break;
-            case 'commands':
-                request = this.dataService.getCommands().pipe(map((data: string[]) => data.map(o => ({ key: o, value: o }))));
-                break;
             case 'guilds':
                 request = this.dataService.getGuilds();
                 break;
@@ -69,6 +65,7 @@ export class SearchInputComponent implements OnInit, ControlValueAccessor, OnCha
             case 'users':
                 request = this.dataService.getUsersList(false);
                 break;
+            default: return;
         }
 
         request.subscribe(data => this.data = data);

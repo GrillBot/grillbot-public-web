@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { UnverifyLogParams, UnverifyListSortTypes, UnverifyLogItem } from './../models/unverify';
 import { catchError, map } from 'rxjs/operators';
-import { EmptyObservable, ObservableList, PaginatedParams, PaginatedResponse } from './../models/common';
+import { ObservableList, PaginatedParams, PaginatedResponse } from './../models/common';
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { UnverifyUserProfile } from '../models/unverify';
@@ -26,26 +26,6 @@ export class UnverifyService {
         );
     }
 
-    removeUnverify(guildId: string, userId: string): EmptyObservable {
-        const url = `${environment.apiUrl}/unverify/${guildId}/${userId}`;
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.delete(url, { headers }).pipe(
-            catchError((err: HttpErrorResponse) => this.base.catchError(err))
-        );
-    }
-
-    updateUnverifyTime(guildId: string, userId: string, newEnd: string): Observable<string> {
-        const parameter = new QueryParam('endTime', newEnd).toString();
-        const url = `${environment.apiUrl}/unverify/${guildId}/${userId}?${parameter}`;
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.put<{ message: string }>(url, null, { headers }).pipe(
-            map(data => data.message),
-            catchError((err: HttpErrorResponse) => this.base.catchError(err))
-        );
-    }
-
     getUnverifyLog(filter: UnverifyLogParams, pagination: PaginatedParams, sortBy: UnverifyListSortTypes,
         sortDesc: boolean): Observable<PaginatedResponse<UnverifyLogItem>> {
         const parameters = [
@@ -59,15 +39,6 @@ export class UnverifyService {
 
         return this.base.http.get<PaginatedResponse<UnverifyLogItem>>(url, { headers }).pipe(
             map(data => PaginatedResponse.create(data, entity => UnverifyLogItem.create(entity))),
-            catchError((err: HttpErrorResponse) => this.base.catchError(err))
-        );
-    }
-
-    recoverUnverifyState(logId: number): EmptyObservable {
-        const url = `${environment.apiUrl}/unverify/log/${logId}/recover`;
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.post(url, null, { headers }).pipe(
             catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }

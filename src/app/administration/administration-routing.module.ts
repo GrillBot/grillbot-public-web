@@ -12,49 +12,14 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'users', pathMatch: 'full' },
             {
-                path: 'servers',
-                loadChildren: () => import('./guilds/guilds.module').then(mod => mod.GuildsModule),
-                data: { title: 'Servery' }
-            },
-            {
                 path: 'users',
                 loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule),
-                data: { title: 'Uživatelé' }
-            },
-            {
-                path: 'audit-log',
-                loadChildren: () => import('./audit-log/audit-log.module').then(mod => mod.AuditLogModule),
-                data: { title: 'Audit log' }
+                data: { title: 'Můj účet' }
             },
             {
                 path: 'channels',
                 loadChildren: () => import('./channels/channels.module').then(mod => mod.ChannelsModule),
                 data: { title: 'Kanály' }
-            },
-            {
-                path: 'invites',
-                loadChildren: () => import('./invites/invites.module').then(mod => mod.InvitesModule),
-                data: { title: 'Pozvánky' }
-            },
-            {
-                path: 'permissions',
-                loadChildren: () => import('./permissions/permissions.module').then(mod => mod.PermissionsModule),
-                data: { title: 'Oprávnění' }
-            },
-            {
-                path: 'reminder',
-                loadChildren: () => import('./reminders/reminders.module').then(mod => mod.RemindersModule),
-                data: { title: 'Reminder' }
-            },
-            {
-                path: 'search',
-                loadChildren: () => import('./searching/searching.module').then(mod => mod.SearchingModule),
-                data: { title: 'Hledání' }
-            },
-            {
-                path: 'internal',
-                loadChildren: () => import('./internal/internal.module').then(mod => mod.InternalModule),
-                data: { title: 'Interní' }
             },
             {
                 path: 'unverify',

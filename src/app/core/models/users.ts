@@ -1,12 +1,8 @@
-import { Dictionary } from 'src/app/core/models/common';
-import { Support } from '../lib/support';
 import { ChannelStatItem } from './channels';
 import { DateTime } from './datetime';
-import { UserFilterFlags, UserFilterMapping } from './enums/user-filter-flags';
 import { UserFlags } from './enums/user-flags';
-import { StatusColorMapping, UserStatus, UserStatusTexts } from './enums/user-status';
+import { UserStatus } from './enums/user-status';
 import { Guild } from './guilds';
-import { QueryParam } from './http';
 import { Invite, InviteBase } from './invites';
 
 export class User {
@@ -67,107 +63,9 @@ export class GuildUser extends User {
     }
 }
 
-export class UserListItem {
-    public id: string;
-    public flags: number;
-    public haveBirthday: boolean;
-    public username: string;
-    public guilds: Dictionary<string, boolean>;
-    public discordStatus: UserStatus;
-
-    // tslint:disable: no-bitwise
-    get isBotAdmin(): boolean { return (this.flags & UserFlags.BotAdmin) !== 0; }
-    get haveWebAdmin(): boolean { return (this.flags & UserFlags.WebAdmin) !== 0; }
-    get isBot(): boolean { return (this.flags & UserFlags.NotUser) !== 0; }
-    get isWebAdminOnline(): boolean { return (this.flags & UserFlags.WebAdmin) !== 0; }
-
-    get status(): string { return UserStatusTexts[Support.getEnumKeyByValue(UserStatus, this.discordStatus)]; }
-    get statusColor(): string { return StatusColorMapping[Support.getEnumKeyByValue(UserStatus, this.discordStatus)]; }
-
-    static create(data: any): UserListItem | null {
-        if (!data) { return null; }
-
-        const item = new UserListItem();
-        item.id = data.id;
-        item.flags = data.flags;
-        item.guilds = Object.keys(data.guilds).map(o => ({ key: o, value: data.guilds[o] }));
-        item.haveBirthday = data.haveBirthday ?? false;
-        item.username = data.username;
-        item.discordStatus = data.discordStatus;
-
-        return item;
-    }
-}
-
-export class GetUserListParams {
-    public username: string | null = null;
-    public guildId: string | null = null;
-    public flags = 0;
-    public haveBirthday = false;
-
-    get queryParams(): QueryParam[] {
-        return [
-            this.username ? new QueryParam('username', this.username) : null,
-            this.guildId ? new QueryParam('guildId', this.guildId) : null,
-            this.flags ? new QueryParam('flags', this.flags) : null,
-            new QueryParam('haveBirthday', this.haveBirthday)
-        ].filter(o => o);
-    }
-
-    static get empty(): GetUserListParams { return new GetUserListParams(); }
-
-    // tslint:disable: no-bitwise
-    static create(form: any): GetUserListParams | null {
-        if (!form) { return null; }
-        const params = GetUserListParams.empty;
-
-        params.flags = this.buildFlags(form.flags);
-        params.guildId = form.guild;
-        params.haveBirthday = (form.flags & UserFilterFlags.HaveBirthday) !== 0;
-        params.username = form.username;
-
-        return params;
-    }
-
-    private static buildFlags(flags: number): number {
-        let result = 0;
-
-        for (const item of UserFilterMapping) {
-            if ((flags & item.source) !== 0) {
-                result |= item.destination;
-            }
-        }
-
-        return result;
-    }
-
-    private serializeFlags(): number {
-        let result = 0;
-
-        if (this.haveBirthday) { result |= UserFilterFlags.HaveBirthday; }
-
-        for (const item of UserFilterMapping) {
-            if ((this.flags & item.destination) !== 0) {
-                result |= item.source;
-            }
-        }
-
-        return result;
-    }
-
-    serialize(): any {
-        return {
-            guild: this.guildId,
-            flags: this.serializeFlags(),
-            username: this.username
-        };
-    }
-}
-
 export class UserDetail {
     public id: string;
     public username: string;
-    public note: string;
     public flags: number;
     public haveBirthday: boolean;
     public guilds: GuildUserDetail[];
@@ -180,8 +78,9 @@ export class UserDetail {
 
     // tslint:disable: no-bitwise
     get isBotAdmin(): boolean { return (this.flags & UserFlags.BotAdmin) !== 0; }
-    get haveWebAdmin(): boolean { return (this.flags & UserFlags.WebAdmin) !== 0; }
     get isBot(): boolean { return (this.flags & UserFlags.NotUser) !== 0; }
+    get isWebAdminOnline(): boolean { return (this.flags & UserFlags.WebAdminOnline) !== 0; }
+    get isPublicAdminOnline(): boolean { return (this.flags & UserFlags.PublicAdminOnline) !== 0; }
 
     static create(data: any): UserDetail | null {
         if (!data) { return null; }
@@ -189,7 +88,6 @@ export class UserDetail {
 
         detail.id = data.id;
         detail.username = data.username;
-        detail.note = data.note;
         detail.flags = data.flags;
         detail.haveBirthday = data.haveBirthday ?? false;
         detail.guilds = data.guilds?.map((o: any) => GuildUserDetail.create(o)).filter((o: GuildUserDetail) => o);
@@ -254,13 +152,4 @@ export class EmoteStatItem {
 
         return item;
     }
-}
-
-export class UpdateUserParams {
-    constructor(
-        public botAdmin: boolean,
-        public note: string,
-        public webAdminAllowed: boolean,
-        public selfUnverifyMinimalTime: string | null
-    ) { }
 }

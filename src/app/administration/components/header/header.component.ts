@@ -17,7 +17,11 @@ export class HeaderComponent {
 
     toggleMenu(): void {
         const cssClass = 'sb-sidenav-toggled';
-        if (document.body.classList.contains(cssClass)) { document.body.classList.remove(cssClass); }
-        else { document.body.classList.add(cssClass); }
+
+        if (document.body.classList.contains(cssClass)) {
+            document.body.classList.remove(cssClass);
+        } else {
+            document.body.classList.add(cssClass);
+        }
     }
 }

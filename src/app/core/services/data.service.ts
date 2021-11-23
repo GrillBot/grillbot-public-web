@@ -44,16 +44,6 @@ export class DataService {
         );
     }
 
-    getCommands(): ObservableList<string> {
-        const url = `${environment.apiUrl}/data/commands`;
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.get<string[]>(url, { headers }).pipe(
-            map(data => data.map(o => o)),
-            catchError((err: HttpErrorResponse) => this.base.catchError(err))
-        );
-    }
-
     getUsersList(bots?: boolean): ObservableDict<string, string> {
         const parameter = bots === undefined ? '' : new QueryParam('bots', bots).toString();
         const url = `${environment.apiUrl}/data/users?${parameter}`;

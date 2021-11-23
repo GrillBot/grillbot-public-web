@@ -1,11 +1,9 @@
-import { ChannelDetailComponent } from './channel-detail/channel-detail.component';
-import { DashboardComponent } from './channels-list/dashboard/dashboard.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
+import { ChannelboardComponent } from './channelboard/channelboard.component';
 
 const routes: Routes = [
-    { path: '', component: DashboardComponent },
-    { path: ':id', component: ChannelDetailComponent }
+    { path: '', component: ChannelboardComponent }
 ];
 
 @NgModule({

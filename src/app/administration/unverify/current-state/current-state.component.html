@@ -10,14 +10,12 @@
 
 <div class="row mt-5 ml-0 mr-0" *ngIf="profiles && profiles.length === 0">
     <div class="col d-flex justify-content-center">
-        <h1 class="fw-normal">Momentálně nikdo nemá odebraný přístup.</h1>
+        <h1 class="fw-normal">Momentálně nikde nemáš odebraný přístup.</h1>
     </div>
 </div>
 
 <ng-template #unverifyCard let-unverify="unverify">
     <app-card [header]="false">
-        <h4 class="fw-normal">{{unverify.user.fullUsername}}</h4>
-
         <p class="badge bg-dark" *ngIf="unverify.isSelfUnverify">Selfunverify</p>
 
         <p>Začátek: <b>{{unverify.start.binding}}</b></p>
@@ -52,10 +50,8 @@
             </div>
         </div>
 
-        <div class="btn-group mt-2">
-            <button class="btn btn-outline-primary" (click)="showReason(unverify)" *ngIf="!unverify.isSelfUnverify">Důvod</button>
-            <button class="btn btn-outline-primary" (click)="openTimeUpdate(unverify)">Upravit čas</button>
-            <button class="btn btn-outline-danger" (click)="removeUnverify(unverify)">Odebrat</button>
+        <div class="btn-group mt-2" *ngIf="!unverify.isSelfUnverify">
+            <button class="btn btn-outline-primary" (click)="showReason(unverify)">Důvod</button>
         </div>
     </app-card>
 </ng-template>

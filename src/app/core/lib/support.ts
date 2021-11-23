@@ -1,12 +1,8 @@
-import { diffLines } from 'diff';
-
 export class Support {
     static getEnumKeyByValue(type: any, value: any): string {
+        /* eslint-disable */
         return Object.keys(type).find(o => type[o] === value);
-    }
-
-    static cut(value: string, maxLength: number): string {
-        return value.length <= maxLength ? value : `${value.substring(0, maxLength - 3)}...`;
+        /* eslint-enable */
     }
 
     static flattern<T>(arr: Array<T>): any[] {
@@ -22,14 +18,5 @@ export class Support {
         }
 
         return result;
-    }
-
-    static createDiff(before: string, after: string): string[] {
-        const lines = diffLines(before, after, { newlineIsToken: true, ignoreCase: true });
-        return lines.map(o => {
-            if (o.added) { return `+ ${o.value}`; }
-            else if (o.removed) { return `- ${o.value}`; }
-            else { return null; }
-        }).filter(o => o !== null);
     }
 }

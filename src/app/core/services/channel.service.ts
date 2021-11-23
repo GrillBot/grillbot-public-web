@@ -1,16 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { PaginatedResponse } from './../models/common';
-import { QueryParam } from './../models/http';
+import { ObservableList } from './../models/common';
 import { catchError, map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { BaseService } from './base.service';
 import { Injectable } from '@angular/core';
-import {
-    ChannelDetail, ChannelListSortTypes, ChannelUserStatItem, GetChannelListParams,
-    GuildChannel, SendMessageToChannelParams
-} from '../models/channels';
+import { ChannelboardItem } from '../models/channels';
 import { environment } from 'src/environments/environment';
-import { PaginatedParams } from '../models/common';
 
 /* eslint-disable @typescript-eslint/indent */
 @Injectable({ providedIn: 'root' })
@@ -19,58 +13,12 @@ export class ChannelService {
         private base: BaseService
     ) { }
 
-    sendMessageToChannel(guildId: string, channelId: string, params: SendMessageToChannelParams): Observable<unknown> {
-        const url = `${environment.apiUrl}/channel/${guildId}/${channelId}`;
+    getChannelboard(): ObservableList<ChannelboardItem> {
+        const url = `${environment.apiUrl}/channel/board`;
         const headers = this.base.getHttpHeaders();
 
-        return this.base.http.post(url, params, { headers }).pipe(
-            catchError((err: HttpErrorResponse) => this.base.catchError(err))
-        );
-    }
-
-    getChannelsList(filter: GetChannelListParams, pagination: PaginatedParams, sortBy: ChannelListSortTypes, sortDesc: boolean):
-        Observable<PaginatedResponse<GuildChannel>> {
-        const parameters = [
-            ...filter.queryParams,
-            ...pagination.queryParams,
-            new QueryParam('sortBy', sortBy),
-            new QueryParam('sortDesc', sortDesc)
-        ].filter(o => o).map(o => o.toString()).join('&');
-        const url = `${environment.apiUrl}/channel?${parameters}`;
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.get<PaginatedResponse<GuildChannel>>(url, { headers }).pipe(
-            map(data => PaginatedResponse.create(data, entity => GuildChannel.create(entity))),
-            catchError((err: HttpErrorResponse) => this.base.catchError(err))
-        );
-    }
-
-    removeMessagesFromCache(guildId: string, channelId: string): Observable<unknown> {
-        const url = `${environment.apiUrl}/channel/${guildId}/${channelId}/cache`;
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.delete(url, { headers }).pipe(
-            catchError((err: HttpErrorResponse) => this.base.catchError(err))
-        );
-    }
-
-    getChannelDetail(id: string): Observable<ChannelDetail> {
-        const url = `${environment.apiUrl}/channel/${id}`;
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.get<ChannelDetail>(url, { headers }).pipe(
-            map(data => ChannelDetail.create(data)),
-            catchError((err: HttpErrorResponse) => this.base.catchError(err))
-        );
-    }
-
-    getUserStatsOfChannel(id: string, pagination: PaginatedParams): Observable<PaginatedResponse<ChannelUserStatItem>> {
-        const parameters = pagination.queryParams.filter(o => o).map(o => o.toString()).join('&');
-        const url = `${environment.apiUrl}/channel/${id}/userStats?${parameters}`;
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.get<PaginatedResponse<ChannelUserStatItem>>(url, { headers }).pipe(
-            map(data => PaginatedResponse.create(data, entity => ChannelUserStatItem.create(entity))),
+        return this.base.http.get<ChannelboardItem[]>(url, { headers }).pipe(
+            map(data => data.map(o => ChannelboardItem.create(o))),
             catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }

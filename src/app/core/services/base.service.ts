@@ -61,7 +61,7 @@ export class BaseService {
     }
 
     getHttpHeaders(): HTTPHeaders {
-        const auth = AuthToken.create(this.storage.read<any>('AuthData'));
+        const auth = AuthToken.create(this.storage.read<any>('GrillBot_Public_AuthData'));
 
         return {
             Authorization: `Bearer ${auth.accessToken}`

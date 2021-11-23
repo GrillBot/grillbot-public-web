@@ -1,6 +1,6 @@
 import { PaginatedParams, Dictionary } from './../../../core/models/common';
 import { Component, ViewChild, OnInit } from '@angular/core';
-import { UnverifyListSortTypes, UnverifyLogItem, UnverifyLogParams } from 'src/app/core/models/unverify';
+import { UnverifyListSortTypes, UnverifyLogParams } from 'src/app/core/models/unverify';
 import { UnverifyService } from 'src/app/core/services/unverify.service';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
 import { ModalService } from 'src/app/shared/modal';
@@ -52,12 +52,6 @@ export class ListComponent implements OnInit {
         }
 
         if (this.list) { this.list.onChange(); }
-    }
-
-    recoverState(item: UnverifyLogItem): void {
-        this.modalService
-            .showQuestion('Obnovení stavu uživatele', 'Opravdu si přejete obnovit tomuto uživateli stav přístupů před unverify?')
-            .onAccept.subscribe(_ => this.unverifyService.recoverUnverifyState(item.id).subscribe(__ => this.list.onChange()));
     }
 
     resolveChannelName(id: string): string | null {

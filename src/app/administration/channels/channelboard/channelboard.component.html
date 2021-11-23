@@ -1,0 +1,31 @@
+<div class="row ml-0 mr-0 mt-2">
+    <div class="col">
+        <app-loading *ngIf="!data"></app-loading>
+
+        <app-card [title]="'Statistika kanálů'" *ngIf="data" [icon]="'fas fa-envelope-open-text'">
+            <table class="table table-sm">
+                <thead>
+                    <tr>
+                        <th style="width: 250px">Server</th>
+                        <th>Kanál</th>
+                        <th style="width: 250px">Počet zpráv</th>
+                        <th style="width: 250px">První zpráva</th>
+                        <th style="width: 250px">Posl. zpráva</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of data">
+                        <td>{{row.channel.guild.name}}</td>
+                        <td>{{row.channel.name}}</td>
+                        <td>{{row.count}}</td>
+                        <td>{{row.firstMessageAt.binding}}</td>
+                        <td>{{row.lastMessageAt.binding}}</td>
+                    </tr>
+                    <tr *ngIf="data.length === 0">
+                        <td colspan="5">Nebyly nalezeny žádné kanály nebo k žádnému kanálu nemáš přístup.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </app-card>
+    </div>
+</div>

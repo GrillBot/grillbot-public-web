@@ -18,22 +18,6 @@
 
             <div class="col">
                 <div class="form-group">
-                    <label>Akci provedl</label>
-                    <app-search-input [searchSource]="'users'" formControlName="fromUserId"></app-search-input>
-                </div>
-            </div>
-
-            <div class="col">
-                <div class="form-group">
-                    <label>Cílový uživatel</label>
-                    <app-search-input [searchSource]="'users'" formControlName="toUserId"></app-search-input>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
                     <label>Vytvořeno (od)</label>
                     <input type="datetime-local" class="form-control" formControlName="createdFrom" />
                 </div>
@@ -46,7 +30,7 @@
                 </div>
             </div>
 
-            <div class="col-6 d-flex justify-content-end align-items-end">
+            <div class="col-1 d-flex justify-content-end align-items-end">
                 <button class="btn btn-danger" (click)="reset()" type="button">Smazat filtr</button>
             </div>
         </div>

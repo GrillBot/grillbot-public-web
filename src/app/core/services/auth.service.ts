@@ -21,7 +21,7 @@ export class AuthService {
     ) { }
 
     get currentToken(): AuthToken {
-        return AuthToken.create(this.storage.read<any>('AuthData'));
+        return AuthToken.create(this.storage.read<any>('GrillBot_Public_AuthData'));
     }
 
     get isLogged(): boolean {
@@ -33,14 +33,14 @@ export class AuthService {
     logout(): void {
         if (this.isLogged) {
             this.userService.hearthbeatOff().subscribe();
-            this.storage.remove('AuthData');
+            this.storage.remove('GrillBot_Public_AuthData');
         }
 
         this.router.navigateByUrl('/login');
     }
 
     getLink(): Observable<OAuth2Link> {
-        const url = `${environment.apiUrl}/auth/link?isPublic=false`;
+        const url = `${environment.apiUrl}/auth/link?isPublic=true`;
 
         return this.base.http.get<any>(url).pipe(
             map(data => OAuth2Link.create(data))

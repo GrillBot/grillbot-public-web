@@ -1,6 +1,4 @@
-import { QueryParam } from './http';
 import { DateTime } from './datetime';
-import { Guild } from './guilds';
 import { User } from './users';
 
 export class InviteBase {
@@ -35,56 +33,3 @@ export class Invite extends InviteBase {
         return invite;
     }
 }
-
-export class GuildInvite extends Invite {
-    public guild: Guild;
-
-    static create(data: any): GuildInvite | null {
-        if (!data) { return null; }
-        const base = super.create(data);
-        const invite = new GuildInvite();
-
-        invite.code = base.code;
-        invite.createdAt = base.createdAt;
-        invite.creator = base.creator;
-        invite.guild = data.guild ? Guild.create(data.guild) : null;
-        invite.usedUsersCount = base.usedUsersCount;
-
-        return invite;
-    }
-}
-
-export class GetInviteListParams {
-    public guildId: string | null = null;
-    public creatorId: string | null = null;
-    public code: string | null = null;
-    public createdFrom: string | null = null;
-    public createdTo: string | null = null;
-
-    get queryParams(): QueryParam[] {
-        return [
-            this.guildId ? new QueryParam('guildId', this.guildId) : null,
-            this.creatorId ? new QueryParam('creatorId', this.creatorId) : null,
-            this.code ? new QueryParam('code', this.code) : null,
-            this.createdFrom ? new QueryParam('createdFrom', this.createdFrom) : null,
-            this.createdTo ? new QueryParam('createdTo', this.createdTo) : null
-        ].filter(o => o);
-    }
-
-    static get empty(): GetInviteListParams { return new GetInviteListParams(); }
-
-    static create(form: any): GetInviteListParams | null {
-        if (!form) { return null; }
-        const params = new GetInviteListParams();
-
-        params.code = form.code;
-        params.createdFrom = form.createdFrom;
-        params.createdTo = form.createdTo;
-        params.creatorId = form.creatorId;
-        params.guildId = form.guildId;
-
-        return params;
-    }
-}
-
-export type InviteListSortTypes = 'code' | 'createdAt' | 'creator';
