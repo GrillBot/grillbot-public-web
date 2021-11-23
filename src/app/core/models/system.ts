@@ -12,27 +12,31 @@ export class DiagnosticsInfo {
     public connectionState: ConnectionState;
     public usedMemory: number;
     public userStatus: UserStatus;
+    public currentDateTime: DateTime;
 
     get formattedConnectionState(): string {
-        return ConnectionStateTexts[Support.getEnumKeyByValue(ConnectionState, this.connectionState)];
+        return ConnectionStateTexts[Support.getEnumKeyByValue(ConnectionState, this.connectionState)] as string;
     }
 
     get botStatus(): string {
-        return UserStatusTexts[Support.getEnumKeyByValue(UserStatus, this.userStatus)];
+        return UserStatusTexts[Support.getEnumKeyByValue(UserStatus, this.userStatus)] as string;
     }
 
     static create(data: any): DiagnosticsInfo | null {
         if (!data) { return null; }
         const info = new DiagnosticsInfo();
 
+        /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
         info.connectionState = data.connectionState;
         info.cpuTime = data.cpuTime;
         info.instanceType = data.instanceType;
         info.latency = data.latency;
-        info.startAt = DateTime.fromISOString(data.startAt);
+        info.startAt = DateTime.fromISOString(data.startAt as string);
         info.uptime = data.uptime;
         info.usedMemory = data.usedMemory;
         info.userStatus = data.userStatus;
+        info.currentDateTime = DateTime.fromISOString(data.currentDateTime as string);
+        /* eslint-enable */
 
         return info;
     }

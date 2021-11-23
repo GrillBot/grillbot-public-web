@@ -24,7 +24,9 @@ export class LoginComponent implements OnInit {
 
         const search = new URLSearchParams(location.search);
         if (search.has('sessionId')) {
-            this.authService.processLogin(search.get('sessionId')).subscribe(result => {
+            const isPublic = search.get('isPublic').toLowerCase() === 'true';
+
+            this.authService.processLogin(search.get('sessionId'), isPublic).subscribe(result => {
                 this.errorMessage = result.errorMessage;
 
                 if (!this.errorMessage) {
