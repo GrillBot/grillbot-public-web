@@ -8,7 +8,7 @@
 
                 <div class="col d-flex flex-column">
                     <b>{{emote.name}}</b>
-                    <span>Použito: {{emote.useCount}}x</span>
+                    <span>Použito: {{emote.useCount.toLocaleString()}}x</span>
                     <span>Poprvé: {{emote.firstOccurence.toLocaleString()}}</span>
                     <span>Naposledy: {{emote.lastOccurence.toLocaleString()}}</span>
                 </div>

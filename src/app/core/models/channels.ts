@@ -74,6 +74,7 @@ export class ChannelboardItem {
         const item = new ChannelboardItem();
 
         /* eslint-disable */
+        item.channel = GuildChannel.create(data.channel);
         item.count = data.count;
         item.firstMessageAt = DateTime.fromISOString(data.firstMessageAt);
         item.lastMessageAt = DateTime.fromISOString(data.lastMessageAt);

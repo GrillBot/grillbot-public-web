@@ -15,7 +15,7 @@
                 <div class="row mb-3">
                     <div keyValueItem class="col-2" [key]="'Server'" [value]="guild.guild.name"></div>
                     <div keyValueItem class="col-2" [key]="'Serverový nick'" [value]="guild.nickname ?? 'Nenastaven'"></div>
-                    <div keyValueItem class="col-2" [key]="'Body'" [value]="guild.points"></div>
+                    <div keyValueItem class="col-2" [key]="'Body'" [value]="guild.points.toLocaleString()"></div>
                     <div keyValueItem class="col-2" [key]="'Počet udělených reakcí'" [value]="guild.givenReactions.toLocaleString()"></div>
                     <div keyValueItem class="col-2" [key]="'Počet obdržených reakcí'" [value]="guild.obtainedReactions.toLocaleString()"></div>
                 </div>
@@ -66,7 +66,7 @@
                             <tbody>
                                 <tr *ngFor="let channel of guild.channels">
                                     <td>{{channel.channel.name}}</td>
-                                    <td>{{channel.count}}</td>
+                                    <td>{{channel.count.toLocaleString()}}</td>
                                     <td>{{channel.firstMessageAt.toLocaleString()}}</td>
                                     <td>{{channel.lastMessageAt.toLocaleString()}}</td>
                                 </tr>

@@ -15,9 +15,9 @@
                 </thead>
                 <tbody>
                     <tr *ngFor="let row of data">
-                        <td>{{row.channel.guild.name}}</td>
+                        <td>{{row.channel.guild.name ?? 'Neznámý server'}}</td>
                         <td>{{row.channel.name}}</td>
-                        <td>{{row.count}}</td>
+                        <td>{{row.count.toLocaleString()}}</td>
                         <td>{{row.firstMessageAt.binding}}</td>
                         <td>{{row.lastMessageAt.binding}}</td>
                     </tr>
