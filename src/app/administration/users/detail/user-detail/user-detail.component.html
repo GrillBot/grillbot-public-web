@@ -21,6 +21,7 @@
                         <div class="row mt-3">
                             <div keyValueItem class="col-3" [key]="'Minimální čas unverify'" [value]="data.selfUnverifyMinimalTime ?? 'Výchozí'">
                             </div>
+                            <div keyValueItem class="col-3" [key]="'Datum a čas registrace'" [value]="data.registeredAt?.binding ?? 'Není známo'"></div>
 
                             <div class="col flags">
                                 <span class="badge bg-{{(data.haveBirthday ? 'success' : 'danger')}}"

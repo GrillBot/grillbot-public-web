@@ -21,13 +21,11 @@ export class User {
 
         const user = new User();
 
-        /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
         user.id = data.id;
         user.isBot = data.isBot;
         user.avatarUrl = data.avatarUrl;
         user.discriminator = data.discriminator;
         user.username = data.username;
-        /* eslint-enable */
 
         return user;
     }
@@ -75,6 +73,7 @@ export class UserDetail {
     public isKnown: boolean;
     public avatarUrl: string;
     public selfUnverifyMinimalTime: string | null;
+    public registeredAt: DateTime | null;
 
     // tslint:disable: no-bitwise
     get isBotAdmin(): boolean { return (this.flags & UserFlags.BotAdmin) !== 0; }
@@ -97,6 +96,7 @@ export class UserDetail {
         detail.isKnown = data.isKnown;
         detail.avatarUrl = data.avatarUrl;
         detail.selfUnverifyMinimalTime = data.selfUnverifyMinimalTime;
+        detail.registeredAt = data.registeredAt ? DateTime.fromISOString(data.registeredAt) : null;
 
         return detail;
     }
