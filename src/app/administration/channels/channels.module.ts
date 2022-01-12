@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ChannelsRoutingModule } from './channels-routing.module';
 import { ChannelboardComponent } from './channelboard/channelboard.component';
+import { Routes, RouterModule } from '@angular/router';
+
+const routes: Routes = [
+    { path: '', component: ChannelboardComponent }
+];
 
 @NgModule({
     declarations: [
@@ -9,7 +13,7 @@ import { ChannelboardComponent } from './channelboard/channelboard.component';
     ],
     imports: [
         SharedModule,
-        ChannelsRoutingModule
+        RouterModule.forChild(routes)
     ]
 })
 export class ChannelsModule { }
