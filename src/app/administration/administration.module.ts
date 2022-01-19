@@ -17,22 +17,22 @@ const routes: Routes = [
             {
                 path: 'users',
                 loadChildren: () => import('./users/users.module').then(mod => mod.UsersModule),
-                data: { title: 'Můj účet' }
+                data: { title: 'Můj účet', id: 'users' }
             },
             {
                 path: 'channels',
                 loadChildren: () => import('./channels/channels.module').then(mod => mod.ChannelsModule),
-                data: { title: 'Kanály' }
+                data: { title: 'Kanály', id: 'channels' }
             },
             {
                 path: 'unverify',
                 loadChildren: () => import('./unverify/unverify.module').then(mod => mod.UnverifyModule),
-                data: { title: 'Unverify' }
+                data: { title: 'Unverify', id: 'unverify' }
             },
             {
                 path: 'help',
                 loadChildren: () => import('./help/help.module').then(mod => mod.HelpModule),
-                data: { title: 'Nápověda k příkazům' }
+                data: { title: 'Nápověda k příkazům', id: 'help' }
             }
         ]
     },
