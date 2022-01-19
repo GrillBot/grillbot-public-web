@@ -26,7 +26,7 @@ export class BaseService {
             modal.componentInstance.errors = Support.flattern<string>(Object.values(err.error.errors) as string[]) as string[];
             return EMPTY;
         } else if (err.status === HttpStatusCode.Unauthorized) {
-            this.storage.remove('AuthData');
+            this.storage.remove('GrillBot_Public_AuthData');
             this.router.navigate(['/', 'login']).then().catch();
             return EMPTY;
         } else if (err.status !== HttpStatusCode.Ok) {
@@ -52,7 +52,7 @@ export class BaseService {
 
     isAuthError(err: HttpErrorResponse): boolean {
         if (err.status === HttpStatusCode.Unauthorized) {
-            this.storage.remove('AuthData');
+            this.storage.remove('GrillBot_Public_AuthData');
             this.router.navigate(['/login']);
             return true;
         }
