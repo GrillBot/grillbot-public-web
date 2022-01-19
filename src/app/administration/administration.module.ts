@@ -32,7 +32,7 @@ const routes: Routes = [
             {
                 path: 'help',
                 loadChildren: () => import('./help/help.module').then(mod => mod.HelpModule),
-                data: { title: 'Nápověda' }
+                data: { title: 'Nápověda k příkazům' }
             }
         ]
     },

@@ -1,0 +1,18 @@
+@import "/node_modules/bootstrap/scss/functions";
+@import "/node_modules/bootstrap/scss/variables";
+
+.param {
+    background-color: lighten($secondary, 10%);
+    color: white;
+    padding: 2px;
+    border-radius: 4px;
+    margin-right: 5px;
+
+    &::before {
+        content: '{';
+    }
+
+    &::after {
+        content: '}'
+    }
+}

@@ -13,7 +13,7 @@
                 <ng-container
                     *ngTemplateOutlet="menuItem; context: {link: '/admin/unverify/logs', icon:'fa-skull-crossbones', title:'Unverify log'}">
                 </ng-container>
-                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/help', icon:'fa-question-circle', title: 'Nápověda'}">
+                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/help', icon:'fa-question-circle', title: 'Nápověda k příkazům'}">
                 </ng-container>
                 <a class="nav-link cursor-ptr" (click)="authService.logout()">
                     <div class="sb-nav-link-icon">
