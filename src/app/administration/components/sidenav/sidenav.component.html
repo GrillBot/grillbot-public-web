@@ -2,12 +2,18 @@
     <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
         <div class="sb-sidenav-menu">
             <div class="nav">
-                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/users/me', icon:'fa-user', title:'Můj účet'}"></ng-container>
-                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/channels', icon:'fa-envelope-open-text', title:'Kanály'}">
+                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/users/me', icon:'fa-user', title:'Můj účet'}">
                 </ng-container>
-                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/unverify', icon:'fa-skull-crossbones', title:'Unverify'}">
+                <ng-container
+                    *ngTemplateOutlet="menuItem; context: {link: '/admin/channels', icon:'fa-envelope-open-text', title:'Kanály'}">
                 </ng-container>
-                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/unverify/logs', icon:'fa-skull-crossbones', title:'Unverify log'}">
+                <ng-container
+                    *ngTemplateOutlet="menuItem; context: {link: '/admin/unverify', icon:'fa-skull-crossbones', title:'Unverify'}">
+                </ng-container>
+                <ng-container
+                    *ngTemplateOutlet="menuItem; context: {link: '/admin/unverify/logs', icon:'fa-skull-crossbones', title:'Unverify log'}">
+                </ng-container>
+                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/admin/help', icon:'fa-question-circle', title: 'Nápověda'}">
                 </ng-container>
                 <a class="nav-link cursor-ptr" (click)="authService.logout()">
                     <div class="sb-nav-link-icon">
