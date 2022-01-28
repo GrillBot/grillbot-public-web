@@ -64,6 +64,7 @@ export class GuildUser extends User {
 export class UserDetail {
     public id: string;
     public username: string;
+    public discriminator: string;
     public flags: number;
     public haveBirthday: boolean;
     public guilds: GuildUserDetail[];
@@ -72,7 +73,7 @@ export class UserDetail {
     public activeClients: string[];
     public isKnown: boolean;
     public avatarUrl: string;
-    public selfUnverifyMinimalTime: string | null;
+    public selfUnverifyMinimalTime?: string | null;
     public registeredAt: DateTime | null;
 
     // tslint:disable: no-bitwise
@@ -80,6 +81,7 @@ export class UserDetail {
     get isBot(): boolean { return (this.flags & UserFlags.NotUser) !== 0; }
     get isWebAdminOnline(): boolean { return (this.flags & UserFlags.WebAdminOnline) !== 0; }
     get isPublicAdminOnline(): boolean { return (this.flags & UserFlags.PublicAdminOnline) !== 0; }
+    get fullUsername(): string { return this.discriminator && this.discriminator.length > 0 ? `${this.username}#${this.discriminator}` : this.username; }
 
     static create(data: any): UserDetail | null {
         if (!data) { return null; }
@@ -97,6 +99,7 @@ export class UserDetail {
         detail.avatarUrl = data.avatarUrl;
         detail.selfUnverifyMinimalTime = data.selfUnverifyMinimalTime;
         detail.registeredAt = data.registeredAt ? DateTime.fromISOString(data.registeredAt) : null;
+        detail.discriminator = data.discriminator;
 
         return detail;
     }

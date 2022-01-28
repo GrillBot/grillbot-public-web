@@ -12,16 +12,18 @@
                     <div class="col mt-1">
                         <div class="row">
                             <div keyValueItem class="col-3" [key]="'Identifikátor'" [value]="data.id"></div>
-                            <div keyValueItem class="col-3" [key]="'Uživatelské jméno'" [value]="data.username"></div>
+                            <div keyValueItem class="col-3" [key]="'Uživatelské jméno'" [value]="data.fullUsername"></div>
                             <div keyValueItem class="col-3" [key]="'Stav'" [value]="statusText"></div>
                             <div keyValueItem class="col-3" [key]="'Aktivní zařízení'"
                                 [value]="(data.activeClients.length == 0 ? ['Žádné'] : data.activeClients).join(', ')"></div>
                         </div>
 
                         <div class="row mt-3">
-                            <div keyValueItem class="col-3" [key]="'Minimální čas unverify'" [value]="data.selfUnverifyMinimalTime ?? 'Výchozí'">
+                            <div keyValueItem class="col-3" [key]="'Minimální čas unverify'"
+                                [value]="data.selfUnverifyMinimalTime || 'Výchozí'">
                             </div>
-                            <div keyValueItem class="col-3" [key]="'Datum a čas registrace'" [value]="data.registeredAt?.binding ?? 'Není známo'"></div>
+                            <div keyValueItem class="col-3" [key]="'Datum a čas registrace'"
+                                [value]="data.registeredAt?.binding || 'Není známé'"></div>
 
                             <div class="col flags">
                                 <span class="badge bg-{{(data.haveBirthday ? 'success' : 'danger')}}"
