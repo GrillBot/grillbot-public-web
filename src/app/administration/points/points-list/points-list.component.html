@@ -16,6 +16,9 @@
                         <td>{{user.guild.name}}</td>
                         <td>{{user.points.toLocaleString()}}</td>
                     </tr>
+                    <tr *ngIf="pointsListResult.length === 0">
+                        <td colspan="4">Ještě nebyla zanamenána žádná aktivita.</td>
+                    </tr>
                 </tbody>
             </table>
         </app-card>
