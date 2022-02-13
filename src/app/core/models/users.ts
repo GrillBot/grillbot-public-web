@@ -156,3 +156,22 @@ export class EmoteStatItem {
         return item;
     }
 }
+
+export class UserPointsItem {
+    public user: User;
+    public guild: Guild;
+    public nickname: string;
+    public points: number;
+
+    static create(data: any): UserPointsItem | null {
+        if (!data) { return null; }
+
+        const item = new UserPointsItem();
+        item.guild = Guild.create(data.guild);
+        item.nickname = data.nickname;
+        item.points = data.points;
+        item.user = User.create(data.user);
+
+        return item;
+    }
+}

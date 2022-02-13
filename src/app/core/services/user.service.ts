@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserDetail } from '../models/users';
+import { UserDetail, UserPointsItem } from '../models/users';
 import { BaseService } from './base.service';
 import { environment } from 'src/environments/environment';
 import { map, catchError } from 'rxjs/operators';
@@ -48,6 +48,16 @@ export class UserService {
 
         return this.base.http.get<CommandGroup[]>(url, { headers }).pipe(
             map(data => data.map(o => CommandGroup.create(o))),
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
+        );
+    }
+
+    getPointsLeaderboard(): ObservableList<UserPointsItem> {
+        const url = `${environment.apiUrl}/users/points/board`;
+        const headers = this.base.getHttpHeaders();
+
+        return this.base.http.get<UserPointsItem[]>(url, { headers }).pipe(
+            map(data => data.map(o => UserPointsItem.create(o))),
             catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }

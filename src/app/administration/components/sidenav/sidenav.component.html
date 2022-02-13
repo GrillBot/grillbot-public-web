@@ -4,6 +4,8 @@
             <div class="nav">
                 <ng-container *ngTemplateOutlet="menuItem; context: {link: '/users/me', icon:'fa-user', title:'Můj účet', id: 'users'}">
                 </ng-container>
+                <ng-container *ngTemplateOutlet="menuItem;context:{link:'/points', icon:'fa-list-ul', title: 'Body', id: 'points'}">
+                </ng-container>
                 <ng-container
                     *ngTemplateOutlet="menuItem; context: {link: '/channels', icon:'fa-envelope-open-text', title:'Kanály', id: 'channels'}">
                 </ng-container>
