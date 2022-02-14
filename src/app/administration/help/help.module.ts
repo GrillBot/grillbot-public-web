@@ -4,7 +4,8 @@ import { NgModule } from '@angular/core';
 import { DashboardComponent } from './dashboard/dashboard.component';
 
 const routes: Routes = [
-    { path: '', component: DashboardComponent }
+    { path: '', redirectTo: 'grillbot', pathMatch: 'full' },
+    { path: ':service', component: DashboardComponent }
 ];
 
 @NgModule({

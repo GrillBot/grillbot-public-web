@@ -1,3 +1,4 @@
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 import { CommandGroup } from 'src/app/core/models/help';
@@ -10,13 +11,26 @@ import { ObservableList } from 'src/app/core/models/common';
 })
 export class DashboardComponent implements OnInit {
     groups: ObservableList<CommandGroup>;
+    currentService: string;
 
     constructor(
-        private usersService: UserService
+        private usersService: UserService,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit(): void {
-        this.groups = this.usersService.getAvailableCommands();
+        this.route.params.subscribe(params => {
+            this.currentService = params.service as string;
+
+            switch (this.currentService) {
+                case 'grillbot':
+                    this.groups = this.usersService.getAvailableCommands();
+                    break;
+                default:
+                    this.groups = this.usersService.getCommandsOfService(this.currentService);
+                    break;
+            }
+        });
     }
 
 }

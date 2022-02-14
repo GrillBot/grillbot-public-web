@@ -10,10 +10,10 @@ export class TextBasedCommand {
         const command = new TextBasedCommand();
 
         command.command = data.command;
-        command.parameters = data.parameters.map((o: string) => o);
-        command.aliases = data.aliases.map((o: string) => o);
+        command.parameters = data.parameters ? data.parameters.map((o: string) => o) : [];
+        command.aliases = data.aliases ? data.aliases.map((o: string) => o) : [];
         command.description = data.description;
-        command.guilds = data.guilds.map((o: string) => o);
+        command.guilds = data.guilds ? data.guilds.map((o: string) => o) : [];
 
         return command;
     }

@@ -52,6 +52,16 @@ export class UserService {
         );
     }
 
+    getCommandsOfService(service: string): ObservableList<CommandGroup> {
+        const url = `${environment.apiUrl}/users/me/commands/${service}`;
+        const headers = this.base.getHttpHeaders();
+
+        return this.base.http.get<CommandGroup[]>(url, { headers }).pipe(
+            map(data => data.map(o => CommandGroup.create(o))),
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
+        );
+    }
+
     getPointsLeaderboard(): ObservableList<UserPointsItem> {
         const url = `${environment.apiUrl}/users/points/board`;
         const headers = this.base.getHttpHeaders();

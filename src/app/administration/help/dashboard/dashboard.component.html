@@ -1,3 +1,18 @@
+<div class="row ms-0 me-0 mt-2">
+    <div class="col-2">
+        <a routerLink="../grillbot" title="Nápověda ke GrillBot" class="menu-link" [class.active]="currentService == 'grillbot'">
+            <img src="https://cdn.discordapp.com/avatars/902678773307174943/946912576d7fea716e9d532e706708c4.png?size=32"
+                alt="GrillBot">GrillBot
+        </a>
+    </div>
+    <div class="col-2">
+        <a routerLink="../rubbergod" title="Nápověda k Rubbergodovi" class="menu-link" [class.active]="currentService == 'rubbergod'">
+            <img src="https://cdn.discordapp.com/avatars/560917571663298568/4885086b4cecfafa44190410ebc62627.png?size=32"
+                alt="GrillBot">Rubbergod
+        </a>
+    </div>
+</div>
+
 <div class="row ms-0 me-0">
     <div class="col">
         <ng-container *ngIf="groups | async as groupsResult; else loading">
