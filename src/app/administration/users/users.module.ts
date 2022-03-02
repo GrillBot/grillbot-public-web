@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UserDetailComponent } from './detail/user-detail/user-detail.component';
 import { UserDetailGuildsComponent } from './detail/user-detail-guilds/user-detail-guilds.component';
-import { UserDetailEmotesComponent } from './detail/user-detail-emotes/user-detail-emotes.component';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
@@ -13,8 +12,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [
         UserDetailComponent,
-        UserDetailGuildsComponent,
-        UserDetailEmotesComponent
+        UserDetailGuildsComponent
     ],
     imports: [
         SharedModule,
