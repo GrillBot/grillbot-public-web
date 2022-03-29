@@ -1,3 +1,4 @@
+import { ListButtonComponent } from './list-button/list-button.component';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -14,6 +15,8 @@ import { CommonDashboardComponent } from './common-dashboard/common-dashboard.co
 import { SortingDirective } from './data-list/sorting.directive';
 import { SearchInputComponent } from './search-input/search-input.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CzechBooleanPipePipe } from './pipes/czech-boolean-pipe.pipe';
+import { CheckboxComponent } from './checkbox/checkbox.component';
 
 @NgModule({
     declarations: [
@@ -25,7 +28,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
         ValidationErrorsModalComponent,
         CommonDashboardComponent,
         SortingDirective,
-        SearchInputComponent
+        SearchInputComponent,
+        ListButtonComponent,
+        CzechBooleanPipePipe,
+        CheckboxComponent
     ],
     imports: [
         CommonModule,
@@ -51,7 +57,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
         CommonDashboardComponent,
         SortingDirective,
         SearchInputComponent,
-        NgSelectModule
+        NgSelectModule,
+        ListButtonComponent,
+        CzechBooleanPipePipe,
+        CheckboxComponent
     ]
 })
 export class SharedModule { }

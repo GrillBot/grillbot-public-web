@@ -15,6 +15,8 @@
                 <ng-container
                     *ngTemplateOutlet="menuItem; context: {link: '/unverify/logs', icon:'fa-skull-crossbones', title:'Unverify log', id: 'unverify'}">
                 </ng-container>
+                <ng-container *ngTemplateOutlet="menuItem; context: {link: '/reminder', icon:'fa-bell', title:'Reminder', id:'reminder'}">
+                </ng-container>
                 <ng-container
                     *ngTemplateOutlet="menuItem; context: {link: '/help', icon:'fa-question-circle', title: 'Nápověda k příkazům', id: 'help'}">
                 </ng-container>

@@ -38,6 +38,11 @@ const routes: Routes = [
                 path: 'points',
                 loadChildren: () => import('./points/points.module').then(mod => mod.PointsModule),
                 data: { title: 'Statistika bodů', id: 'points' }
+            },
+            {
+                path: 'reminder',
+                loadChildren: () => import('./reminders/reminders.module').then(mod => mod.RemindersModule),
+                data: { title: 'Reminder', id: 'reminder' }
             }
         ]
     },
