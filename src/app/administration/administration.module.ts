@@ -43,6 +43,11 @@ const routes: Routes = [
                 path: 'reminder',
                 loadChildren: () => import('./reminders/reminders.module').then(mod => mod.RemindersModule),
                 data: { title: 'Reminder', id: 'reminder' }
+            },
+            {
+                path: 'search',
+                loadChildren: () => import('./searching/searching.module').then(mod => mod.SearchingModule),
+                data: { title: 'Hledání', id: 'searching' }
             }
         ]
     },

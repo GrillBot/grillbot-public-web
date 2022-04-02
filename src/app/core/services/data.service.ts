@@ -22,9 +22,12 @@ export class DataService {
         );
     }
 
-    getChannels(guildId?: string): ObservableDict<string, string> {
-        const parameter = guildId ? new QueryParam('guildId', guildId).toString() : '';
-        const url = `${environment.apiUrl}/data/channels?${parameter}`;
+    getChannels(guildId?: string, ignoreThreads: boolean = false): ObservableDict<string, string> {
+        const parameters: QueryParam[] = [];
+        if (guildId) { parameters.push(new QueryParam('guildId', guildId)); }
+        if (ignoreThreads) { parameters.push(new QueryParam('ignoreThreads', ignoreThreads)); }
+        const params = parameters.map(o => o.toString()).join('&');
+        const url = `${environment.apiUrl}/data/channels?${params}`;
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<Dictionary<string, string>>(url, { headers }).pipe(
@@ -40,6 +43,16 @@ export class DataService {
 
         return this.base.http.get<Dictionary<string, string>>(url, { headers }).pipe(
             map(data => Object.keys(data).map(k => ({ key: k, value: data[k] as string }))),
+            catchError((err: HttpErrorResponse) => this.base.catchError(err))
+        );
+    }
+
+    getCommands(): ObservableList<string> {
+        const url = `${environment.apiUrl}/data/commands`;
+        const headers = this.base.getHttpHeaders();
+
+        return this.base.http.get<string[]>(url, { headers }).pipe(
+            map(data => data.map(o => o)),
             catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
