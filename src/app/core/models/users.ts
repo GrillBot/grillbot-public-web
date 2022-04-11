@@ -136,22 +136,41 @@ export class GuildUserDetail {
     }
 }
 
-export class EmoteStatItem {
+export class EmoteItem {
+    public id: string;
     public name: string;
-    public useCount: number;
     public imageUrl: string;
+    public fullId: string;
+
+    static create(data: any): EmoteItem | null {
+        if (!data) { return null; }
+
+        const item = new EmoteItem();
+        item.id = data.id;
+        item.imageUrl = data.imageUrl;
+        item.name = data.name;
+        item.fullId = data.fullId;
+
+        return item;
+    }
+}
+
+export class EmoteStatItem {
+    public emote: EmoteItem;
+    public useCount: number;
     public firstOccurence: DateTime;
     public lastOccurence: DateTime;
+    public usedUsersCount: number;
 
     static create(data: any): EmoteStatItem | null {
         if (!data) { return null; }
         const item = new EmoteStatItem();
 
-        item.name = data.name;
+        item.emote = EmoteItem.create(data.emote);
         item.useCount = data.useCount;
-        item.imageUrl = data.imageUrl;
         item.firstOccurence = DateTime.fromISOString(data.firstOccurence);
         item.lastOccurence = DateTime.fromISOString(data.lastOccurence);
+        item.usedUsersCount = data.usedUsersCount;
 
         return item;
     }
