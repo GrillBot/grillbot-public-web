@@ -1,5 +1,5 @@
 import { Channel } from './channels';
-import { PaginatedParams, SortParams } from './common';
+import { FilterBase, PaginatedParams, SortParams } from './common';
 import { Guild } from './guilds';
 import { QueryParam } from './http';
 import { User } from './users';
@@ -23,33 +23,21 @@ export class SearchingListItem {
     }
 }
 
-export class GetSearchingListParams {
+export class GetSearchingListParams extends FilterBase {
     public guildId: string | null = null;
     public channelId: string | null = null;
     public messageQuery: string | null = null;
-
-    public pagination: PaginatedParams;
-    public sort: SortParams;
 
     get queryParams(): QueryParam[] {
         return [
             this.guildId ? new QueryParam('guildId', this.guildId) : null,
             this.channelId ? new QueryParam('channelId', this.channelId) : null,
             this.messageQuery ? new QueryParam('messageQuery', this.messageQuery) : null,
-            new QueryParam('sort.orderBy', this.sort.orderBy),
-            new QueryParam('sort.descending', this.sort.descending),
-            new QueryParam('pagination.page', this.pagination.page),
-            new QueryParam('pagination.pageSize', this.pagination.pageSize)
+            ...super.queryParams
         ].filter(o => o);
     }
 
-    static get empty(): GetSearchingListParams {
-        const params = new GetSearchingListParams();
-        params.sort = {};
-        params.pagination = new PaginatedParams();
-
-        return params;
-    }
+    static get empty(): GetSearchingListParams { return new GetSearchingListParams(); }
 
     static create(form: any): GetSearchingListParams | null {
         if (!form) { return null; }
@@ -60,16 +48,6 @@ export class GetSearchingListParams {
         params.messageQuery = form.messageQuery;
 
         return params;
-    }
-
-    setPagination(pagination: PaginatedParams): GetSearchingListParams {
-        this.pagination = pagination;
-        return this;
-    }
-
-    setSort(sort: SortParams): GetSearchingListParams {
-        this.sort = sort;
-        return this;
     }
 }
 

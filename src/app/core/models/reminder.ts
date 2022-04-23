@@ -1,7 +1,7 @@
 import { QueryParam } from './http';
 import { DateTime } from './datetime';
 import { User } from './users';
-import { PaginatedParams, SortParams } from './common';
+import { PaginatedParams, SortParams, FilterBase } from './common';
 
 export class RemindMessage {
     public id: number;
@@ -26,23 +26,14 @@ export class RemindMessage {
     }
 }
 
-export class GetReminderListParams {
+export class GetReminderListParams extends FilterBase {
     public fromUserId: string | null = null;
     public messageContains: string | null = null;
     public createdFrom: string | null = null;
     public createdTo: string | null = null;
     public onlyWaiting = false;
 
-    public pagination: PaginatedParams;
-    public sort: SortParams;
-
-    static get empty(): GetReminderListParams {
-        const params = new GetReminderListParams();
-        params.sort = {};
-        params.pagination = new PaginatedParams()
-
-        return params;
-    }
+    static get empty(): GetReminderListParams { return new GetReminderListParams(); }
 
     get queryParams(): QueryParam[] {
         return [
@@ -51,10 +42,7 @@ export class GetReminderListParams {
             this.createdFrom ? new QueryParam('created.From', this.createdFrom) : null,
             this.createdTo ? new QueryParam('created.To', this.createdTo) : null,
             new QueryParam('onlyWaiting', this.onlyWaiting),
-            new QueryParam('sort.orderBy', this.sort.orderBy),
-            new QueryParam('sort.descending', this.sort.descending),
-            new QueryParam('pagination.page', this.pagination.page),
-            new QueryParam('pagination.pageSize', this.pagination.pageSize)
+            ...super.queryParams
         ].filter(o => o);
     }
 
@@ -70,16 +58,6 @@ export class GetReminderListParams {
         params.onlyWaiting = form.onlyWaiting;
 
         return params;
-    }
-
-    setPagination(pagination: PaginatedParams): GetReminderListParams {
-        this.pagination = pagination;
-        return this;
-    }
-
-    setSort(sort: SortParams): GetReminderListParams {
-        this.sort = sort;
-        return this;
     }
 }
 

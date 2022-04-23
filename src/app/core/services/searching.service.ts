@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { PaginatedParams, PaginatedResponse } from '../models/common';
-import { GetSearchingListParams, SearchingListItem, SearchingListSortTypes } from '../models/searching';
+import { PaginatedResponse } from '../models/common';
+import { GetSearchingListParams, SearchingListItem } from '../models/searching';
 import { BaseService } from './base.service';
 import { environment } from 'src/environments/environment';
 import { map, catchError } from 'rxjs/operators';
@@ -13,15 +13,8 @@ export class SearchingService {
         private base: BaseService
     ) { }
 
-    getSearchList(filter: GetSearchingListParams, pagination: PaginatedParams, sortBy: SearchingListSortTypes, sortDesc: boolean)
-        : Observable<PaginatedResponse<SearchingListItem>> {
-        const parameters = filter
-            .setSort({ orderBy: sortBy, descending: sortDesc })
-            .setPagination(pagination)
-            .queryParams
-            .map(o => o.toString())
-            .join('&');
-
+    getSearchList(filter: GetSearchingListParams): Observable<PaginatedResponse<SearchingListItem>> {
+        const parameters = filter.queryParams.map(o => o.toString()).join('&');
         const url = `${environment.apiUrl}/search?${parameters}`;
         const headers = this.base.getHttpHeaders();
 

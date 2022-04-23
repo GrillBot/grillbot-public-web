@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { UnverifyLogParams, UnverifyListSortTypes, UnverifyLogItem } from './../models/unverify';
+import { UnverifyLogParams, UnverifyLogItem } from './../models/unverify';
 import { catchError, map } from 'rxjs/operators';
-import { ObservableList, PaginatedParams, PaginatedResponse } from './../models/common';
+import { ObservableList, PaginatedResponse } from './../models/common';
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { UnverifyUserProfile } from '../models/unverify';
@@ -25,15 +25,8 @@ export class UnverifyService {
         );
     }
 
-    getUnverifyLog(filter: UnverifyLogParams, pagination: PaginatedParams, sortBy: UnverifyListSortTypes,
-        sortDesc: boolean): Observable<PaginatedResponse<UnverifyLogItem>> {
-        const parameters = filter
-            .setPagination(pagination)
-            .setSort({ descending: sortDesc, orderBy: sortBy })
-            .queryParams
-            .map(o => o.toString())
-            .join('&');
-
+    getUnverifyLog(filter: UnverifyLogParams): Observable<PaginatedResponse<UnverifyLogItem>> {
+        const parameters = filter.queryParams.map(o => o.toString()).join('&');
         const url = `${environment.apiUrl}/unverify/log?${parameters}`;
         const headers = this.base.getHttpHeaders();
 

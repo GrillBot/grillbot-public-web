@@ -1,10 +1,9 @@
-import { PaginatedParams, Dictionary } from './../../../core/models/common';
+import { PaginatedParams, Dictionary, SortParams } from './../../../core/models/common';
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { UnverifyListSortTypes, UnverifyLogParams } from 'src/app/core/models/unverify';
 import { UnverifyService } from 'src/app/core/services/unverify.service';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
 import { DataService } from 'src/app/core/services/data.service';
-import { CardComponent } from 'src/app/shared/card/card.component';
 
 @Component({
     selector: 'app-list',
@@ -13,10 +12,8 @@ import { CardComponent } from 'src/app/shared/card/card.component';
 })
 export class ListComponent implements OnInit {
     @ViewChild('list', { static: false }) list: DataListComponent;
-    @ViewChild('card', { static: false }) card: CardComponent;
 
-    sortDesc = true;
-    sortBy: UnverifyListSortTypes = 'createdAt';
+    sort: SortParams = { orderBy: 'Id', descending: true };
     channels: Dictionary<string, string>;
 
     private filter: UnverifyLogParams | null = null;
@@ -38,15 +35,16 @@ export class ListComponent implements OnInit {
     readData(pagination: PaginatedParams): void {
         if (!this.filter) { return; }
 
-        this.unverifyService.getUnverifyLog(this.filter, pagination, this.sortBy, this.sortDesc)
-            .subscribe(list => this.list.setData(list, this.card));
+        this.filter.set(pagination, this.sort);
+
+        this.unverifyService.getUnverifyLog(this.filter).subscribe(list => this.list.setData(list));
     }
 
     setSort(sortBy: UnverifyListSortTypes): void {
-        if (this.sortBy !== sortBy) {
-            this.sortBy = sortBy;
+        if (this.sort.orderBy !== sortBy) {
+            this.sort.orderBy = sortBy;
         } else {
-            this.sortDesc = !this.sortDesc;
+            this.sort.descending = !this.sort.descending;
         }
 
         if (this.list) { this.list.onChange(); }

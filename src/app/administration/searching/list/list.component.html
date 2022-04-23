@@ -1,15 +1,16 @@
 <app-card #card [title]="'Hledání'" [icon]="'fas fa-search'">
-    <app-data-list #list (readData)="readData($event)">
+    <app-data-list #list (readData)="readData($event)" [parentCard]="card">
         <app-loading *ngIf="!list.isDataLoaded"></app-loading>
 
         <table class="table table-sm table-bordered table-striped auto-column-width clickable" *ngIf="list.isDataLoaded">
             <thead>
                 <tr>
-                    <th style="min-width: 60px" sortable [key]="'id'" [current]="sortBy" [sortDesc]="sortDesc"
-                        (clicked)="setSort($any($event))">ID
-                    </th>
-                    <th sortable [key]="'guild'" [current]="sortBy" [sortDesc]="sortDesc" (clicked)="setSort($any($event))">Server</th>
-                    <th sortable [key]="'channel'" [current]="sortBy" [sortDesc]="sortDesc" (clicked)="setSort($any($event))">Kanál</th>
+                    <th style="min-width: 60px" sortable [key]="'Id'" [current]="sort.orderBy" [sortDesc]="sort.descending"
+                        (clicked)="setSort($any($event))">ID</th>
+                    <th sortable [key]="'Guild'" [current]="sort.orderBy" [sortDesc]="sort.descending" (clicked)="setSort($any($event))">
+                        Server</th>
+                    <th sortable [key]="'Channel'" [current]="sort.orderBy" [sortDesc]="sort.descending" (clicked)="setSort($any($event))">
+                        Kanál</th>
                     <th>Akce</th>
                 </tr>
             </thead>
