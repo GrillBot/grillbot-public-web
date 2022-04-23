@@ -3,7 +3,6 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { UnverifyListSortTypes, UnverifyLogParams } from 'src/app/core/models/unverify';
 import { UnverifyService } from 'src/app/core/services/unverify.service';
 import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
-import { ModalService } from 'src/app/shared/modal';
 import { DataService } from 'src/app/core/services/data.service';
 import { CardComponent } from 'src/app/shared/card/card.component';
 
@@ -24,7 +23,6 @@ export class ListComponent implements OnInit {
 
     constructor(
         private unverifyService: UnverifyService,
-        private modalService: ModalService,
         private dataService: DataService
     ) { }
 

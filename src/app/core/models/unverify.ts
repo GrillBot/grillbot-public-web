@@ -1,3 +1,4 @@
+import { PaginatedParams, SortParams } from 'src/app/core/models/common';
 import { UnverifyOperation, UnverifyOperationTexts } from './enums/unverify-operation';
 import { DateTime } from './datetime';
 import { Role } from './roles';
@@ -141,16 +142,29 @@ export class UnverifyLogParams {
     public createdFrom: string | null = null;
     public createdTo: string | null = null;
 
+    public pagination: PaginatedParams;
+    public sort: SortParams;
+
     get queryParams(): QueryParam[] {
         return [
             this.operation != null ? new QueryParam('operation', this.operation) : null,
             this.guildId ? new QueryParam('guildId', this.guildId) : null,
-            this.createdFrom ? new QueryParam('createdFrom', this.createdFrom) : null,
-            this.createdTo ? new QueryParam('createdTo', this.createdTo) : null
+            this.createdFrom ? new QueryParam('created.From', this.createdFrom) : null,
+            this.createdTo ? new QueryParam('created.To', this.createdTo) : null,
+            new QueryParam('sort.orderBy', this.sort.orderBy),
+            new QueryParam('sort.descending', this.sort.descending),
+            new QueryParam('pagination.page', this.pagination.page),
+            new QueryParam('pagination.pageSize', this.pagination.pageSize)
         ].filter(o => o);
     }
 
-    static get empty(): UnverifyLogParams { return new UnverifyLogParams(); }
+    static get empty(): UnverifyLogParams {
+        const params = new UnverifyLogParams();
+        params.sort = {};
+        params.pagination = new PaginatedParams();
+
+        return params;
+    }
 
     static create(form: any): UnverifyLogParams | null {
         if (!form) { return null; }
@@ -162,6 +176,16 @@ export class UnverifyLogParams {
         params.operation = form.operation;
 
         return params;
+    }
+
+    setPagination(pagination: PaginatedParams): UnverifyLogParams {
+        this.pagination = pagination;
+        return this;
+    }
+
+    setSort(sort: SortParams): UnverifyLogParams {
+        this.sort = sort;
+        return this;
     }
 }
 

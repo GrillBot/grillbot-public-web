@@ -1,4 +1,5 @@
 import { Channel } from './channels';
+import { PaginatedParams, SortParams } from './common';
 import { Guild } from './guilds';
 import { QueryParam } from './http';
 import { User } from './users';
@@ -27,15 +28,28 @@ export class GetSearchingListParams {
     public channelId: string | null = null;
     public messageQuery: string | null = null;
 
+    public pagination: PaginatedParams;
+    public sort: SortParams;
+
     get queryParams(): QueryParam[] {
         return [
             this.guildId ? new QueryParam('guildId', this.guildId) : null,
             this.channelId ? new QueryParam('channelId', this.channelId) : null,
-            this.messageQuery ? new QueryParam('messageQuery', this.messageQuery) : null
+            this.messageQuery ? new QueryParam('messageQuery', this.messageQuery) : null,
+            new QueryParam('sort.orderBy', this.sort.orderBy),
+            new QueryParam('sort.descending', this.sort.descending),
+            new QueryParam('pagination.page', this.pagination.page),
+            new QueryParam('pagination.pageSize', this.pagination.pageSize)
         ].filter(o => o);
     }
 
-    static get empty(): GetSearchingListParams { return new GetSearchingListParams(); }
+    static get empty(): GetSearchingListParams {
+        const params = new GetSearchingListParams();
+        params.sort = {};
+        params.pagination = new PaginatedParams();
+
+        return params;
+    }
 
     static create(form: any): GetSearchingListParams | null {
         if (!form) { return null; }
@@ -46,6 +60,16 @@ export class GetSearchingListParams {
         params.messageQuery = form.messageQuery;
 
         return params;
+    }
+
+    setPagination(pagination: PaginatedParams): GetSearchingListParams {
+        this.pagination = pagination;
+        return this;
+    }
+
+    setSort(sort: SortParams): GetSearchingListParams {
+        this.sort = sort;
+        return this;
     }
 }
 

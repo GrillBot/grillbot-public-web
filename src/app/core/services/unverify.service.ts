@@ -7,7 +7,6 @@ import { BaseService } from './base.service';
 import { UnverifyUserProfile } from '../models/unverify';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
-import { QueryParam } from '../models/http';
 
 /* eslint-disable @typescript-eslint/indent */
 @Injectable({ providedIn: 'root' })
@@ -28,12 +27,13 @@ export class UnverifyService {
 
     getUnverifyLog(filter: UnverifyLogParams, pagination: PaginatedParams, sortBy: UnverifyListSortTypes,
         sortDesc: boolean): Observable<PaginatedResponse<UnverifyLogItem>> {
-        const parameters = [
-            ...filter.queryParams,
-            ...pagination.queryParams,
-            new QueryParam('sortBy', sortBy),
-            new QueryParam('sortDesc', sortDesc)
-        ].filter(o => o).map(o => o.toString()).join('&');
+        const parameters = filter
+            .setPagination(pagination)
+            .setSort({ descending: sortDesc, orderBy: sortBy })
+            .queryParams
+            .map(o => o.toString())
+            .join('&');
+
         const url = `${environment.apiUrl}/unverify/log?${parameters}`;
         const headers = this.base.getHttpHeaders();
 

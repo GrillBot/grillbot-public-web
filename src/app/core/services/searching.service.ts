@@ -3,12 +3,10 @@ import { Injectable } from '@angular/core';
 import { PaginatedParams, PaginatedResponse } from '../models/common';
 import { GetSearchingListParams, SearchingListItem, SearchingListSortTypes } from '../models/searching';
 import { BaseService } from './base.service';
-import { QueryParam } from '../models/http';
 import { environment } from 'src/environments/environment';
 import { map, catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 
-/* eslint-disable @typescript-eslint/type-annotation-spacing */
 @Injectable({ providedIn: 'root' })
 export class SearchingService {
     constructor(
@@ -17,12 +15,13 @@ export class SearchingService {
 
     getSearchList(filter: GetSearchingListParams, pagination: PaginatedParams, sortBy: SearchingListSortTypes, sortDesc: boolean)
         : Observable<PaginatedResponse<SearchingListItem>> {
-        const parameters = [
-            ...filter.queryParams,
-            ...pagination.queryParams,
-            new QueryParam('sortBy', sortBy),
-            new QueryParam('sortDesc', sortDesc)
-        ].filter(o => o).map(o => o.toString()).join('&');
+        const parameters = filter
+            .setSort({ orderBy: sortBy, descending: sortDesc })
+            .setPagination(pagination)
+            .queryParams
+            .map(o => o.toString())
+            .join('&');
+
         const url = `${environment.apiUrl}/search?${parameters}`;
         const headers = this.base.getHttpHeaders();
 
