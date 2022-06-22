@@ -7,9 +7,17 @@
                     GrillBot se nenachází na tomto serveru. Data mohou být nekompletní.
                 </div>
 
-                <div class="alert alert-warning" *ngIf="guild.isGuildKnown && !guild.isUserInGuild">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    Uživatel nebyl na tomto serveru nalezen.
+                <div class="alert alert-info" *ngIf="guild.unverify">
+                    <i class="fas fa-info-circle"></i>
+                    Uděleno
+                    <ng-container *ngIf="!guild.unverify.isSelfUnverify">
+                        unverify od <b>{{guild.unverify.start.binding}}</b> do <b>{{guild.unverify.end.binding}}</b>. Důvod odebrání
+                        přístupu: <b>{{guild.unverify.reason}}</b>
+                    </ng-container>
+
+                    <ng-container *ngIf="guild.unverify.isSelfUnverify">
+                        selfunverify od <b>{{guild.unverify.start.binding}}</b> do <b>{{guild.unverify.end.binding}}</b>.
+                    </ng-container>
                 </div>
 
                 <div class="row mb-3">
