@@ -1,53 +1,34 @@
-import { PaginatedParams, Dictionary, SortParams } from './../../../core/models/common';
-import { Component, ViewChild, OnInit } from '@angular/core';
-import { UnverifyListSortTypes, UnverifyLogParams } from 'src/app/core/models/unverify';
+import { PaginatedParams, Dictionary, PaginatedResponse } from './../../../core/models/common';
+import { Component } from '@angular/core';
+import { UnverifyLogParams } from 'src/app/core/models/unverify';
 import { UnverifyService } from 'src/app/core/services/unverify.service';
-import { DataListComponent } from 'src/app/shared/data-list/data-list.component';
 import { DataService } from 'src/app/core/services/data.service';
+import { ListComponentBase } from 'src/app/shared/common-page/list-component-base';
+import { Observable } from 'rxjs';
 
 @Component({
     selector: 'app-list',
     templateUrl: './list.component.html',
     styleUrls: ['./list.component.scss']
 })
-export class ListComponent implements OnInit {
-    @ViewChild('list', { static: false }) list: DataListComponent;
-
-    sort: SortParams = { orderBy: 'Id', descending: true };
+export class ListComponent extends ListComponentBase<UnverifyLogParams> {
     channels: Dictionary<string, string>;
-
-    private filter: UnverifyLogParams | null = null;
 
     constructor(
         private unverifyService: UnverifyService,
         private dataService: DataService
-    ) { }
+    ) { super(); }
 
-    ngOnInit(): void {
+    configure(): void {
+        this.sort.descending = true;
+        this.sort.orderBy = 'Id';
+
         this.dataService.getChannels().subscribe(channels => this.channels = channels);
     }
 
-    filterChanged(filter: UnverifyLogParams): void {
-        this.filter = filter;
-        if (this.list) { this.list.onChange(); }
-    }
-
-    readData(pagination: PaginatedParams): void {
-        if (!this.filter) { return; }
-
+    getRequest(pagination: PaginatedParams): Observable<PaginatedResponse<any>> {
         this.filter.set(pagination, this.sort);
-
-        this.unverifyService.getUnverifyLog(this.filter).subscribe(list => this.list.setData(list));
-    }
-
-    setSort(sortBy: UnverifyListSortTypes): void {
-        if (this.sort.orderBy !== sortBy) {
-            this.sort.orderBy = sortBy;
-        } else {
-            this.sort.descending = !this.sort.descending;
-        }
-
-        if (this.list) { this.list.onChange(); }
+        return this.unverifyService.getUnverifyLog(this.filter);
     }
 
     resolveChannelName(id: string): string | null {

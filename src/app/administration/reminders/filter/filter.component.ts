@@ -1,43 +1,45 @@
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { Component } from '@angular/core';
 import { GetReminderListParams } from 'src/app/core/models/reminder';
 import { StorageService } from 'src/app/core/services/storage.service';
-import { debounceTime } from 'rxjs/operators';
+import { FilterComponentBase } from 'src/app/shared/common-page/filter-component-base';
 
 @Component({
     selector: 'app-filter',
     templateUrl: './filter.component.html'
 })
-export class FilterComponent implements OnInit {
-    @Output() filterChanged = new EventEmitter<GetReminderListParams>();
-    form: FormGroup;
-
-    constructor(
-        private fb: FormBuilder,
-        private storage: StorageService
-    ) { }
-
-    ngOnInit(): void {
-        const filter = GetReminderListParams.create(
-            this.storage.read<GetReminderListParams>('ReminderListParams')
-        ) || GetReminderListParams.empty;
-
-        this.initFilter(filter);
-        this.submitForm();
+export class FilterComponent extends FilterComponentBase<GetReminderListParams> {
+    constructor(fb: FormBuilder, storage: StorageService) {
+        super(fb, storage);
     }
 
-    submitForm(): void {
-        const filter = GetReminderListParams.create(this.form.value);
-
-        this.filterChanged.emit(filter);
-        this.storage.store<GetReminderListParams>('ReminderListParams', filter);
+    configure(): void {
+        this.filterId = 'ReminderList';
     }
 
-    reset(): void {
-        this.form.patchValue(GetReminderListParams.empty);
+    deserializeData(data: any): GetReminderListParams {
+        return GetReminderListParams.create(data);
     }
 
-    private initFilter(filter: GetReminderListParams): void {
+    createData(empty: boolean): GetReminderListParams {
+        if (empty) {
+            return GetReminderListParams.empty;
+        } else {
+            return GetReminderListParams.create(this.form.value);
+        }
+    }
+
+    updateForm(filter: GetReminderListParams): void {
+        this.form.patchValue({
+            fromUserId: filter.fromUserId,
+            messageContains: filter.messageContains,
+            createdFrom: filter.createdFrom,
+            createdTo: filter.createdTo,
+            onlyWaiting: filter.onlyWaiting
+        });
+    }
+
+    initForm(filter: GetReminderListParams): void {
         this.form = this.fb.group({
             fromUserId: [filter.fromUserId],
             messageContains: [filter.messageContains],
@@ -45,7 +47,5 @@ export class FilterComponent implements OnInit {
             createdTo: [filter.createdTo],
             onlyWaiting: [filter.onlyWaiting]
         });
-
-        this.form.valueChanges.pipe(debounceTime(500)).subscribe(_ => this.submitForm());
     }
 }

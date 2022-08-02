@@ -52,14 +52,4 @@ export class UserService {
             catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );
     }
-
-    getPointsLeaderboard(): ObservableList<UserPointsItem> {
-        const url = `${environment.apiUrl}/users/points/board`;
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.get<UserPointsItem[]>(url, { headers }).pipe(
-            map(data => data.map(o => UserPointsItem.create(o))),
-            catchError((err: HttpErrorResponse) => this.base.catchError(err))
-        );
-    }
 }

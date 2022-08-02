@@ -1,3 +1,4 @@
+import { CommonPageModule } from './common-page/common-page.module';
 import { ListButtonComponent } from './list-button/list-button.component';
 import { RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -11,7 +12,6 @@ import { LoadingComponent } from './loading/loading.component';
 import { KeyValueItemDirective } from './directives/key-value-item.directive';
 import { ModalComponent } from './modal/modal.component';
 import { ValidationErrorsModalComponent } from './modal/validation-errors-modal/validation-errors-modal.component';
-import { CommonDashboardComponent } from './common-dashboard/common-dashboard.component';
 import { SortingDirective } from './data-list/sorting.directive';
 import { SearchInputComponent } from './search-input/search-input.component';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -26,7 +26,6 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
         KeyValueItemDirective,
         ModalComponent,
         ValidationErrorsModalComponent,
-        CommonDashboardComponent,
         SortingDirective,
         SearchInputComponent,
         ListButtonComponent,
@@ -41,7 +40,8 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
         NgbPaginationModule,
         RouterModule,
         NgbModalModule,
-        NgSelectModule
+        NgSelectModule,
+        CommonPageModule
     ],
     exports: [
         CommonModule,
@@ -54,13 +54,13 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
         KeyValueItemDirective,
         ModalComponent,
         ValidationErrorsModalComponent,
-        CommonDashboardComponent,
         SortingDirective,
         SearchInputComponent,
         NgSelectModule,
         ListButtonComponent,
         CzechBooleanPipePipe,
-        CheckboxComponent
+        CheckboxComponent,
+        CommonPageModule
     ]
 })
 export class SharedModule { }

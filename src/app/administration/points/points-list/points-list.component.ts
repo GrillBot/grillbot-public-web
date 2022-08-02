@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ObservableList } from 'src/app/core/models/common';
 import { UserPointsItem } from 'src/app/core/models/users';
-import { UserService } from 'src/app/core/services/user.service';
+import { PointsService } from 'src/app/core/services/points.service';
 
 @Component({
     selector: 'app-points-list',
@@ -11,11 +11,11 @@ export class PointsListComponent implements OnInit {
     points: ObservableList<UserPointsItem>;
 
     constructor(
-        private userService: UserService
+        private pointsService: PointsService
     ) { }
 
     ngOnInit(): void {
-        this.points = this.userService.getPointsLeaderboard();
+        this.points = this.pointsService.getPointsLeaderboard();
     }
 
 }
