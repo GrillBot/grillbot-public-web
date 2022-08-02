@@ -1,13 +1,12 @@
 import { Directive, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
+import { SortParams } from 'src/app/core/models/common';
 
 @Directive({
-    // tslint:disable-next-line: directive-selector
     selector: '[sortable]'
 })
 export class SortingDirective implements OnInit {
     @Input() key: string;
-    @Input() current: string;
-    @Input() sortDesc: boolean;
+    @Input() sort: SortParams | null = null;
 
     @Output() clicked = new EventEmitter<string>();
 
@@ -21,13 +20,17 @@ export class SortingDirective implements OnInit {
 
     ngOnInit(): void {
         this.ref.nativeElement.classList.add('sortable');
-        this.setSortIcon();
+
+        if (this.sort?.orderBy === this.key) {
+            this.setSortIcon();
+        }
     }
 
     setSortIcon(): void {
-        if (this.current !== this.key) { return; }
+        if (!this.sort) { return; }
+        document.querySelectorAll('.sortable').forEach(elem => elem.classList.remove('sort-desc', 'sort-asc'));
 
-        if (this.sortDesc) {
+        if (this.sort.descending) {
             this.ref.nativeElement.classList.add('sort-desc');
         } else {
             this.ref.nativeElement.classList.add('sort-asc');

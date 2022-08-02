@@ -5,12 +5,9 @@
         <table class="table table-sm table-bordered table-striped auto-column-width clickable" *ngIf="list.isDataLoaded">
             <thead>
                 <tr>
-                    <th style="min-width: 60px" sortable [key]="'Id'" [current]="sort.orderBy" [sortDesc]="sort.descending"
-                        (clicked)="setSort($any($event))">ID</th>
-                    <th sortable [key]="'Guild'" [current]="sort.orderBy" [sortDesc]="sort.descending" (clicked)="setSort($any($event))">
-                        Server</th>
-                    <th sortable [key]="'Channel'" [current]="sort.orderBy" [sortDesc]="sort.descending" (clicked)="setSort($any($event))">
-                        Kanál</th>
+                    <th style="min-width: 60px" sortable [key]="'Id'" [sort]="sort" (clicked)="setSort($event)">ID</th>
+                    <th sortable [key]="'Guild'" [sort]="sort" (clicked)="setSort($event)">Server</th>
+                    <th sortable [key]="'Channel'" [sort]="sort" (clicked)="setSort($event)">Kanál</th>
                     <th>Akce</th>
                 </tr>
             </thead>
