@@ -185,7 +185,11 @@ export class UserPointsItem {
     public user: User;
     public guild: Guild;
     public nickname: string;
-    public points: number;
+    public pointsYearBack: number;
+    public pointsMonthBack: number;
+    public pointsToday: number;
+    public totalPoints: number;
+
 
     static create(data: any): UserPointsItem | null {
         if (!data) { return null; }
@@ -193,8 +197,11 @@ export class UserPointsItem {
         const item = new UserPointsItem();
         item.guild = Guild.create(data.guild);
         item.nickname = data.nickname;
-        item.points = data.points;
         item.user = User.create(data.user);
+        item.pointsYearBack = data.pointsYearBack;
+        item.pointsMonthBack = data.pointsMonthBack;
+        item.pointsToday = data.pointsToday;
+        item.totalPoints = data.totalPoints;
 
         return item;
     }

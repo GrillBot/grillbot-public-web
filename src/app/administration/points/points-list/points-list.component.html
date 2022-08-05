@@ -3,10 +3,18 @@
         <app-card [title]="'Statistika bodů'" *ngIf="points | async as pointsListResult; else loading" [icon]="'fa fa-list'">
             <table class="table table-sm table-striped auto-column-width">
                 <thead>
-                    <th>#</th>
-                    <th>Uživatel (Nick)</th>
-                    <th>Server</th>
-                    <th>Poč. bodů</th>
+                    <tr>
+                        <th rowspan="2">#</th>
+                        <th rowspan="2">Uživatel (Nick)</th>
+                        <th rowspan="2">Server</th>
+                        <th colspan="4">Body</th>
+                    </tr>
+                    <tr>
+                        <th>Za posl. rok</th>
+                        <th>Za posl. měsíc</th>
+                        <th>Dnes</th>
+                        <th>Celkem</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let user of pointsListResult; let i = index">
@@ -14,7 +22,10 @@
                         <td *ngIf="!user.nickname">{{user.user.fullUsername}}</td>
                         <td *ngIf="user.nickname">{{user.nickname}} ({{user.user.fullUsername}})</td>
                         <td>{{user.guild.name}}</td>
-                        <td>{{user.points.toLocaleString()}}</td>
+                        <td>{{user.pointsYearBack.toLocaleString()}}</td>
+                        <td>{{user.pointsMonthBack.toLocaleString()}}</td>
+                        <td>{{user.pointsToday.toLocaleString()}}</td>
+                        <td>{{user.totalPoints.toLocaleString()}}</td>
                     </tr>
                     <tr *ngIf="pointsListResult.length === 0">
                         <td colspan="4">Ještě nebyla zanamenána žádná aktivita.</td>
