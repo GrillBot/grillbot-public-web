@@ -50,7 +50,7 @@ export interface RangeParams<T> {
 }
 
 export const createRangeParams = <T,>(from?: T, to?: T): RangeParams<T> => {
-    return from && to ? { from: from, to: to } : null;
+    return !from && !to ? null : { from: from, to: to };
 }
 
 export interface SortParams {
