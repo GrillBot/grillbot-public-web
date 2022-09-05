@@ -1,10 +1,9 @@
-import { FilterBase, PaginatedParams, SortParams } from 'src/app/core/models/common';
+import { createRangeParams, FilterBase, RangeParams } from 'src/app/core/models/common';
 import { UnverifyOperation, UnverifyOperationTexts } from './enums/unverify-operation';
 import { DateTime } from './datetime';
 import { Role } from './roles';
 import { GuildUser, User } from './users';
 import { Guild } from './guilds';
-import { QueryParam } from './http';
 import { Support } from '../lib/support';
 
 export class UnverifyInfo {
@@ -156,18 +155,7 @@ export class UnverifyLogUpdate {
 export class UnverifyLogParams extends FilterBase {
     public operation: UnverifyOperation | null = null;
     public guildId: string | null = null;
-    public createdFrom: string | null = null;
-    public createdTo: string | null = null;
-
-    get queryParams(): QueryParam[] {
-        return [
-            this.operation != null ? new QueryParam('operation', this.operation) : null,
-            this.guildId ? new QueryParam('guildId', this.guildId) : null,
-            this.createdFrom ? new QueryParam('created.From', this.createdFrom) : null,
-            this.createdTo ? new QueryParam('created.To', this.createdTo) : null,
-            ...super.queryParams
-        ].filter(o => o);
-    }
+    public created: RangeParams<string> | null = null;
 
     static get empty(): UnverifyLogParams { return new UnverifyLogParams(); }
 
@@ -175,13 +163,19 @@ export class UnverifyLogParams extends FilterBase {
         if (!form) { return null; }
         const params = new UnverifyLogParams();
 
-        params.createdFrom = form.createdFrom;
-        params.createdTo = form.createdTo;
+        params.created = createRangeParams(form.createdFrom, form.createdTo);
         params.guildId = form.guildId;
         params.operation = form.operation;
 
         return params;
     }
-}
 
-export type UnverifyListSortTypes = 'operation' | 'guild' | 'createdAt';
+    public serialize(): any {
+        return {
+            operation: this.operation,
+            guildId: this.guildId,
+            createdFrom: this.created?.from,
+            createdTo: this.created?.to
+        };
+    }
+}

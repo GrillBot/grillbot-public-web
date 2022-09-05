@@ -41,8 +41,8 @@ export class FilterComponent extends FilterComponentBase<UnverifyLogParams> {
         this.form.patchValue({
             operation: filter.operation,
             guildId: filter.guildId,
-            createdFrom: filter.createdFrom,
-            createdTo: filter.createdTo
+            createdFrom: filter.created?.from,
+            createdTo: filter.created?.to
         });
     }
 
@@ -50,8 +50,8 @@ export class FilterComponent extends FilterComponentBase<UnverifyLogParams> {
         this.form = this.fb.group({
             operation: [filter.operation],
             guildId: [filter.guildId],
-            createdFrom: [filter.createdFrom],
-            createdTo: [filter.createdTo]
+            createdFrom: [filter.created?.from],
+            createdTo: [filter.created?.to]
         });
     }
 }

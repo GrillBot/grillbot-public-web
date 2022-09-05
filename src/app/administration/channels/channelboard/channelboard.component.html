@@ -7,7 +7,7 @@
                         <th>#</th>
                         <th>Server</th>
                         <th>Kanál</th>
-                        <th>Počet zpráv</th>
+                        <th style="border-left-width: 1px">Počet zpráv</th>
                         <th>První zpráva</th>
                         <th>Posl. zpráva</th>
                     </tr>
@@ -17,7 +17,7 @@
                         <td>{{(i + 1)}}.</td>
                         <td>{{row.channel.guild.name ?? 'Neznámý server'}}</td>
                         <td>{{row.channel.name}}</td>
-                        <td>{{row.count.toLocaleString()}}</td>
+                        <td style="border-left-width: 1px">{{row.count.toLocaleString()}}</td>
                         <td>{{row.firstMessageAt.binding}}</td>
                         <td>{{row.lastMessageAt.binding}}</td>
                     </tr>

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { PaginatedResponse } from '../models/common';
 import { GetSearchingListParams, SearchingListItem } from '../models/searching';
 import { BaseService } from './base.service';
-import { environment } from 'src/environments/environment';
 import { map, catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -14,11 +13,10 @@ export class SearchingService {
     ) { }
 
     getSearchList(filter: GetSearchingListParams): Observable<PaginatedResponse<SearchingListItem>> {
-        const parameters = filter.queryParams.map(o => o.toString()).join('&');
-        const url = `${environment.apiUrl}/search?${parameters}`;
+        const url = this.base.createUrl('search/list');
         const headers = this.base.getHttpHeaders();
 
-        return this.base.http.get<PaginatedResponse<SearchingListItem>>(url, { headers }).pipe(
+        return this.base.http.post<PaginatedResponse<SearchingListItem>>(url, filter, { headers }).pipe(
             map(data => PaginatedResponse.create(data, entity => SearchingListItem.create(entity))),
             catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );

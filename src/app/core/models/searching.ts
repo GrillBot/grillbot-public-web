@@ -1,8 +1,6 @@
 import { Channel } from './channels';
-import { FilterBase, PaginatedParams, SortParams } from './common';
+import { FilterBase } from './common';
 import { Guild } from './guilds';
-import { QueryParam } from './http';
-import { User } from './users';
 
 export class SearchingListItem {
     public id: number;
@@ -28,15 +26,6 @@ export class GetSearchingListParams extends FilterBase {
     public channelId: string | null = null;
     public messageQuery: string | null = null;
 
-    get queryParams(): QueryParam[] {
-        return [
-            this.guildId ? new QueryParam('guildId', this.guildId) : null,
-            this.channelId ? new QueryParam('channelId', this.channelId) : null,
-            this.messageQuery ? new QueryParam('messageQuery', this.messageQuery) : null,
-            ...super.queryParams
-        ].filter(o => o);
-    }
-
     static get empty(): GetSearchingListParams { return new GetSearchingListParams(); }
 
     static create(form: any): GetSearchingListParams | null {
@@ -50,5 +39,3 @@ export class GetSearchingListParams extends FilterBase {
         return params;
     }
 }
-
-export type SearchingListSortTypes = 'id' | 'guild' | 'channel';

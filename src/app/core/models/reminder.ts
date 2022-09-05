@@ -1,7 +1,6 @@
-import { QueryParam } from './http';
 import { DateTime } from './datetime';
 import { User } from './users';
-import { PaginatedParams, SortParams, FilterBase } from './common';
+import { FilterBase } from './common';
 
 export class RemindMessage {
     public id: number;
@@ -35,18 +34,6 @@ export class GetReminderListParams extends FilterBase {
 
     static get empty(): GetReminderListParams { return new GetReminderListParams(); }
 
-    get queryParams(): QueryParam[] {
-        return [
-            this.fromUserId ? new QueryParam('fromUserId', this.fromUserId) : null,
-            this.messageContains ? new QueryParam('messageContains', this.messageContains) : null,
-            this.createdFrom ? new QueryParam('created.From', this.createdFrom) : null,
-            this.createdTo ? new QueryParam('created.To', this.createdTo) : null,
-            new QueryParam('onlyWaiting', this.onlyWaiting),
-            ...super.queryParams
-        ].filter(o => o);
-    }
-
-    /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access */
     static create(form: any): GetReminderListParams | null {
         if (!form) { return null; }
         const params = new GetReminderListParams();
@@ -60,5 +47,3 @@ export class GetReminderListParams extends FilterBase {
         return params;
     }
 }
-
-export type RemindListSortTypes = 'id' | 'fromUser' | 'at' | 'postpone';

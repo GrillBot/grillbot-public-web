@@ -45,18 +45,14 @@ export class GuildUser extends User {
 
     static create(data: any): GuildUser | null {
         if (!data) { return null; }
-        const base = super.create(data);
         const user = new GuildUser();
 
-        user.avatarUrl = base.avatarUrl;
-        user.discriminator = base.discriminator;
+        Object.assign(user, super.create(data));
         user.givenReactions = data.givenReactions;
-        user.id = base.id;
         user.nickname = data.nickname;
         user.obtainedReactions = data.obtainedReactions;
         user.points = data.points;
         user.usedInvite = data.usedInvite ? Invite.create(data.usedInvite) : null;
-        user.username = base.username;
 
         return user;
     }
@@ -76,7 +72,6 @@ export class UserDetail {
     public selfUnverifyMinimalTime?: string | null;
     public registeredAt: DateTime | null;
 
-    // tslint:disable: no-bitwise
     get isBotAdmin(): boolean { return (this.flags & UserFlags.BotAdmin) !== 0; }
     get isBot(): boolean { return (this.flags & UserFlags.NotUser) !== 0; }
     get isWebAdminOnline(): boolean { return (this.flags & UserFlags.WebAdminOnline) !== 0; }
@@ -189,7 +184,6 @@ export class UserPointsItem {
     public pointsMonthBack: number;
     public pointsToday: number;
     public totalPoints: number;
-
 
     static create(data: any): UserPointsItem | null {
         if (!data) { return null; }

@@ -4,7 +4,6 @@ import { catchError, map } from 'rxjs/operators';
 import { BaseService } from './base.service';
 import { Injectable } from '@angular/core';
 import { ChannelboardItem } from '../models/channels';
-import { environment } from 'src/environments/environment';
 
 /* eslint-disable @typescript-eslint/indent */
 @Injectable({ providedIn: 'root' })
@@ -14,7 +13,7 @@ export class ChannelService {
     ) { }
 
     getChannelboard(): ObservableList<ChannelboardItem> {
-        const url = `${environment.apiUrl}/channel/board`;
+        const url = this.base.createUrl('channel/board');
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<ChannelboardItem[]>(url, { headers }).pipe(

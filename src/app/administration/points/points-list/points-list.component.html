@@ -4,13 +4,16 @@
             <table class="table table-sm table-striped auto-column-width">
                 <thead>
                     <tr>
-                        <th rowspan="2">#</th>
-                        <th rowspan="2">Uživatel (Nick)</th>
-                        <th rowspan="2">Server</th>
-                        <th colspan="4">Body</th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th colspan="4" style="border-left-width: 1px">Body</th>
                     </tr>
                     <tr>
-                        <th>Za posl. rok</th>
+                        <th>#</th>
+                        <th>Uživatel (Nick)</th>
+                        <th>Server</th>
+                        <th style="border-left-width: 1px">Za posl. rok</th>
                         <th>Za posl. měsíc</th>
                         <th>Dnes</th>
                         <th>Celkem</th>
@@ -22,7 +25,7 @@
                         <td *ngIf="!user.nickname">{{user.user.fullUsername}}</td>
                         <td *ngIf="user.nickname">{{user.nickname}} ({{user.user.fullUsername}})</td>
                         <td>{{user.guild.name}}</td>
-                        <td>{{user.pointsYearBack.toLocaleString()}}</td>
+                        <td style="border-left-width: 1px">{{user.pointsYearBack.toLocaleString()}}</td>
                         <td>{{user.pointsMonthBack.toLocaleString()}}</td>
                         <td>{{user.pointsToday.toLocaleString()}}</td>
                         <td>{{user.totalPoints.toLocaleString()}}</td>

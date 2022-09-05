@@ -5,7 +5,6 @@ import { ObservableList, PaginatedResponse } from './../models/common';
 import { Injectable } from '@angular/core';
 import { BaseService } from './base.service';
 import { UnverifyUserProfile } from '../models/unverify';
-import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 
 /* eslint-disable @typescript-eslint/indent */
@@ -16,7 +15,7 @@ export class UnverifyService {
     ) { }
 
     getCurrentUnverifies(): ObservableList<UnverifyUserProfile> {
-        const url = `${environment.apiUrl}/unverify/current`;
+        const url = this.base.createUrl('unverify/current');
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<UnverifyUserProfile[]>(url, { headers }).pipe(
@@ -26,11 +25,10 @@ export class UnverifyService {
     }
 
     getUnverifyLog(filter: UnverifyLogParams): Observable<PaginatedResponse<UnverifyLogItem>> {
-        const parameters = filter.queryParams.map(o => o.toString()).join('&');
-        const url = `${environment.apiUrl}/unverify/log?${parameters}`;
+        const url = this.base.createUrl('unverify/log');
         const headers = this.base.getHttpHeaders();
 
-        return this.base.http.get<PaginatedResponse<UnverifyLogItem>>(url, { headers }).pipe(
+        return this.base.http.post<PaginatedResponse<UnverifyLogItem>>(url, filter, { headers }).pipe(
             map(data => PaginatedResponse.create(data, entity => UnverifyLogItem.create(entity))),
             catchError((err: HttpErrorResponse) => this.base.catchError(err))
         );

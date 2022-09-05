@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserDetail, UserPointsItem } from '../models/users';
+import { UserDetail } from '../models/users';
 import { BaseService } from './base.service';
-import { environment } from 'src/environments/environment';
 import { map, catchError } from 'rxjs/operators';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ObservableList } from '../models/common';
@@ -15,7 +14,7 @@ export class UserService {
     ) { }
 
     getUserDetail(): Observable<UserDetail> {
-        const url = `${environment.apiUrl}/users/me`;
+        const url = this.base.createUrl('users/me');
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<UserDetail>(url, { headers }).pipe(
@@ -25,7 +24,7 @@ export class UserService {
     }
 
     hearthbeatOff(): Observable<unknown> {
-        const url = `${environment.apiUrl}/users/hearthbeat`;
+        const url = this.base.createUrl('users/hearthbeat');
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.delete(url, { headers }).pipe(
@@ -34,7 +33,7 @@ export class UserService {
     }
 
     getAvailableCommands(): ObservableList<CommandGroup> {
-        const url = `${environment.apiUrl}/users/me/commands`;
+        const url = this.base.createUrl('users/me/commands');
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<CommandGroup[]>(url, { headers }).pipe(
@@ -44,7 +43,7 @@ export class UserService {
     }
 
     getCommandsOfService(service: string): ObservableList<CommandGroup> {
-        const url = `${environment.apiUrl}/users/me/commands/${service}`;
+        const url = this.base.createUrl(`users/me/commands/${service}`);
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<CommandGroup[]>(url, { headers }).pipe(

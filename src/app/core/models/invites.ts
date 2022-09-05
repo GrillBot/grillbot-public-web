@@ -22,11 +22,9 @@ export class Invite extends InviteBase {
 
     static create(data: any): Invite {
         if (!data) { return null; }
-        const base = super.create(data);
         const invite = new Invite();
 
-        invite.code = base.code;
-        invite.createdAt = base.createdAt;
+        Object.assign(invite, super.create(data));
         invite.creator = data.creator ? User.create(data.creator) : null;
         invite.usedUsersCount = data.usedUsersCount;
 
