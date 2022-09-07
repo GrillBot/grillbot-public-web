@@ -2,8 +2,10 @@ import { Support } from './../../../../core/lib/support';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { StatusColorMapping, UserStatus, UserStatusTexts } from 'src/app/core/models/enums/user-status';
-import { UserDetail } from 'src/app/core/models/users';
+import { UserDetail, UserPointsItem } from 'src/app/core/models/users';
 import { UserService } from 'src/app/core/services/user.service';
+import { ObservableList } from 'src/app/core/models/common';
+import { PointsService } from 'src/app/core/services/points.service';
 
 @Component({
     selector: 'app-user-detail',
@@ -12,10 +14,12 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 export class UserDetailComponent implements OnInit {
     data: UserDetail;
+    pointsRequest$: ObservableList<UserPointsItem>;
 
     constructor(
         private userService: UserService,
-        private router: Router
+        private router: Router,
+        private pointsService: PointsService
     ) {
         this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     }
@@ -34,6 +38,7 @@ export class UserDetailComponent implements OnInit {
             }
 
             this.data = detail;
+            this.pointsRequest$ = this.pointsService.computeLoggedUserPoints();
         });
     }
 }

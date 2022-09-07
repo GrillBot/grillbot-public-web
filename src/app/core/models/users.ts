@@ -101,7 +101,6 @@ export class UserDetail {
 
 export class GuildUserDetail {
     public guild: Guild;
-    public points: number;
     public givenReactions: number;
     public obtainedReactions: number;
     public nickname: string;
@@ -119,7 +118,6 @@ export class GuildUserDetail {
         const detail = new GuildUserDetail();
 
         detail.guild = Guild.create(data.guild);
-        detail.points = data.points;
         detail.givenReactions = data.givenReactions;
         detail.obtainedReactions = data.obtainedReactions;
         detail.nickname = data.nickname;
@@ -177,13 +175,13 @@ export class EmoteStatItem {
 }
 
 export class UserPointsItem {
-    public user: User;
-    public guild: Guild;
-    public nickname: string;
-    public pointsYearBack: number;
-    public pointsMonthBack: number;
-    public pointsToday: number;
-    public totalPoints: number;
+    public user: User | null = null;
+    public guild: Guild | null = null;
+    public nickname: string | null = null;
+    public pointsYearBack: number = 0;
+    public pointsMonthBack: number = 0;
+    public pointsToday: number = 0;
+    public totalPoints: number = 0;
 
     static create(data: any): UserPointsItem | null {
         if (!data) { return null; }

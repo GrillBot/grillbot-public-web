@@ -14,7 +14,7 @@ export class UserService {
     ) { }
 
     getUserDetail(): Observable<UserDetail> {
-        const url = this.base.createUrl('users/me');
+        const url = this.base.createUrl('user/me');
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<UserDetail>(url, { headers }).pipe(
@@ -24,7 +24,7 @@ export class UserService {
     }
 
     hearthbeatOff(): Observable<unknown> {
-        const url = this.base.createUrl('users/hearthbeat');
+        const url = this.base.createUrl('user/hearthbeat');
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.delete(url, { headers }).pipe(
@@ -33,7 +33,7 @@ export class UserService {
     }
 
     getAvailableCommands(): ObservableList<CommandGroup> {
-        const url = this.base.createUrl('users/me/commands');
+        const url = this.base.createUrl('user/me/commands');
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<CommandGroup[]>(url, { headers }).pipe(
@@ -43,7 +43,7 @@ export class UserService {
     }
 
     getCommandsOfService(service: string): ObservableList<CommandGroup> {
-        const url = this.base.createUrl(`users/me/commands/${service}`);
+        const url = this.base.createUrl(`user/me/commands/${service}`);
         const headers = this.base.getHttpHeaders();
 
         return this.base.http.get<CommandGroup[]>(url, { headers }).pipe(

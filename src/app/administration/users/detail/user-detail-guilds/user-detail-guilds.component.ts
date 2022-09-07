@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { GuildUserDetail } from 'src/app/core/models/users';
+import { List } from 'src/app/core/models/common';
+import { GuildUserDetail, UserPointsItem } from 'src/app/core/models/users';
 
 @Component({
     selector: 'app-user-detail-guilds',
@@ -8,6 +9,7 @@ import { GuildUserDetail } from 'src/app/core/models/users';
 })
 export class UserDetailGuildsComponent {
     @Input() userGuilds: GuildUserDetail[];
+    @Input() points: List<UserPointsItem>;
 
     invisibleSections: string[] = [];
 
@@ -31,5 +33,10 @@ export class UserDetailGuildsComponent {
 
     visibilityText(section: string, index: number): string {
         return this.isVisible(section, index) ? 'Skrýt' : 'Zobrazit';
+    }
+
+    getGuildPoints(index: number): UserPointsItem {
+        if (!this.points) { return new UserPointsItem(); }
+        return this.points.find(o => o.guild.id === this.userGuilds[index].guild.id) ?? new UserPointsItem();
     }
 }

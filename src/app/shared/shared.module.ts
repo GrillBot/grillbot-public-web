@@ -15,8 +15,8 @@ import { ValidationErrorsModalComponent } from './modal/validation-errors-modal/
 import { SortingDirective } from './data-list/sorting.directive';
 import { SearchInputComponent } from './search-input/search-input.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CzechBooleanPipePipe } from './pipes/czech-boolean-pipe.pipe';
 import { CheckboxComponent } from './checkbox/checkbox.component';
+import { PipesModule } from './pipes/pipes.module';
 
 @NgModule({
     declarations: [
@@ -29,7 +29,6 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
         SortingDirective,
         SearchInputComponent,
         ListButtonComponent,
-        CzechBooleanPipePipe,
         CheckboxComponent
     ],
     imports: [
@@ -41,7 +40,8 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
         RouterModule,
         NgbModalModule,
         NgSelectModule,
-        CommonPageModule
+        CommonPageModule,
+        PipesModule
     ],
     exports: [
         CommonModule,
@@ -58,9 +58,9 @@ import { CheckboxComponent } from './checkbox/checkbox.component';
         SearchInputComponent,
         NgSelectModule,
         ListButtonComponent,
-        CzechBooleanPipePipe,
         CheckboxComponent,
-        CommonPageModule
+        CommonPageModule,
+        PipesModule
     ]
 })
 export class SharedModule { }
