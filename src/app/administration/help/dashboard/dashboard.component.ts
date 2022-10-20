@@ -21,15 +21,7 @@ export class DashboardComponent implements OnInit {
     ngOnInit(): void {
         this.route.params.subscribe(params => {
             this.currentService = params.service as string;
-
-            switch (this.currentService) {
-                case 'grillbot':
-                    this.groups = this.usersService.getAvailableCommands();
-                    break;
-                default:
-                    this.groups = this.usersService.getCommandsOfService(this.currentService);
-                    break;
-            }
+            this.groups = this.usersService.getCommandsOfService(this.currentService);
         });
     }
 

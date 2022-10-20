@@ -14,7 +14,13 @@
 </div>
 
 <div class="row ms-0 me-0">
-    <div class="col">
+    <div *ngIf="currentService === 'grillbot'" class="col mt-3">
+        <div class="alert alert-warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            Textové příkazy již nejsou v GrillBot podporovány.
+        </div>
+    </div>
+    <div class="col" *ngIf="currentService === 'rubbergod'">
         <ng-container *ngIf="groups | async as groupsResult; else loading">
             <app-card [classes]="['mt-3']" *ngFor="let group of groupsResult;" [header]="false">
                 <h4>{{group.groupName}}</h4>

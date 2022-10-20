@@ -32,16 +32,6 @@ export class UserService {
         );
     }
 
-    getAvailableCommands(): ObservableList<CommandGroup> {
-        const url = this.base.createUrl('user/me/commands');
-        const headers = this.base.getHttpHeaders();
-
-        return this.base.http.get<CommandGroup[]>(url, { headers }).pipe(
-            map(data => data.map(o => CommandGroup.create(o))),
-            catchError((err: HttpErrorResponse) => this.base.catchError(err))
-        );
-    }
-
     getCommandsOfService(service: string): ObservableList<CommandGroup> {
         const url = this.base.createUrl(`user/me/commands/${service}`);
         const headers = this.base.getHttpHeaders();
