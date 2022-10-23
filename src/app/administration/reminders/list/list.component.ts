@@ -26,7 +26,12 @@ export class ListComponent extends ListComponentBase<GetReminderListParams> {
         return this.reminderService.getReminderList(this.filter);
     }
 
-    showMessage(item: RemindMessage): void {
+    showMessage(item: RemindMessage, event: Event): void {
+        if (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
         this.modalService.showNotification(`Obsah notifikace #${item.id}`, item.message);
     }
 }

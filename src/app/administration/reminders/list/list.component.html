@@ -4,10 +4,10 @@
 
         <ng-container *ngIf="list.isDataLoaded">
             <app-card *ngIf="list.isEmpty" [header]="false" [classes]="['mb-3']">
-                <h6 class="mb-0">Pro zadaný filtr nebyly nalezeny žádné položky.</h6>
+                <h6 class="mb-0">Nebyly nalezeny žádné oznámení.</h6>
             </app-card>
 
-            <table class="table table-sm table-bordered table-striped auto-column-width" *ngIf="!list.isEmpty">
+            <table class="table table-sm table-bordered table-striped auto-column-width clickable" *ngIf="!list.isEmpty">
                 <thead>
                     <tr>
                         <th sortable [key]="'Id'" [sort]="sort" (clicked)="setSort($event)">#</th>
@@ -19,14 +19,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of list.items">
+                    <tr *ngFor="let item of list.items" (click)="showMessage(item, $event)">
                         <td>{{item.id}}</td>
                         <td>{{item.fromUser?.fullUsername}}</td>
                         <td>{{item.at.toLocaleString()}}</td>
                         <td>{{item.postpone}}</td>
                         <td>{{item.notified | czechBooleanPipe}}</td>
                         <td>
-                            <list-button (clicked)="showMessage(item)" title="Zobrazit zprávu" icon="info"></list-button>
+                            <list-button (clicked)="showMessage(item, $event)" title="Zobrazit zprávu" icon="info"></list-button>
                         </td>
                     </tr>
                 </tbody>
