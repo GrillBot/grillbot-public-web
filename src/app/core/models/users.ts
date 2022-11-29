@@ -1,3 +1,4 @@
+import { List } from 'src/app/core/models/common';
 import { UnverifyInfo } from './unverify';
 import { ChannelStatItem } from './channels';
 import { DateTime } from './datetime';
@@ -5,6 +6,7 @@ import { UserFlags } from './enums/user-flags';
 import { UserStatus } from './enums/user-status';
 import { Guild } from './guilds';
 import { Invite, InviteBase } from './invites';
+import { Role } from './roles';
 
 export class User {
     public id: string;
@@ -112,6 +114,7 @@ export class GuildUserDetail {
     public emotes: EmoteStatItem[];
     public unverify: UnverifyInfo | null;
     public nicknameHistory: string[];
+    public roles: List<Role>;
 
     static create(data: any): GuildUserDetail | null {
         if (!data) { return null; }
@@ -129,6 +132,7 @@ export class GuildUserDetail {
         detail.emotes = data.emotes?.map((o: any) => EmoteStatItem.create(o)).filter((o: EmoteStatItem) => o);
         detail.unverify = data.unverify ? UnverifyInfo.create(data.unverify) : null;
         detail.nicknameHistory = data.nicknameHistory ? data.nicknameHistory.map((o: string) => o) : [];
+        detail.roles = data.roles.map((o: any) => Role.create(o));
 
         return detail;
     }
