@@ -15,7 +15,7 @@
                         <th sortable [key]="'At'" [sort]="sort" (clicked)="setSort($event)">Oznámit v</th>
                         <th sortable [key]="'Postpone'" [sort]="sort" (clicked)="setSort($event)">Odloženo</th>
                         <th>Oznámeno</th>
-                        <th>Akce</th>
+                        <th class="no-print">Akce</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -25,7 +25,7 @@
                         <td>{{item.at.toLocaleString()}}</td>
                         <td>{{item.postpone}}</td>
                         <td>{{item.notified | czechBooleanPipe}}</td>
-                        <td>
+                        <td class="no-print">
                             <list-button (clicked)="showMessage(item, $event)" title="Zobrazit zprávu" icon="info"></list-button>
                         </td>
                     </tr>
